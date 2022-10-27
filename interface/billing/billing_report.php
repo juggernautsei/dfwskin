@@ -1154,11 +1154,11 @@ $partners = $x->_utility_array($x->x12_partner_factory());
           				"ic.x12_default_partner_id AS ic_x12id, ic.name AS provider " .
           				"FROM insurance_data AS id LEFT JOIN insurance_companies AS ic ON " .
           				"ic.id = id.provider WHERE " .
-         				"id.pid = '" . $iter['enc_pid'] . "' AND " .
-          				"id.date <= '$raw_encounter_date' " .
+         				"id.pid = ? AND " .
+          				"id.date <= ? " .
           				"ORDER BY id.type ASC, id.date DESC";
                                    
-                                    $result = sqlStatement($query);
+
                                     //$query = "SELECT id.provider AS id, id.type, id.date, " .
                                     //"ic.x12_default_partner_id AS ic_x12id, ic.name AS provider " .
                                     //"FROM insurance_data AS id, insurance_companies AS ic WHERE " .
@@ -1167,13 +1167,13 @@ $partners = $x->_utility_array($x->x12_partner_factory());
                                     //"id.date <= ? " .
                                     //"ORDER BY id.type ASC, id.date DESC";
 
-                                    //$result = sqlStatement(
-                                    //    $query,
-                                    //    array(
-                                    //    $iter['enc_pid'],
-                                    //    $raw_encounter_date
-                                    //    )
-                                    //);
+                                    $result = sqlStatement(
+                                        $query,
+                                        array(
+                                        $iter['enc_pid'],
+                                        $raw_encounter_date
+                                        )
+                                    );
 
 
                                     $count = 0;
