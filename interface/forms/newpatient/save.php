@@ -28,7 +28,7 @@ if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
 }
 
 $facilityService = new FacilityService();
-//var_dump($_POST); die;
+
 $date = isset($_POST['form_date']) ? DateTimeToYYYYMMDDHHMMSS($_POST['form_date']) : null;
 $onset_date = isset($_POST['form_onset_date']) ? DateTimeToYYYYMMDDHHMMSS($_POST['form_onset_date']) : null;
 $sensitivity = $_POST['form_sensitivity'] ?? null;
@@ -38,7 +38,7 @@ $billing_facility = $_POST['billing_facility'] ?? '';
 $reason = $_POST['reason'] ?? null;
 $mode = $_POST['mode'] ?? null;
 $referral_source = $_POST['form_referral_source'] ?? null;
-$class_code = $_POST['class_code'];
+$class_code = $_POST['class_code'] ?? '';
 $pos_code = $_POST['pos_code'] ?? null;
 $parent_enc_id = $_POST['parent_enc_id'] ?? null;
 $encounter_provider = $_POST['provider_id'] ?? null;
