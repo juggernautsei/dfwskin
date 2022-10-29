@@ -31,7 +31,7 @@ if (!empty($_POST)) {
     }
 }
 
-$form_from_date = (!empty($_POST['form_from_date'])) ?  DateToYYYYMMDD($_POST['form_from_date']) : '';
+$form_from_date = (!empty($_POST['form_from_date'])) ?  DateToYYYYMMDD($_POST['form_from_date']) : date('Y-01-01'); //ALB Added
 $form_to_date   = (!empty($_POST['form_to_date'])) ? DateToYYYYMMDD($_POST['form_to_date']) : date('Y-m-d');
 
 if (!empty($_POST['form_csvexport'])) {
@@ -178,10 +178,10 @@ if (!empty($_POST['form_csvexport'])) {
 
  <thead class='thead-light'>
   <th align='left'> <?php echo xlt('Primary Insurance'); ?> </th>
-  <th align='right'> <?php echo xlt('Charges'); ?> </th>
-  <th align='right'> <?php echo xlt('Visits'); ?> </th>
-  <th align='right'> <?php echo xlt('Patients'); ?> </th>
-  <th align='right'> <?php echo xlt('Pt %'); ?> </th>
+  <th style='text-align:right'> <?php echo xlt('Charges'); ?> </th> <!--ALB Changed these to actually align to the right -->
+  <th style='text-align:right'> <?php echo xlt('Visits'); ?> </th>
+  <th style='text-align:right'> <?php echo xlt('Patients'); ?> </th>
+  <th style='text-align:right'> <?php echo xlt('Pt %'); ?> </th>
  </thead>
  <tbody>
     <?php

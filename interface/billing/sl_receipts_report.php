@@ -96,7 +96,7 @@ $form_payer_id  = (!empty($_POST['form_payer_id'])) ? $_POST['form_payer_id'] : 
 <html>
 <head>
 
-    <title><?php echo xlt('Cash Receipts by Provider')?></title>
+    <title><?php echo xlt('Receipts by Provider')?></title>
 
     <?php Header::setupHeader(['datetime-picker', 'report-helper']); ?>
 
@@ -174,13 +174,13 @@ $form_payer_id  = (!empty($_POST['form_payer_id'])) ? $_POST['form_payer_id'] : 
         <div class="col-sm-12">
             <div class="clearfix">
                 <h2 class="title">
-                    <?php echo xlt('Report'); ?> - <?php echo xlt('Cash Receipts by Provider'); ?>
+                    <?php echo xlt('Report'); ?> - <?php echo xlt('Receipts by Provider'); ?> <!--ALB Changed name -->
                 </h2>
             </div>
         </div>
     </div><!-- end of header div -->
     <div class="row">
-        <div class="col-12">
+        <div class="col-20">
                <form method='post' action='sl_receipts_report.php' id='theform' onsubmit='return top.restoreSession()'>
                 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
@@ -257,15 +257,17 @@ $form_payer_id  = (!empty($_POST['form_payer_id'])) ? $_POST['form_payer_id'] : 
                                          ?>
                                         </td>
 
-
+                        </tr> <!--ALB Moved here from one td below and added label here -->
+                            <td class='col-form-label'>
+                                <?php echo xlt('Date Type'); ?>:
+                            </td>
                             <td>
                             <select name='form_use_edate' class='form-control'>
                                 <option value='0'><?php echo xlt('Payment Date'); ?></option>
                                 <option value='1'<?php echo ($form_use_edate) ? ' selected' : ''; ?>><?php echo xlt('Invoice Date'); ?></option>
                             </select>
                             </td>
-                        </tr>
-                        <tr>
+                        
                             <td class='col-form-label'>
                                 <?php echo xlt('From'); ?>:
                             </td>
@@ -315,10 +317,12 @@ $form_payer_id  = (!empty($_POST['form_payer_id'])) ? $_POST['form_payer_id'] : 
 
                             <td>
                         <div class='checkbox'>
-                                <label><input type='checkbox' name='form_details' value='1'<?php echo (!empty($_POST['form_details'])) ? " checked" : ""; ?>><?php echo xlt('Details')?></label>
+                                <label><input type='checkbox' name='form_details' value='1'<?php echo (!empty($_POST['form_details'])) ? " checked" : ""; ?>><?php echo xlt(' Details')?></label>
                         </div>
+                        </td> <!--ALB Added /td and td tags here -->
+                        <td>
                         <div class='checkbox'>
-                                <label><input type='checkbox' name='form_procedures' value='1'<?php echo ($form_procedures) ? " checked" : ""; ?>><?php echo xlt('Procedures')?></label>
+                                <label><input type='checkbox' name='form_procedures' value='1'<?php echo ($form_procedures) ? " checked" : ""; ?>><?php echo xlt(' Procedures')?></label>
                         </div>
                             </td>
                         </tr>
@@ -675,7 +679,7 @@ $form_payer_id  = (!empty($_POST['form_payer_id'])) ? $_POST['form_payer_id'] : 
                 }
             }
 
-            //ALB If payer_id is selecter, skip all that have a diffrent insurance
+            //ALB If payer_id is selecter, skip all that have a different insurance
             if ($form_payer_id && ($inscoid != $form_payer_id)) continue;
 
 

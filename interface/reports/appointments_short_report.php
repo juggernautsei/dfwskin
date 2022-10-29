@@ -147,7 +147,7 @@ if ($_POST['form_csvexport']) {
 
 <table>
 	<tr>
-		<td width='550px'>
+		<td width='1000px'>
 		<div style='float: left'>
 
 		<table class='text'>
@@ -179,20 +179,25 @@ if ($_POST['form_csvexport']) {
 				echo "   </select>\n";
 
 				?></td>
-                     <!--ALB Adding a Show Canceled Appt checkbox -->
-				<td><input type='checkbox' name='form_show_canceled' class="form-control"
-					title='<?php echo xlt('Show Canceled Appointments'); ?>'
-					<?php  if ( $show_canceled ) echo ' checked'; ?>> <?php  echo xl( 'Show Canceled Appointments'); ?>
-				</td>
 
-			</tr>
-			<tr>
-				<td class='control-label'><?php echo xlt('From'); ?>:</td>
+			        <td class='control-label'><?php echo xlt('From'); ?>:</td>
 				<td><input type='text' name='form_from_date' id="form_from_date" class='datepicker form-control'
                     size='10' value='<?php echo attr(oeFormatShortDate($from_date)); ?>'></td>
 				<td class='control-label'><?php echo xlt('To'); ?>:</td>
 				<td><input type='text' name='form_to_date' id="form_to_date"
                     class='datepicker form-control' size='10' value='<?php echo attr(oeFormatShortDate($to_date)); ?>'></td>
+
+                     <!--ALB Adding a Show Canceled Appt checkbox -->
+				<td>
+                                        <input type='checkbox' name='form_show_canceled' class="form-control"
+					title='<?php echo xlt('Show Canceled Appointments'); ?>'
+					<?php  if ( $show_canceled ) echo ' checked'; ?>> 
+                                </td>
+                                <td>
+                                    <?php  echo xl( 'Show Canceled Appointments'); ?>
+                                </td>
+
+
 			</tr>
 		</table>
 

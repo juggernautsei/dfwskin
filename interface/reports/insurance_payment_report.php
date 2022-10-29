@@ -186,10 +186,10 @@ if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
   
   //Calculate grand total
   $query = "SELECT sum(aa.pay_amount) as payments from ar_activity as aa, ar_session as ar " .
-           "where aa.session_id = ar.session_id AND ar.post_to_date >= '$from_date' " . 
-           "AND ar.post_to_date <= '$to_date' AND ar.payment_type = 'insurance'";
+           "where aa.session_id = ar.session_id AND ar.post_to_date >= ? " . 
+           "AND ar.post_to_date <= ? AND ar.payment_type = 'insurance'";
 
-  $res = sqlStatement($query);
+  $res = sqlStatement($query, array($from_date, $to_date));
 
   while ($row = sqlFetchArray($res)) {
     $grand_total = $row['payments'];
@@ -197,15 +197,15 @@ if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
 
   $query = "SELECT ic.name, i.provider, sum(aa.pay_amount) as payments from ar_activity as aa, " . 
            "ar_session as ar, form_encounter as fe, insurance_data as i, insurance_companies as ic " .
-           "where ic.id = i.provider AND aa.session_id = ar.session_id AND ar.post_to_date >= '$from_date' " .
-           "AND ar.post_to_date <= '$to_date' AND ar.payment_type = 'insurance' and fe.pid=aa.pid " . 
+           "where ic.id = i.provider AND aa.session_id = ar.session_id AND ar.post_to_date >= ? " .
+           "AND ar.post_to_date <= ? AND ar.payment_type = 'insurance' and fe.pid=aa.pid " . 
            "AND fe.encounter = aa.encounter and i.pid=fe.pid and i.date <= fe.date and " . 
            "aa.payer_type = (case when i.type = 'primary' then 1 " .
            "when i.type = 'secondary' then 2 " .
            "when i.type = 'tertiary' then 3 " .
            "end) and aa.pay_amount != 0 and " .
            "i.date = (Select max(i1.date) from insurance_data as i1 " .
-           "where i1.pid = aa.pid and i1.date <=fe.date) group by i.provider order by ic.name";
+           "where i1.pid = aa.pid and i1.date <= fe.date) group by i.provider order by ic.name";
 
   //Prior to 2021, here's the query, if needed:
 //SELECT ic.name, i.provider, sum(aa.pay_amount) as total from ar_activity as aa, form_encounter as fe, insurance_data as i, insurance_companies as ic where ic.id = i.provider AND aa.post_time >= '2020-01-01' AND aa.post_time <= '2020-12-31' AND aa.payer_type != 0 and fe.pid=aa.pid AND fe.encounter = aa.encounter and i.pid=fe.pid and i.date <= fe.date and aa.payer_type = 
@@ -216,7 +216,7 @@ if ($_POST['form_refresh'] || $_POST['form_csvexport']) {
 //and aa.pay_amount != 0 and i.date = (Select max(i1.date) from insurance_data as i1 where i1.pid = aa.pid and i1.date <=fe.date) group by i.provider order by ic.name
 
 
-  $res = sqlStatement($query);
+  $res = sqlStatement($query, array($from_date, $to_date));
   $total_payments = '';
   $total_percentage = '';
   while ($row = sqlFetchArray($res)) {

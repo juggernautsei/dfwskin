@@ -77,7 +77,7 @@ $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['for
 
 <?php Header::setupHeader('datetime-picker'); ?>
 
-<title><?php echo xlt('Indigent Patients Report')?></title>
+<title><?php echo xlt('Self-Pay Patients Report')?></title>
 
 <script>
 
@@ -100,7 +100,7 @@ $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['for
 
 <body class="body_top">
 
-<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Indigent Patients'); ?></span>
+<span class='title'><?php echo xlt('Report'); ?> - <?php echo xlt('Self-Pay Patients'); ?></span>
 
 <form method='post' action='indigent_patients_report.php' id='theform' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
@@ -129,7 +129,7 @@ $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['for
             </td>
             <td>
                 <?php
-                if (acl_check('acct', 'rep_a')) {
+
                     // Build a drop-down list of providers.
                     //
                     $query = "select id, lname, fname from users where " .
@@ -148,9 +148,6 @@ $form_end_date  = (!empty($_POST['form_end_date'])) ? DateToYYYYMMDD($_POST['for
                     }
 
                     echo "   </select>";
-                } else {
-                    echo "<input type='hidden' name='form_doctor' value='" . attr($_SESSION['authUserID']) . "'>";
-                }
                 ?>
             </td>
 
