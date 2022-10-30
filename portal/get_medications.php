@@ -24,8 +24,10 @@
  */
 
         require_once("verify_session.php");
+//ALB Need this for date formatting
+require_once("$srcdir/formatting.inc.php");
 
-    $sql = "SELECT * FROM lists WHERE pid = ? AND type = 'medication' ORDER BY begdate";
+    $sql = "SELECT * FROM lists WHERE pid = ? AND type = 'medication' AND activity = 1 ORDER BY begdate"; //ALB Added activity = 1
 
     $res = sqlStatement($sql, array($pid));
 
@@ -36,7 +38,7 @@ if (sqlNumRows($res) > 0) {
         <th><?php echo xlt('Drug'); ?></th>
         <th><?php echo xlt('Start Date'); ?></th>
         <th><?php echo xlt('End Date'); ?></th>
-        <th><?php echo xlt('Referrer'); ?></th>
+        <th><?php echo xlt('Last Modified'); ?></th> <!--ALB Changed this -->
         </tr>
     <?php
     $even = false;
@@ -45,7 +47,7 @@ if (sqlNumRows($res) > 0) {
         echo "<td>" . text($row['title']) . "</td>";
         echo "<td>" . text($row['begdate']) . "</td>";
         echo "<td>" . text($row['enddate']) . "</td>";
-        echo "<td>" . text($row['referredby']) . "</td>";
+        echo "<td>" . text(oeFormatShortDate($row['modifydate'])) . "</td>"; //ALB Changed this line
         echo "</tr>";
     }
 

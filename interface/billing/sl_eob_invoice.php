@@ -376,8 +376,8 @@ if (!empty($_POST['form_save']) || !empty($_POST['form_cancel']) || !empty($_POS
             }
 
             if (0.0 + $thispay) {
-                //ALB Added claim number
-                SLEOB::arPostPayment($patient_id, $encounter_id, $session_id, $thispay, $code, $payer_type, '', $debug, '', $thiscodetype, $claim_number);
+                //ALB Added empty date and claim number at the end
+                SLEOB::arPostPayment($patient_id, $encounter_id, $session_id, $thispay, $code, $payer_type, '', $debug, '', $thiscodetype, '', $claim_number);
                 $paytotal += $thispay;
             }
 

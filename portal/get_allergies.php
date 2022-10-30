@@ -24,29 +24,32 @@
 
         require_once("verify_session.php");
 
-        $sql = "SELECT * FROM lists WHERE pid = ? AND type = 'allergy' ORDER BY begdate";
+//ALB Need this for date formatting
+require_once("$srcdir/formatting.inc.php");
 
+        $sql = "SELECT * FROM lists WHERE pid = ? AND type = 'allergy' AND activity = 1 ORDER BY begdate"; //ALB Added activity=1
         $res = sqlStatement($sql, array($pid));
 
 if (sqlNumRows($res) > 0) {
     ?>
     <table class="table table-striped">
         <tr class="header">
-    <th><?php echo xlt('Title'); ?></th>
-    <th><?php echo xlt('Reported Date'); ?></th>
+    <th><?php echo xlt('Allergy'); //ALB Changed a few headers here ?></th>
+    <th><?php echo xlt('Reaction'); ?></th>
     <th><?php echo xlt('Start Date'); ?></th>
     <th><?php echo xlt('End Date'); ?></th>
-    <th><?php echo xlt('Referrer'); ?></th>
+    <th><?php echo xlt('Last Modified'); ?></th>
         </tr>
     <?php
     $even = false;
     while ($row = sqlFetchArray($res)) {
         echo "<tr class='" . ($class ?? '') . "'>";
         echo "<td>" . text($row['title']) . "</td>";
-        echo "<td>" . text($row['date']) . "</td>";
-        echo "<td>" . text($row['begdate']) . "</td>";
-        echo "<td>" . text($row['enddate']) . "</td>";
-        echo "<td>" . text($row['referredby']) . "</td>";
+        //ALB modified these rows
+        echo "<td>".text($row['reaction'])."</td>";
+        echo "<td>".text(oeFormatShortDate($row['begdate']))."</td>"; //ALB added formatting
+        echo "<td>".text(oeFormatShortDate($row['enddate']))."</td>";
+        echo "<td>".text(oeFormatShortDate($row['modifydate']))."</td>"; 
         echo "</tr>";
     }
 

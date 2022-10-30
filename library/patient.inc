@@ -816,7 +816,7 @@ function getPatientNickname($pid) {
     }
     $patientnickname = $returnval[0]['usertext7'];
     if ($patientnickname == "") return "";
-    return "''" . $patientnickname . "''";
+    return $patientnickname;
 }
 
 /**

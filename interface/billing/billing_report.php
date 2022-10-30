@@ -1045,9 +1045,8 @@ $partners = $x->_utility_array($x->x12_partner_factory());
 
 	                        $raw_encounter_date = date("Y-m-d", strtotime($iter['enc_date']));
       				$res = sqlQuery("select * from insurance_data where ".
-        				"pid = " . $iter['enc_pid'] . " and " .
-        				"type='primary' and date <= '" . $raw_encounter_date .
-        				"' order by date desc limit 1");
+        				"pid = ? and type='primary' and date <= ? " .
+        				"order by date desc limit 1", array($iter['enc_pid'], $raw_encounter_date));
 
                                 //ALB change what is highlighted here. Need to highlight uninsured claims here.
 				$namecolor = ($res['provider']) ? "black" : "#ff7777";
@@ -1307,7 +1306,7 @@ $partners = $x->_utility_array($x->x12_partner_factory());
                                         $lhtml .= "<br />\n&nbsp;" . xlt("This claim has been canceled.");
                                         ++$lcount;
                                     }
-                                  } //ALB End if ($GLOBALS['notes_to_display_in_Billing'] == 2 || $GLOBALS['notes_to_display_in_Billing'] == 3)
+                                  } //ALB End if ($GLOBALS['notes_to_display_in_Billing'] == 2 || $GLOBALS['notes_to_display_in_Billing']
                                 } // end if ($iter['id'])
                             } // end if ($last_encounter_id != $this_encounter_id)
 

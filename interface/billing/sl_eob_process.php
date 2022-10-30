@@ -459,7 +459,7 @@ function era_callback(&$out)
             // i.e. a payment reversal.
             if ($svc['paid'] ?? '') {
                 if (!$error && !$debug) {
-                    //ALB Added claim number at the end
+                    //ALB Added an empty date and claim number at the end
                     SLEOB::arPostPayment(
                         $pid,
                         $encounter,
@@ -471,6 +471,7 @@ function era_callback(&$out)
                         $debug,
                         '',
                         $codetype,
+                        '',
                         $out['payer_claim_id']
                     );
                     $invoice_total -= $svc['paid'];
