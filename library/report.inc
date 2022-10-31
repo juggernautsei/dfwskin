@@ -495,11 +495,11 @@ function getCurrentRecInsuranceData($pid, $ins_type)
             if ($key == "pid" || $key == "date" || $key == "id") {
                 continue;
             } else {
-                $curdate = $result{"date"};
-                if (($retar{$key}[$arcount{$key}]{"value"} != $val)) {
-                    $arcount{$key}++;
-                    $retar{$key}[$arcount{$key}]{"value"} = $val;
-                    $retar{$key}[$arcount{$key}]{"date"} = $curdate;
+                $curdate = $result["date"];
+                if (($retar[$key][$arcount[$key]]["value"] != $val)) {
+                    $arcount[$key]++;
+                    $retar[$key][$arcount[$key]]["value"] = $val;
+                    $retar[$key][$arcount[$key]]["date"] = $curdate;
                 }
             }
         }
