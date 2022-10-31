@@ -162,7 +162,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // define all the variables as initial blank array
         $facilities = $totalAppointment = $totalNewPatient = $totalVisit = $totalPayment = $dailySummaryReport = $totalPaid = array();
-
+        var_dump($facilities);
         // define all the where condition variable as initial value set 1=1
         $whereTotalVisitConditions = $whereTotalPaymentConditions = $wherePaidConditions = $whereNewPatientConditions = '1 = 1 ';
 
@@ -327,9 +327,9 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // merge all array recursive in to one array
         $dailySummaryReport = array_merge_recursive($totalAppointment, $totalNewPatient, $totalVisit, $totalPayment, $totalPaid);
-        echo "<pre>";
-        var_dump($dailySummaryReport);
-        echo "</pre>";
+        //echo "<pre>";
+        //var_dump($dailySummaryReport);
+        //echo "</pre>";
         ?>
 
         <div id="report_results" style="font-size: 12px">
