@@ -1406,7 +1406,7 @@ $partners = $x->_utility_array($x->x12_partner_factory());
                             if ($iter['id']) {
                                 //$rhtml .= text(oeFormatSDFT(strtotime($iter["date"])));
                                 //ALB Only need to display a date for each code if it's different
-                                $curr_date = text(oeFormatSDFT(strtotime($iter{"date"})));
+                                $curr_date = text(oeFormatSDFT(strtotime($iter["date"])));
                                 if ($prev_date != $curr_date) {
                                     $rhtml .= $curr_date; //text(oeFormatSDFT(strtotime($iter{"date"})));
                                     $prev_date = $curr_date;
