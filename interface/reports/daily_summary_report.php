@@ -170,11 +170,11 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
         $facilityRecords = $facilityService->getAllFacility();
         foreach ($facilityRecords as $facilityList) {
             if (1 === $facilitySet && $facilityList['id'] == $selectedFacility) {
-                $facilities[$facilityList['id']] = $facilityList['nickname'];
+                $facilities[$facilityList['id']] = $facilityList['name'];
             }
 
             if (empty($selectedFacility)) {
-                $facilities[$facilityList['id']] = $facilityList['nickname'];
+                $facilities[$facilityList['id']] = $facilityList['name'];
             }
         }
 
