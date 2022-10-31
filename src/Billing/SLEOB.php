@@ -115,7 +115,7 @@ class SLEOB
         $debug,
         $time = '',
         $codetype = '',
-        $date = ''
+        $date = '',
         $claim_number = ''
     ) {
         $codeonly = $code;
