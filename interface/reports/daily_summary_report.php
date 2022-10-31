@@ -174,7 +174,8 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
             }
 
             if (empty($selectedFacility)) {
-                $facilities[$facilityList['id']] = $facilityList['nickname'];
+                //$facilities[$facilityList['id']] = $facilityList['nickname'];  //ALB
+                $facilities[$facilityList['id']] = $facilityList['name'];
             }
         }
 echo "<pre>"; var_dump($facilities); echo "</pre>";
@@ -264,7 +265,7 @@ echo "<pre>"; var_dump($facilities); echo "</pre>";
                 $totalAppointment[$eventDate][$facility][$providerName]['appointments']++;
             }
         }
-
+        echo "<pre>"; var_dump($totalAppointment); echo "</pre>";
         //Count Total New Patient
         $newPatientSql = sqlStatement("SELECT `OPE`.`pc_eventDate` , `f`.`name` AS facility_Name , count( * ) AS totalNewPatient, `PD`.`providerID`, CONCAT( `u`.`fname`, ' ', `u`.`lname` ) AS provider_name
                                         FROM `patient_data` AS PD
