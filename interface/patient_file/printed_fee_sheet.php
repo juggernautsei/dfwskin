@@ -626,7 +626,7 @@ foreach ($pid_list as $pid) {
             $html .= "<tr>
 <td colspan='4' valign='top' class='fshead' style='height:" . $lheight * 8 . "pt'>";
             $html .= xlt('Provider\'s Common Diagnosis Codes');  //ALB Changed this
-            $html .= ":<br />
+            $html .= ":<br />";
 
   //ALB Searching for provider's most common dx to display
   $where = '';
