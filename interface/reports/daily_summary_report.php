@@ -174,7 +174,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
             }
 
             if (empty($selectedFacility)) {
-                $facilities[$facilityList['id']] = $facilityList['name'];
+                $facilities[$facilityList['id']] = $facilityList['nickname'];
             }
         }
 
