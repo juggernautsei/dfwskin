@@ -249,7 +249,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 if (!isset($totalAppointment[$eventDate][$facility])) {
                     $totalAppointment[$eventDate][$facility] = [];
                     //ALB Added facility nickname here
-                    $totalAppointment[$eventDate][$facility_nickname] = $appointment['nickname'];
+                    //$totalAppointment[$eventDate][$facility_nickname] = $appointment['nickname'];
 
                 }
 
