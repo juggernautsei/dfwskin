@@ -238,7 +238,8 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
         if (count($totalAppointmentSql) > 0) { // check if $totalAppointmentSql array has value
             foreach ($totalAppointmentSql as $appointment) {
                 $eventDate = $appointment['pc_eventDate'];
-                $facility = $appointment['nickname'];
+                $facility = $appointment['name'];
+                $facility_nickname = $appointment['name'];
                 $providerName = $appointment['ufname'] . ' ' . $appointment['ulname'];
 
                 // initialize each level of the data structure if it doesn't already exist
