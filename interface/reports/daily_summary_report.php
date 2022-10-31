@@ -239,7 +239,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
             foreach ($totalAppointmentSql as $appointment) {
                 $eventDate = $appointment['pc_eventDate'];
                 $facility = $appointment['name'];
-                $facility_nickname = $appointment['name'];
+                $facility_nickname = $appointment['nickname']; //ALB Added facility nickname here
                 $providerName = $appointment['ufname'] . ' ' . $appointment['ulname'];
 
                 // initialize each level of the data structure if it doesn't already exist
@@ -248,10 +248,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 }
 
                 if (!isset($totalAppointment[$eventDate][$facility])) {
-                    $totalAppointment[$eventDate][$facility] = [];
-                    //ALB Added facility nickname here
-                    //$totalAppointment[$eventDate][$facility_nickname] = $appointment['nickname'];
-
+                    $totalAppointment[$eventDate][$facility_nickname] = []; //ALB Added facility nickname here
                 }
 
                 if (!isset($totalAppointment[$eventDate][$facility][$providerName])) {
