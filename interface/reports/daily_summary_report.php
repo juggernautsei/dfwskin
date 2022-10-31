@@ -162,7 +162,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // define all the variables as initial blank array
         $facilities = $totalAppointment = $totalNewPatient = $totalVisit = $totalPayment = $dailySummaryReport = $totalPaid = array();
-
+        $facility_nickname = '';
         // define all the where condition variable as initial value set 1=1
         $whereTotalVisitConditions = $whereTotalPaymentConditions = $wherePaidConditions = $whereNewPatientConditions = '1 = 1 ';
 
@@ -171,10 +171,12 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
         foreach ($facilityRecords as $facilityList) {
             if (1 === $facilitySet && $facilityList['id'] == $selectedFacility) {
                 $facilities[$facilityList['id']] = $facilityList['name'];
+                $facility_nickname = $facilityList['nickname'];
             }
 
             if (empty($selectedFacility)) {
                 $facilities[$facilityList['id']] = $facilityList['name'];
+                $facility_nickname = $facilityList['nickname'];
             }
         }
 
