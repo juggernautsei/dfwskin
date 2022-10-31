@@ -121,9 +121,10 @@ function echoLine($iname, $date, $charges, $ptpaid, $inspaid, $duept, $encounter
 
     echo "  <td class='text-center' id='balance_$var_index'>" . text(bucks($balance)) . "</td>\n";
     echo "  <td class='text-center' id='duept_$var_index'>" . text(bucks(round($duept, 2) * 1)) . "</td>\n";
+    //ALB Changed width below and changed format to take out thousands separator, as well as change value
     echo "  <td class='text-right'><input type='text' class='form-control' name='" . attr($iname) . "'  id='paying_" . attr($var_index) . "' " .
-        " value='' onchange='coloring();calctotal()'  autocomplete='off' " .
-        "onkeyup='calctotal()'/></td>\n";
+        " value='" . text(number_format($duept, 2, '.', '')). "' onchange='coloring();calctotal()'  autocomplete='off' " .
+        "onkeyup='calctotal()' style='width:80px'/></td>\n";
     echo " </tr>\n";
   } //ALB if
 }
@@ -1094,10 +1095,10 @@ function make_insurance() {
                                   <input checked="checked" id="radio_type_of_payment1" name="radio_type_of_payment" onclick="make_visible_row();cursor_pointer();" type="radio" value="copay"><?php echo xlt('Co Pay'); ?>
                                 </label>  ALB to here -->
                                 <label class="radio-inline">
-                                  <input id="radio_type_of_payment2" name="radio_type_of_payment" onclick="make_visible_row();" type="radio" value="invoice_balance"><?php echo xlt('Invoice Balance'); ?><br />
+                                  <input id="radio_type_of_payment2" name="radio_type_of_payment" onclick="make_visible_row();" type="radio" value="invoice_balance"><?php echo xlt(' Invoice Balance'); ?><br />
                                 </label>
                                 <label class="radio-inline">
-                                  <input id="radio_type_of_payment4" name="radio_type_of_payment" onclick="make_hide_row();" type="radio" value="pre_payment"><?php echo xlt('Pre Pay'); ?>
+                                  <input id="radio_type_of_payment4" name="radio_type_of_payment" onclick="make_hide_row();" type="radio" value="pre_payment"><?php echo xlt(' Pre Pay'); ?>
                                 </label>
                             </div>
                         </div>

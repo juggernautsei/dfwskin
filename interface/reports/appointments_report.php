@@ -299,6 +299,14 @@ function fetch_reminders($pid, $appt_date)
                     </div>
                 </td>
 
+                <td> <!--ALB Adding to show canceled appts -->
+                    <div class="checkbox">
+                        <label><input type='checkbox' name='form_show_canceled'
+                        <?php  echo ($show_canceled) ? ' checked' : ''; ?>> <?php echo xlt('Show Canceled'); # check this to show canceled appointments ?>
+                        </label>
+                    </div>
+                </td>
+
             <tr>
                 <td></td>
                 <?php # these two selects will show entries that do not have a facility or a provider ?>

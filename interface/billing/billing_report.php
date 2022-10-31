@@ -1381,7 +1381,7 @@ $partners = $x->_utility_array($x->x12_partner_factory());
 
 
                             $rhtml .= "</span></td>\n";
-                            $rhtml .= '<td><span style="font-size:8pt; font-weight:900; background:#ffff9e">&nbsp;&nbsp;&nbsp;';
+                            $rhtml .= '<td><span style="font-size:8pt; font-weight:900">&nbsp;&nbsp;&nbsp;'; //ALB Took out ; background:#ffff9e
                             if ($iter['id']) {
                                 //$rhtml .= getProviderName(empty($iter['provider_id']) ? text($iter['enc_provider_id']) : text($iter['provider_id']));
                                 //ALB Only need to display a provider for each bill, not each code

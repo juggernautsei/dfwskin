@@ -524,12 +524,16 @@ $bnrow = sqlQuery("select billing_note from form_encounter where pid = ? AND enc
                         ?>
                     </div>
                 </div>
+                <?php  //ALB Don't need billing note if not present, also changed to 1 row below
+                   if ($pdrow['billing_note'] || $bnrow['billing_note'] ) { ?>
                 <div class="form-row">
                     <div class="form-group col-lg">
                         <label class="col-form-label" for="billing_note"><?php echo xlt('Billing Note'); ?>:</label>
-                        <textarea name="billing_note" id="billing_note" class="form-control" cols="5" rows="2" readonly><?php echo text(($pdrow['billing_note'] ?? '')) . "\n" . text(($bnrow['billing_note'] ?? '')); ?></textarea>
+                        <textarea name="billing_note" id="billing_note" class="form-control" cols="5" rows="1" readonly><?php echo text(($pdrow['billing_note'] ?? '')) . "\n" . text(($bnrow['billing_note'] ?? '')); ?></textarea>
                     </div>
                 </div>
+                <?php 
+                    } ?>
                 <div class="form-row">
                     <div class="form-group col-lg">
                         <label class="col-form-label" for="form_stmt_count"><?php echo xlt('Statements Sent'); ?>:</label>
@@ -538,7 +542,7 @@ $bnrow = sqlQuery("select billing_note from form_encounter where pid = ? AND enc
 
                     <!--ALB Adding last statement date here -->
                     <div class="form-group col-lg">
-                        <label class="control-label" for="form_last_stmt"><?php echo xlt('Last Statement Date'); ?>
+                        <label class="col-form-label" for="form_last_stmt"><?php echo xlt('Last Statement Date'); ?>
                         :</label>
                         <input type='text' name="form_last_stmt" id='form_last_stmt' class="form-control"
                                value ='<?php echo attr($last_stmt_date); ?>' disabled/>
@@ -575,7 +579,7 @@ $bnrow = sqlQuery("select billing_note from form_encounter where pid = ? AND enc
                                 //ALB Changed to this from below to only display insurances that patient has
                                 $last_level_closed = 0 + $ferow['last_level_closed'];
                                 $skipped = 0;
-                                foreach (array(1 => 'Ins1', 2 => 'Ins2', 3 => 'Ins3', 4 => 'Pt') as $key => $value) {
+                                foreach (array(1 => ' Ins1', 2 => ' Ins2', 3 => ' Ins3', 4 => ' Pt') as $key => $value) { //ALB Add space before each value
                                      if ($key!=4 && !SLEOB::arGetPayerID($patient_id, $svcdate, $key)) {
                                          ++$skipped;
                                          continue;
