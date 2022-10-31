@@ -174,11 +174,10 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
             }
 
             if (empty($selectedFacility)) {
-                //$facilities[$facilityList['id']] = $facilityList['nickname'];  //ALB
                 $facilities[$facilityList['id']] = $facilityList['name'];
             }
         }
-echo "<pre>"; var_dump($facilities); echo "</pre>";
+
         // define provider and facility as null
         $providerID = $facilityID = null;
         // define all the bindarray variables as initial blank array
@@ -240,7 +239,6 @@ echo "<pre>"; var_dump($facilities); echo "</pre>";
             foreach ($totalAppointmentSql as $appointment) {
                 $eventDate = $appointment['pc_eventDate'];
                 $facility = $appointment['name'];
-                $facility_nickname = $appointment['nickname']; //ALB Added facility nickname here
                 $providerName = $appointment['ufname'] . ' ' . $appointment['ulname'];
 
                 // initialize each level of the data structure if it doesn't already exist
@@ -249,7 +247,10 @@ echo "<pre>"; var_dump($facilities); echo "</pre>";
                 }
 
                 if (!isset($totalAppointment[$eventDate][$facility])) {
-                    $totalAppointment[$eventDate][$facility_nickname] = []; //ALB Added facility nickname here
+                    $totalAppointment[$eventDate][$facility] = [];
+                    //ALB Added facility nickname here
+                    $totalAppointment[$eventDate][$facility_nickname] = $appointment['nickname'];
+
                 }
 
                 if (!isset($totalAppointment[$eventDate][$facility][$providerName])) {
@@ -265,7 +266,7 @@ echo "<pre>"; var_dump($facilities); echo "</pre>";
                 $totalAppointment[$eventDate][$facility][$providerName]['appointments']++;
             }
         }
-        echo "<pre>"; var_dump($totalAppointment); echo "</pre>";
+
         //Count Total New Patient
         $newPatientSql = sqlStatement("SELECT `OPE`.`pc_eventDate` , `f`.`name` AS facility_Name , count( * ) AS totalNewPatient, `PD`.`providerID`, CONCAT( `u`.`fname`, ' ', `u`.`lname` ) AS provider_name
                                         FROM `patient_data` AS PD
@@ -334,7 +335,7 @@ echo "<pre>"; var_dump($facilities); echo "</pre>";
         <div id="report_results" style="font-size: 12px">
             <?php echo '<strong>' . xlt('From') . '</strong> ' . text(oeFormatShortDate($from_date)) . ' <strong>' . xlt('To{{Range}}') . '</strong> ' . text(oeFormatShortDate($to_date)); ?>
 
-            <table class="table flowboard" cellpadding='5' cellspacing='2' id="ds_report">
+            <table class="table flowboard table-sm" id="ds_report">
                 <tr class="head thead-light">
 
                     <td><?php echo xlt('Date'); ?></td>
@@ -353,6 +354,7 @@ echo "<pre>"; var_dump($facilities); echo "</pre>";
                         foreach ($facilities as $facility) { // facility array
                             if (isset($dataValue[$facility])) {
                                 foreach ($dataValue[$facility] as $provider => $information) { // array which consists different/dynamic values
+
                                     ?>
                                     <tr>
                                         <td><?php echo text(oeFormatShortDate($date)); ?></td>
