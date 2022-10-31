@@ -347,7 +347,6 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 </tr>
                 <?php
                 if (count($dailySummaryReport) > 0) { // check if daily summary array has value
-                    var_dump($facilities);
                     foreach ($dailySummaryReport as $date => $dataValue) { //   daily summary array which consists different/dynamic values
                         foreach ($facilities as $facility) { // facility array
                             if (isset($dataValue[$facility])) {
@@ -357,7 +356,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                                     <tr>
                                         <td><?php echo text(oeFormatShortDate($date)); ?></td>
                                         <!-- ALB Display facility nickname here instead of name -->
-                                        <td><?php echo text($dataValue['facility_nickname']); ?></td>
+                                        <td><?php var_dump($dataValue); echo text($dataValue['facility_nickname']); ?></td>
                                         <td><?php echo text($provider); ?></td>
                                         <td><?php echo isset($information['appointments']) ? text($information['appointments']) : 0; ?></td>
                                         <td><?php echo isset($information['newPatient']) ? text($information['newPatient']) : 0; ?></td>
