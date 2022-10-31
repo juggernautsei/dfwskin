@@ -349,6 +349,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 if (count($dailySummaryReport) > 0) { // check if daily summary array has value
                     foreach ($dailySummaryReport as $date => $dataValue) { //   daily summary array which consists different/dynamic values
                         foreach ($facilities as $facility) { // facility array
+                            var_dump($dataValue);
                             if (isset($dataValue[$facility])) {
                                 foreach ($dataValue[$facility] as $provider => $information) { // array which consists different/dynamic values
 
