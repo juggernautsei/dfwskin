@@ -171,11 +171,11 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
         echo "<pre>"; var_dump($facilityRecords); echo "</pre>";
         foreach ($facilityRecords as $facilityList) {
             if (1 === $facilitySet && $facilityList['id'] == $selectedFacility) {
-                $facilities[$facilityList['id']] = $facilityList['name'];
+                $facilities[$facilityList['id']] = $facilityList['nickname'];
             }
 
             if (empty($selectedFacility)) {
-                $facilities[$facilityList['id']] = $facilityList['name'];
+                $facilities[$facilityList['id']] = $facilityList['nickname'];
             }
         }
 
