@@ -171,12 +171,10 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
         foreach ($facilityRecords as $facilityList) {
             if (1 === $facilitySet && $facilityList['id'] == $selectedFacility) {
                 $facilities[$facilityList['id']] = $facilityList['name'];
-                $facility_nickname = $facilityList['nickname'];
             }
 
             if (empty($selectedFacility)) {
                 $facilities[$facilityList['id']] = $facilityList['name'];
-                $facility_nickname = $facilityList['nickname'];
             }
         }
 
