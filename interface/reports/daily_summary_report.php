@@ -353,7 +353,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                         foreach ($facilities as $facility) { // facility array
                             if (isset($dataValue[$facility])) {
                                 foreach ($dataValue[$facility] as $provider => $information) { // array which consists different/dynamic values
-
+var_dump($facilities);
                                     ?>
                                     <tr>
                                         <td><?php echo text(oeFormatShortDate($date)); ?></td>
@@ -363,9 +363,9 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                                         <td><?php echo isset($information['appointments']) ? text($information['appointments']) : 0; ?></td>
                                         <td><?php echo isset($information['newPatient']) ? text($information['newPatient']) : 0; ?></td>
                                         <td><?php echo isset($information['visits']) ? text($information['visits']) : 0; ?></td>
-                                        <td ><?php echo isset($information['payments']) ? text(number_format($information['payments'], 2)) : number_format(0, 2); ?></td>
-                                        <td><?php echo isset($information['paidAmount']) ? text(number_format($information['paidAmount'], 2)) : number_format(0, 2); ?></td>
-                                        <td>
+                                        <td class="text-right"><?php echo isset($information['payments']) ? text(number_format($information['payments'], 2)) : number_format(0, 2); ?></td class>
+                                        <td align="right"><?php echo isset($information['paidAmount']) ? text(number_format($information['paidAmount'], 2)) : number_format(0, 2); ?></td>
+                                        <td align="right">
                                             <?php
                                             if (isset($information['payments']) || isset($information['paidAmount'])) {
 						//ALB Removed number_format from here
@@ -411,7 +411,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                         <td><?php echo text($totalAppointments); ?></td>
                         <td><?php echo text($totalNewRegisterPatient); ?></td>
                         <td><?php echo text($totalVisits); ?></td>
-                        <td align="right"><?php echo text(number_format($totalPayments, 2)); ?></td>
+                        <td class="text-right"><?php echo text(number_format($totalPayments, 2)); ?></td>
                         <td align="right"><?php echo text(number_format($totalPaidAmount, 2)); ?></td>
                         <td align="right"><?php echo text(number_format($totalDueAmount, 2)); ?></td>
                     </tr>
