@@ -168,7 +168,8 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // fetch all facility from the table
         $facilityRecords = $facilityService->getAllFacility();
-        var_dump($facilityRecords);
+        echo "<pre>";
+        var_dump($facilityRecords); die;
         foreach ($facilityRecords as $facilityList) {
             if (1 === $facilitySet && $facilityList['id'] == $selectedFacility) {
                 $facilities[$facilityList['id']] = $facilityList['name'];
