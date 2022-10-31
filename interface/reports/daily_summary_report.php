@@ -168,17 +168,16 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // fetch all facility from the table
         $facilityRecords = $facilityService->getAllFacility();
-        echo "<pre>"; var_dump($facilityRecords); echo "</pre>";
         foreach ($facilityRecords as $facilityList) {
             if (1 === $facilitySet && $facilityList['id'] == $selectedFacility) {
-                $facilities[$facilityList['id']] = $facilityList['nickname'];
+                $facilities[$facilityList['id']] = $facilityList['name'];
             }
 
             if (empty($selectedFacility)) {
-                $facilities[$facilityList['id']] = $facilityList['nickname'];
+                $facilities[$facilityList['id']] = $facilityList['name'];
             }
         }
-
+var_dump($facilities);
         // define provider and facility as null
         $providerID = $facilityID = null;
         // define all the bindarray variables as initial blank array
