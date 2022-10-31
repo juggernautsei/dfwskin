@@ -351,6 +351,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                         foreach ($facilities as $facility) { // facility array
                             if (isset($dataValue[$facility])) {
                                 foreach ($dataValue[$facility] as $provider => $information) { // array which consists different/dynamic values
+                                    var_dump($dataValue['facility']);
                                     ?>
                                     <tr>
                                         <td><?php echo text(oeFormatShortDate($date)); ?></td>
