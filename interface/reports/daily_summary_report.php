@@ -235,6 +235,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // pass last parameter as Boolean,  which is getting the facility name in the resulted array
         $totalAppointmentSql = fetchAppointments($from_date, $to_date, null, $providerID, $facilityID);
+        var_dump($totalAppointmentSql); die;
         if (count($totalAppointmentSql) > 0) { // check if $totalAppointmentSql array has value
             foreach ($totalAppointmentSql as $appointment) {
                 $eventDate = $appointment['pc_eventDate'];
