@@ -357,7 +357,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                                     <tr>
                                         <td><?php echo text(oeFormatShortDate($date)); ?></td>
                                         <!-- ALB Display facility nickname here instead of name -->
-                                        <td><?php echo text($facility_nickname); ?></td>
+                                        <td><?php echo text($facility_nickname['nickname']); ?></td>
                                         <td><?php echo text($provider); ?></td>
                                         <td><?php echo isset($information['appointments']) ? text($information['appointments']) : 0; ?></td>
                                         <td><?php echo isset($information['newPatient']) ? text($information['newPatient']) : 0; ?></td>
