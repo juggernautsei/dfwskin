@@ -427,7 +427,7 @@ if (!empty($_POST['form_save'])) {
                 }//invoice_balance
             }//if ($amount = 0 + $payment)
         }//foreach
-    }//if ($_POST['form_upay'])
+    //}//if ($_POST['form_upay'])
 }//if ($_POST['form_save'])
 
 if (!empty($_POST['form_save']) || !empty($_REQUEST['receipt'])) {
