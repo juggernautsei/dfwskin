@@ -177,7 +177,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 $facilities[$facilityList['id']] = $facilityList['name'];
             }
         }
-var_dump($facilities);
+echo "<pre>"; var_dump($facilities); echo "</pre>";
         // define provider and facility as null
         $providerID = $facilityID = null;
         // define all the bindarray variables as initial blank array
