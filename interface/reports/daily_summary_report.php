@@ -327,7 +327,9 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // merge all array recursive in to one array
         $dailySummaryReport = array_merge_recursive($totalAppointment, $totalNewPatient, $totalVisit, $totalPayment, $totalPaid);
+        echo "<pre>";
         var_dump($dailySummaryReport);
+        echo "</pre>";
         ?>
 
         <div id="report_results" style="font-size: 12px">
