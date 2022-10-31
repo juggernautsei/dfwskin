@@ -162,7 +162,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // define all the variables as initial blank array
         $facilities = $totalAppointment = $totalNewPatient = $totalVisit = $totalPayment = $dailySummaryReport = $totalPaid = array();
-        var_dump($facilities);
+
         // define all the where condition variable as initial value set 1=1
         $whereTotalVisitConditions = $whereTotalPaymentConditions = $wherePaidConditions = $whereNewPatientConditions = '1 = 1 ';
 
@@ -327,15 +327,15 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // merge all array recursive in to one array
         $dailySummaryReport = array_merge_recursive($totalAppointment, $totalNewPatient, $totalVisit, $totalPayment, $totalPaid);
-        //echo "<pre>";
-        //var_dump($dailySummaryReport);
-        //echo "</pre>";
+        echo "<pre>";
+        var_dump($dailySummaryReport);
+        echo "</pre>";
         ?>
 
         <div id="report_results" style="font-size: 12px">
             <?php echo '<strong>' . xlt('From') . '</strong> ' . text(oeFormatShortDate($from_date)) . ' <strong>' . xlt('To{{Range}}') . '</strong> ' . text(oeFormatShortDate($to_date)); ?>
 
-            <table class="table flowboard table-sm" id="ds_report">
+            <table class="table flowboard" cellpadding='5' cellspacing='2' id="ds_report">
                 <tr class="head thead-light">
 
                     <td><?php echo xlt('Date'); ?></td>
@@ -354,7 +354,6 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                         foreach ($facilities as $facility) { // facility array
                             if (isset($dataValue[$facility])) {
                                 foreach ($dataValue[$facility] as $provider => $information) { // array which consists different/dynamic values
-
                                     ?>
                                     <tr>
                                         <td><?php echo text(oeFormatShortDate($date)); ?></td>
