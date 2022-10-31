@@ -327,12 +327,13 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // merge all array recursive in to one array
         $dailySummaryReport = array_merge_recursive($totalAppointment, $totalNewPatient, $totalVisit, $totalPayment, $totalPaid);
+        var_dump($dailySummaryReport);
         ?>
 
         <div id="report_results" style="font-size: 12px">
             <?php echo '<strong>' . xlt('From') . '</strong> ' . text(oeFormatShortDate($from_date)) . ' <strong>' . xlt('To{{Range}}') . '</strong> ' . text(oeFormatShortDate($to_date)); ?>
 
-            <table class="table flowboard" cellpadding='5' cellspacing='2' id="ds_report">
+            <table class="table flowboard table-sm" id="ds_report">
                 <tr class="head thead-light">
 
                     <td><?php echo xlt('Date'); ?></td>
@@ -349,7 +350,6 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 if (count($dailySummaryReport) > 0) { // check if daily summary array has value
                     foreach ($dailySummaryReport as $date => $dataValue) { //   daily summary array which consists different/dynamic values
                         foreach ($facilities as $facility) { // facility array
-                            var_dump($dataValue);
                             if (isset($dataValue[$facility])) {
                                 foreach ($dataValue[$facility] as $provider => $information) { // array which consists different/dynamic values
 
