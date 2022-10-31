@@ -235,12 +235,10 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
         // pass last parameter as Boolean,  which is getting the facility name in the resulted array
         $totalAppointmentSql = fetchAppointments($from_date, $to_date, null, $providerID, $facilityID);
-        echo "<pre>";
-        var_dump($totalAppointmentSql); die;
         if (count($totalAppointmentSql) > 0) { // check if $totalAppointmentSql array has value
             foreach ($totalAppointmentSql as $appointment) {
                 $eventDate = $appointment['pc_eventDate'];
-                $facility = $appointment['name'];
+                $facility = $appointment['nickname'];
                 $providerName = $appointment['ufname'] . ' ' . $appointment['ulname'];
 
                 // initialize each level of the data structure if it doesn't already exist
