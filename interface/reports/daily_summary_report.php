@@ -266,7 +266,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 $totalAppointment[$eventDate][$facility][$providerName]['appointments']++;
             }
         }
-echo "<pre>"; var_dump($totalAppointment); echo "</pre>";
+
         //Count Total New Patient
         $newPatientSql = sqlStatement("SELECT `OPE`.`pc_eventDate` , `f`.`name` AS facility_Name , count( * ) AS totalNewPatient, `PD`.`providerID`, CONCAT( `u`.`fname`, ' ', `u`.`lname` ) AS provider_name
                                         FROM `patient_data` AS PD
@@ -327,6 +327,7 @@ echo "<pre>"; var_dump($totalAppointment); echo "</pre>";
 
         // merge all array recursive in to one array
         $dailySummaryReport = array_merge_recursive($totalAppointment, $totalNewPatient, $totalVisit, $totalPayment, $totalPaid);
+        echo "<pre>"; var_dump($dailySummaryReport); echo "</pre>";
         ?>
 
         <div id="report_results" style="font-size: 12px">
