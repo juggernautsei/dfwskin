@@ -255,6 +255,7 @@ class FacilityService extends BaseService
             $sql = " SELECT FAC.id,";
             $sql .= "        FAC.uuid,";
             $sql .= "        FAC.name,";
+            $sql .= "        FAC.nickname,";
             $sql .= "        FAC.phone,";
             $sql .= "        FAC.fax,";
             $sql .= "        FAC.street,";

@@ -125,7 +125,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                                 </table>
                             </div>
                         </td>
-                        <td class='h-100' align='left' valign='middle'>
+                        <td class='h-100 text-left text-center'>
                             <table class='w-100 h-100' style='border-left: 1px solid;'>
                                 <tr>
                                     <td>
