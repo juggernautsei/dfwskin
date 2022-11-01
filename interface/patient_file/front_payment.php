@@ -593,7 +593,7 @@ function toencounter(enc, datestr, topframe) {
                 </div>
 
         <!-- ALB Adding note at the bottom of the receipt -->
-	<br><br><br><br><br><br><hr><p>
+	<br><br><br><br><hr><p>
 	<?php echo xlt('*Note: Amount for This Visit is the estimated patient responsibility for today. If the service rendered to you is covered by insurance, it is your insurance carrier that determines your benefits. In the event that your insurance company pays less than the estimated amount, you are responsible for the unpaid balance.'); ?>
 
 
