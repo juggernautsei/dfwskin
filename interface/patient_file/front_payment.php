@@ -617,11 +617,12 @@ function toencounter(enc, datestr, topframe) {
                         <?php echo xlt('Delete'); ?>
                     </button>
                     <?php } ?>
-                </div>
-                <div class='mt-3' id='showonprint'>
                     <button type="button" class="btn btn-secondary btn-cancel" value='<?php echo xla('Exit'); ?>' id='donebutton' onclick="closeHow(event)">
                         <?php echo xlt('Exit'); ?>
                     </button>
+                </div>
+                <div class='mt-3' id='showonprint'>
+
                 </div>
             </div>
         </div>
