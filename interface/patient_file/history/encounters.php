@@ -36,11 +36,11 @@ $is_group = ($attendant_type == 'gid') ? true : false;
 // case we only display encounters that are linked to the specified issue.
 $issue = empty($_GET['issue']) ? 0 : 0 + $_GET['issue'];
 
- //maximum number of encounter entries to display on this page:
- // $N = 12;
+//maximum number of encounter entries to display on this page:
+// $N = 12;
 
- //Get the default encounter from Globals
- $default_encounter = $GLOBALS['default_encounter_view']; //'0'=clinical, '1' = billing
+//Get the default encounter from Globals
+$default_encounter = $GLOBALS['default_encounter_view']; //'0'=clinical, '1' = billing
 
 // Get relevant ACL info.
 $auth_notes_a = AclMain::aclCheckCore('encounters', 'notes_a');
@@ -60,7 +60,7 @@ if (($tmp['squad'] ?? null) && ! AclMain::aclCheckCore('squads', $tmp['squad']))
 // Perhaps the view choice should be saved as a session variable.
 //
 $tmp = sqlQuery("select authorized from users " .
-  "where id = ?", array($_SESSION['authUserID']));
+    "where id = ?", array($_SESSION['authUserID']));
 $billing_view = ($tmp['authorized']) ? 0 : 1;
 if (isset($_GET['billing'])) {
     $billing_view = empty($_GET['billing']) ? 0 : 1;
@@ -122,32 +122,32 @@ function showDocument(&$drow)
 
     echo "<tr class='text docrow' id='" . attr($drow['id']) . "'data-toggle='tooltip' data-placement='top' title='" . xla('View document') . "'>\n";
 
-  // show date
+    // show date
     echo "<td>" . text(oeFormatShortDate($docdate)) . "</td>\n";
 
-  // show associated issue, if any
+    // show associated issue, if any
     echo "<td>";
     if ($auth_med) {
         $irow = sqlQuery("SELECT type, title, begdate " .
-        "FROM lists WHERE " .
-        "id = ? " .
-        "LIMIT 1", array($drow['list_id']));
+            "FROM lists WHERE " .
+            "id = ? " .
+            "LIMIT 1", array($drow['list_id']));
         if ($irow) {
-              $tcode = $irow['type'];
+            $tcode = $irow['type'];
             if ($ISSUE_TYPES[$tcode]) {
                 $tcode = $ISSUE_TYPES[$tcode][2];
             }
-              echo text("$tcode: " . $irow['title']);
+            echo text("$tcode: " . $irow['title']);
         }
     } else {
         echo "(" . xlt('No access') . ")";
     }
     echo "</td>\n";
 
-  // show document name and category
+    // show document name and category
     echo "<td colspan='3'>" .
-    text(xl('Document') . ": " . $drow['document_name'] . '-' . $drow['id'] . ' (' . xl_document_category($drow['name']) . ')') .
-    "</td>\n";
+        text(xl('Document') . ": " . $drow['document_name'] . '-' . $drow['id'] . ' (' . xl_document_category($drow['name']) . ')') .
+        "</td>\n";
     echo "<td colspan='5'>&nbsp;</td>\n";
     echo "</tr>\n";
 }
@@ -168,70 +168,70 @@ function generatePageElement($start, $pagesize, $billing, $issue, $text)
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Main style sheet comes after the page-specific stylesheet to facilitate overrides. -->
-<?php if ($_SESSION['language_direction'] == "rtl") { ?>
-  <link rel="stylesheet" href="<?php echo $GLOBALS['themes_static_relative']; ?>/misc/rtl_encounters.css?v=<?php echo $GLOBALS['v_js_includes']; ?>" />
-<?php } else { ?>
-  <link rel="stylesheet" href="<?php echo $GLOBALS['themes_static_relative']; ?>/misc/encounters.css?v=<?php echo $GLOBALS['v_js_includes']; ?>" />
-<?php } ?>
-<!-- Not sure why we don't want this ui to be B.S responsive. -->
-<?php Header::setupHeader(['no_textformat']); ?>
+    <!-- Main style sheet comes after the page-specific stylesheet to facilitate overrides. -->
+    <?php if ($_SESSION['language_direction'] == "rtl") { ?>
+        <link rel="stylesheet" href="<?php echo $GLOBALS['themes_static_relative']; ?>/misc/rtl_encounters.css?v=<?php echo $GLOBALS['v_js_includes']; ?>" />
+    <?php } else { ?>
+        <link rel="stylesheet" href="<?php echo $GLOBALS['themes_static_relative']; ?>/misc/encounters.css?v=<?php echo $GLOBALS['v_js_includes']; ?>" />
+    <?php } ?>
+    <!-- Not sure why we don't want this ui to be B.S responsive. -->
+    <?php Header::setupHeader(['no_textformat']); ?>
 
-<script src="<?php echo $GLOBALS['webroot'] ?>/library/js/ajtooltip.js"></script>
+    <script src="<?php echo $GLOBALS['webroot'] ?>/library/js/ajtooltip.js"></script>
 
-<script>
-// open dialog to edit an invoice w/o opening encounter.
-function editInvoice(e, id) {
-    e.stopPropagation();
-    const url = './../../billing/sl_eob_invoice.php?id=' + encodeURIComponent(id);
-    dlgopen(url, '', 'modal-lg', 750, false, '', {
-        onClosed: 'reload'
-    });
-}
+    <script>
+        // open dialog to edit an invoice w/o opening encounter.
+        function editInvoice(e, id) {
+            e.stopPropagation();
+            const url = './../../billing/sl_eob_invoice.php?id=' + encodeURIComponent(id);
+            dlgopen(url, '', 'modal-lg', 750, false, '', {
+                onClosed: 'reload'
+            });
+        }
 
-//function toencounter(enc, datestr) {
-function toencounter(rawdata) {
-    var parts = rawdata.split("~");
-    var enc = parts[0];
-    var datestr = parts[1];
+        //function toencounter(enc, datestr) {
+        function toencounter(rawdata) {
+            var parts = rawdata.split("~");
+            var enc = parts[0];
+            var datestr = parts[1];
 
-    top.restoreSession();
-    parent.left_nav.setEncounter(datestr, enc, window.name);
-    parent.left_nav.loadFrame('enc2', window.name, 'patient_file/encounter/encounter_top.php?set_encounter=' + encodeURIComponent(enc));
-}
+            top.restoreSession();
+            parent.left_nav.setEncounter(datestr, enc, window.name);
+            parent.left_nav.loadFrame('enc2', window.name, 'patient_file/encounter/encounter_top.php?set_encounter=' + encodeURIComponent(enc));
+        }
 
-function todocument(docid) {
-  h = '<?php echo $GLOBALS['webroot'] ?>/controller.php?document&view&patient_id=<?php echo attr_url($pid); ?>&doc_id=' + encodeURIComponent(docid);
-  top.restoreSession();
-  location.href = h;
-}
+        function todocument(docid) {
+            h = '<?php echo $GLOBALS['webroot'] ?>/controller.php?document&view&patient_id=<?php echo attr_url($pid); ?>&doc_id=' + encodeURIComponent(docid);
+            top.restoreSession();
+            location.href = h;
+        }
 
- // Helper function to set the contents of a div.
-function setDivContent(id, content) {
-    $("#"+id).html(content);
-}
+        // Helper function to set the contents of a div.
+        function setDivContent(id, content) {
+            $("#"+id).html(content);
+        }
 
-function changePageSize() {
-    billing = $(this).attr("billing");
-    pagestart = $(this).attr("pagestart");
-    issue = $(this).attr("issue");
-    pagesize = $(this).val();
-    top.restoreSession();
-    window.location.href = "encounters.php?billing=" + encodeURIComponent(billing) + "&issue=" + encodeURIComponent(issue) + "&pagestart=" + encodeURIComponent(pagestart) + "&pagesize=" + encodeURIComponent(pagesize);
-}
+        function changePageSize() {
+            billing = $(this).attr("billing");
+            pagestart = $(this).attr("pagestart");
+            issue = $(this).attr("issue");
+            pagesize = $(this).val();
+            top.restoreSession();
+            window.location.href = "encounters.php?billing=" + encodeURIComponent(billing) + "&issue=" + encodeURIComponent(issue) + "&pagestart=" + encodeURIComponent(pagestart) + "&pagesize=" + encodeURIComponent(pagesize);
+        }
 
-window.onload = function() {
-    $("#selPagesize").on("change", changePageSize);
-}
+        window.onload = function() {
+            $("#selPagesize").on("change", changePageSize);
+        }
 
-// Mouseover handler for encounter form names. Brings up a custom tooltip
-// to display the form's contents.
-function efmouseover(elem, ptid, encid, formname, formid) {
- ttMouseOver(elem, "encounters_ajax.php?ptid=" + encodeURIComponent(ptid) + "&encid=" + encodeURIComponent(encid) +
-  "&formname=" + encodeURIComponent(formname) + "&formid=" + encodeURIComponent(formid) + "&csrf_token_form=" + <?php echo js_url(CsrfUtils::collectCsrfToken()); ?>);
-}
+        // Mouseover handler for encounter form names. Brings up a custom tooltip
+        // to display the form's contents.
+        function efmouseover(elem, ptid, encid, formname, formid) {
+            ttMouseOver(elem, "encounters_ajax.php?ptid=" + encodeURIComponent(ptid) + "&encid=" + encodeURIComponent(encid) +
+                "&formname=" + encodeURIComponent(formname) + "&formid=" + encodeURIComponent(formid) + "&csrf_token_form=" + <?php echo js_url(CsrfUtils::collectCsrfToken()); ?>);
+        }
 
-</script>
+    </script>
 
 </head>
 
@@ -314,64 +314,64 @@ function efmouseover(elem, ptid, encid, formname, formid) {
     <div class="table-responsive">
         <table class="table table-hover jumbotron py-4 mt-3">
             <thead>
-                <tr class='text'>
-                    <th scope="col"><?php echo xlt('Date'); ?></th>
+            <tr class='text'>
+                <th scope="col"><?php echo xlt('Date'); ?></th>
 
-                    <?php if ($billing_view) { ?>
-                        <th class='billing_note' scope="col"><?php echo xlt('Billing Note'); ?></th>
-                    <?php } else { ?>
-                        <?php if ($attendant_type == 'pid' && !$issue) { // only for patient encounter and if listing for multiple issues?>
-                            <th scope="col"><?php echo xlt('Issue'); ?></th>
-                        <?php } ?>
-                            <th scope="col"><?php echo xlt('Reason/Form'); ?></th>
-                        <?php if ($attendant_type == 'pid') { ?>
-                            <th scope="col"><?php echo xlt('Provider');    ?></th>
-                        <?php } else { ?>
-                            <th scope="col"><?php echo xlt('Counselors');    ?></th>
-                        <?php } ?>
+                <?php if ($billing_view) { ?>
+                    <th class='billing_note' scope="col"><?php echo xlt('Billing Note'); ?></th>
+                <?php } else { ?>
+                    <?php if ($attendant_type == 'pid' && !$issue) { // only for patient encounter and if listing for multiple issues?>
+                        <th scope="col"><?php echo xlt('Issue'); ?></th>
                     <?php } ?>
+                    <th scope="col"><?php echo xlt('Reason/Form'); ?></th>
+                    <?php if ($attendant_type == 'pid') { ?>
+                        <th scope="col"><?php echo xlt('Provider');    ?></th>
+                    <?php } else { ?>
+                        <th scope="col"><?php echo xlt('Counselors');    ?></th>
+                    <?php } ?>
+                <?php } ?>
 
-                    <?php if ($billing_view) { ?>
+                <?php if ($billing_view) { ?>
                     <th scope="col"><?php echo xlt('Code'); ?></th>
                     <th class='text-right' scope="col"><?php echo xlt('Chg'); ?></th>
                     <th class='text-right' scope="col"><?php echo xlt('Paid'); ?></th>
                     <th class='text-right' scope="col"><?php echo xlt('Adj'); ?></th>
                     <th class='text-right' scope="col"><?php echo xlt('Bal'); ?></th>
-                    <?php } elseif ($attendant_type == 'pid') { ?>
+                <?php } elseif ($attendant_type == 'pid') { ?>
                     <th colspan='5' scope="col"><?php echo ($GLOBALS['phone_country_code'] == '1') ? xlt('Billing') : xlt('Coding'); ?></th>
-                    <?php } ?>
+                <?php } ?>
 
-                    <?php if ($attendant_type == 'pid' && !$GLOBALS['ippf_specific']) { ?>
+                <?php if ($attendant_type == 'pid' && !$GLOBALS['ippf_specific']) { ?>
                     <th scope="col">&nbsp;<?php echo ($GLOBALS['weight_loss_clinic']) ? xlt('Payment') : xlt('Insurance'); ?></th>
-                    <?php } ?>
+                <?php } ?>
 
-                    <?php if ($GLOBALS['enable_group_therapy'] && !$billing_view && $therapy_group == 0) { ?>
-                        <th scope="col"><?php echo xlt('Encounter type'); ?></th>
-                    <?php }?>
+                <?php if ($GLOBALS['enable_group_therapy'] && !$billing_view && $therapy_group == 0) { ?>
+                    <th scope="col"><?php echo xlt('Encounter type'); ?></th>
+                <?php }?>
 
-                    <?php if ($GLOBALS['enable_follow_up_encounters']) { ?>
-                        <th scope="col"></th>
-                    <?php }?>
+                <?php if ($GLOBALS['enable_follow_up_encounters']) { ?>
+                    <th scope="col"></th>
+                <?php }?>
 
-                    <?php if ($GLOBALS['enable_group_therapy'] && !$billing_view && $therapy_group == 0) { ?>
-                        <th scope="col"><?php echo xlt('Group name'); ?></th>
-                    <?php }?>
+                <?php if ($GLOBALS['enable_group_therapy'] && !$billing_view && $therapy_group == 0) { ?>
+                    <th scope="col"><?php echo xlt('Group name'); ?></th>
+                <?php }?>
 
-                    <?php if ($GLOBALS['enable_follow_up_encounters']) { ?>
-                        <th scope="col"></th>
-                    <?php }?>
-                </tr>
+                <?php if ($GLOBALS['enable_follow_up_encounters']) { ?>
+                    <th scope="col"></th>
+                <?php }?>
+            </tr>
             </thead>
 
             <?php
             $drow = false;
             if (!$billing_view) {
-            // Query the documents for this patient.  If this list is issue-specific
-            // then also limit the query to documents that are linked to the issue.
+                // Query the documents for this patient.  If this list is issue-specific
+                // then also limit the query to documents that are linked to the issue.
                 $queryarr = array($pid);
                 $query = "SELECT d.id, d.type, d.url, d.name as document_name, d.docdate, d.list_id, d.encounter_id, c.name " .
-                "FROM documents AS d, categories_to_documents AS cd, categories AS c WHERE " .
-                "d.foreign_id = ? AND cd.document_id = d.id AND c.id = cd.category_id ";
+                    "FROM documents AS d, categories_to_documents AS cd, categories AS c WHERE " .
+                    "d.foreign_id = ? AND cd.document_id = d.id AND c.id = cd.category_id ";
                 if ($issue) {
                     $query .= "AND d.list_id = ? ";
                     $queryarr[] = $issue;
@@ -396,7 +396,7 @@ function efmouseover(elem, ptid, encid, formname, formid) {
 
             if ($issue) {
                 $from .= "JOIN issue_encounter AS ie ON ie.pid = ? AND " .
-                "ie.list_id = ? AND ie.encounter = fe.encounter ";
+                    "ie.list_id = ? AND ie.encounter = fe.encounter ";
                 array_push($sqlBindArray, $pid, $issue);
             }
             if ($attendant_type == 'pid') {
@@ -408,7 +408,7 @@ function efmouseover(elem, ptid, encid, formname, formid) {
             }
 
             $query = "SELECT fe.*, f.user, u.fname, u.mname, u.lname " . $from .
-                    "ORDER BY fe.date DESC, fe.id DESC";
+                "ORDER BY fe.date DESC, fe.id DESC";
 
             $countQuery = "SELECT COUNT(*) as c " . $from;
 
@@ -439,17 +439,17 @@ function efmouseover(elem, ptid, encid, formname, formid) {
 
 
             while ($result4 = sqlFetchArray($res4)) {
-                    // $href = "javascript:window.toencounter(" . $result4['encounter'] . ")";
-                    $reason_string = "";
-                    $auth_sensitivity = true;
+                // $href = "javascript:window.toencounter(" . $result4['encounter'] . ")";
+                $reason_string = "";
+                $auth_sensitivity = true;
 
-                    $raw_encounter_date = '';
+                $raw_encounter_date = '';
 
-                    $raw_encounter_date = date("Y-m-d", strtotime($result4["date"]));
-                    $encounter_date = date("D F jS", strtotime($result4["date"]));
+                $raw_encounter_date = date("Y-m-d", strtotime($result4["date"]));
+                $encounter_date = date("D F jS", strtotime($result4["date"]));
 
-                    //fetch acl for given pc_catid
-                    $postCalendarCategoryACO = AclMain::fetchPostCalendarCategoryACO($result4['pc_catid']);
+                //fetch acl for given pc_catid
+                $postCalendarCategoryACO = AclMain::fetchPostCalendarCategoryACO($result4['pc_catid']);
                 if ($postCalendarCategoryACO) {
                     $postCalendarCategoryACO = explode('|', $postCalendarCategoryACO);
                     $authPostCalendarCategory = AclMain::aclCheckCore($postCalendarCategoryACO[0], $postCalendarCategoryACO[1]);
@@ -461,8 +461,8 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                     $reason_string .= text($result4["reason"]) . "<br />\n";
                 }
 
-                    // else
-                    //   $reason_string = "(No access)";
+                // else
+                //   $reason_string = "(No access)";
 
                 if ($result4['sensitivity']) {
                     $auth_sensitivity = AclMain::aclCheckCore('sensitivities', $result4['sensitivity']);
@@ -471,31 +471,31 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                     }
                 }
 
-                    // This generates document lines as appropriate for the date order.
+                // This generates document lines as appropriate for the date order.
                 while ($drow && $raw_encounter_date && $drow['docdate'] > $raw_encounter_date) {
                     showDocument($drow);
                     $drow = sqlFetchArray($dres);
                 }
 
-                    // Fetch all forms for this encounter, if the user is authorized to see
-                    // this encounter's notes and this is the clinical view.
-                    $encarr = array();
-                    $encounter_rows = 1;
+                // Fetch all forms for this encounter, if the user is authorized to see
+                // this encounter's notes and this is the clinical view.
+                $encarr = array();
+                $encounter_rows = 1;
                 if (
                     !$billing_view && $auth_sensitivity && $authPostCalendarCategory &&
-                        ($auth_notes_a || ($auth_notes && $result4['user'] == $_SESSION['authUser']))
+                    ($auth_notes_a || ($auth_notes && $result4['user'] == $_SESSION['authUser']))
                 ) {
                     $attendant_id = $attendant_type == 'pid' ? $pid : $therapy_group;
                     $encarr = getFormByEncounter($attendant_id, $result4['encounter'], "formdir, user, form_name, form_id, deleted");
                     $encounter_rows = count($encarr);
                 }
 
-                    $rawdata = $result4['encounter'] . "~" . oeFormatShortDate($raw_encounter_date);
-                    echo "<tr class='encrow text' id='" . attr($rawdata) .
+                $rawdata = $result4['encounter'] . "~" . oeFormatShortDate($raw_encounter_date);
+                echo "<tr class='encrow text' id='" . attr($rawdata) .
                     "'>\n";
 
-                    // show encounter date
-                    echo "<td class='align-top' data-toggle='tooltip' data-placement='top' title='" . attr(xl('View encounter') . ' ' . $pid . "." . $result4['encounter']) . "'>" . text(oeFormatShortDate($raw_encounter_date)) . "</td>\n";
+                // show encounter date
+                echo "<td class='align-top' data-toggle='tooltip' data-placement='top' title='" . attr(xl('View encounter') . ' ' . $pid . "." . $result4['encounter']) . "'>" . text(oeFormatShortDate($raw_encounter_date)) . "</td>\n";
 
                 if ($billing_view) {
                     // Show billing note that you can click on to edit.
@@ -515,11 +515,11 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                         echo "<td>";
                         if ($auth_med && $auth_sensitivity && $authPostCalendarCategory) {
                             $ires = sqlStatement("SELECT lists.type, lists.title, lists.begdate " .
-                                                "FROM issue_encounter, lists WHERE " .
-                                                "issue_encounter.pid = ? AND " .
-                                                "issue_encounter.encounter = ? AND " .
-                                                "lists.id = issue_encounter.list_id " .
-                                                "ORDER BY lists.type, lists.begdate", array($pid,$result4['encounter']));
+                                "FROM issue_encounter, lists WHERE " .
+                                "issue_encounter.pid = ? AND " .
+                                "issue_encounter.encounter = ? AND " .
+                                "lists.id = issue_encounter.list_id " .
+                                "ORDER BY lists.type, lists.begdate", array($pid,$result4['encounter']));
                             for ($i = 0; $irow = sqlFetchArray($ires); ++$i) {
                                 if ($i > 0) {
                                     echo "<br />";
@@ -528,7 +528,7 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                                 if ($ISSUE_TYPES[$tcode]) {
                                     $tcode = $ISSUE_TYPES[$tcode][2];
                                 }
-                                    echo text("$tcode: " . $irow['title']);
+                                echo text("$tcode: " . $irow['title']);
                             }
                         } else {
                             echo "(" . xlt('No access') . ")";
@@ -578,8 +578,8 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                             echo text(xl_form_title($enc['form_name']));
                             echo "<br />";
                             echo "<div class='encreport pl-2'>";
-                    // Use the form's report.php for display.  Forms with names starting with LBF
-                    // are list-based forms sharing a single collection of code.
+                            // Use the form's report.php for display.  Forms with names starting with LBF
+                            // are list-based forms sharing a single collection of code.
                             if (substr($formdir, 0, 3) == 'LBF') {
                                 include_once($GLOBALS['incdir'] . "/forms/LBF/report.php");
                                 lbf_report($pid, $result4['encounter'], 2, $enc['form_id'], $formdir);
@@ -592,10 +592,10 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                             $formDiv = "<div ";
                             if (hasFormPermission($enc['formdir'])) {
                                 $formDiv .= "onmouseover='efmouseover(this," . attr_js($pid) . ","
-                                . attr_js($result4['encounter']) .
-                                "," . attr_js($formdir) . "," . attr_js($enc['form_id'])
-                                . ")' " .
-                                "onmouseout='ttMouseOut()'";
+                                    . attr_js($result4['encounter']) .
+                                    "," . attr_js($formdir) . "," . attr_js($enc['form_id'])
+                                    . ")' " .
+                                    "onmouseout='ttMouseOut()'";
                             }
                             $formDiv .= ">";
                             $formDiv .= text(xl_form_title($enc['form_name']));
@@ -629,53 +629,46 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                     }
                 } // end not billing view
 
-                    //this is where we print out the text of the billing that occurred on this encounter
-                    $thisauth = $auth_coding_a;
+                //this is where we print out the text of the billing that occurred on this encounter
+                $thisauth = $auth_coding_a;
                 if (!$thisauth && $auth_coding) {
                     if ($result4['user'] == $_SESSION['authUser']) {
                         $thisauth = $auth_coding;
                     }
                 }
-                    $coded = "";
-                    $arid = 0;
+                $coded = "";
+                $arid = 0;
                 if ($thisauth && $auth_sensitivity && $authPostCalendarCategory) {
                     $binfo = array('', '', '', '', '');
-
-                    //ALB Checking to see if the total balance is 0, in which case no need to display patient in red
-                    $totalbalance = 0;
-                    $totalptpaid = 0;
-                    $totalptadj = 0;
-
                     if ($subresult2 = BillingUtilities::getBillingByEncounter($pid, $result4['encounter'], "code_type, code, modifier, code_text, fee")) {
                         // Get A/R info, if available, for this encounter.
                         $arinvoice = array();
                         $arlinkbeg = "";
                         $arlinkend = "";
                         if ($billing_view) {
-                                $tmp = sqlQuery("SELECT id FROM form_encounter WHERE " .
-                                            "pid = ? AND encounter = ?", array($pid, $result4['encounter']));
-                                $arid = (int) $tmp['id'];
+                            $tmp = sqlQuery("SELECT id FROM form_encounter WHERE " .
+                                "pid = ? AND encounter = ?", array($pid, $result4['encounter']));
+                            $arid = (int) $tmp['id'];
                             if ($arid) {
                                 $arinvoice = InvoiceSummary::arGetInvoiceSummary($pid, $result4['encounter'], true);
                             }
                             if ($arid) {
-                                //ALB Changed color of the line items from green to black
-                                $arlinkbeg = "<a onclick='editInvoice(event, " . attr_js($arid) . ")" . "'" . " class='text' style='color:black'>";
+                                $arlinkbeg = "<a onclick='editInvoice(event, " . attr_js($arid) . ")" . "'" . " class='text' style='color:#00cc00'>";
                                 $arlinkend = "</a>";
                             }
                         }
 
                         // Throw in product sales.
                         $query = "SELECT s.drug_id, s.fee, d.name " .
-                        "FROM drug_sales AS s " .
-                        "LEFT JOIN drugs AS d ON d.drug_id = s.drug_id " .
-                        "WHERE s.pid = ? AND s.encounter = ? " .
-                        "ORDER BY s.sale_id";
+                            "FROM drug_sales AS s " .
+                            "LEFT JOIN drugs AS d ON d.drug_id = s.drug_id " .
+                            "WHERE s.pid = ? AND s.encounter = ? " .
+                            "ORDER BY s.sale_id";
                         $sres = sqlStatement($query, array($pid,$result4['encounter']));
                         while ($srow = sqlFetchArray($sres)) {
                             $subresult2[] = array('code_type' => 'PROD',
-                            'code' => 'PROD:' . $srow['drug_id'], 'modifier' => '',
-                            'code_text' => $srow['name'], 'fee' => $srow['fee']);
+                                'code' => 'PROD:' . $srow['drug_id'], 'modifier' => '',
+                                'code_text' => $srow['name'], 'fee' => $srow['fee']);
                         }
 
                         // This creates 5 columns of billing information:
@@ -702,10 +695,10 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                                 $binfo[0] .= '<br />';
                             }
                             if ($issue && !$billing_view) {
-                            // Single issue clinical view: show code description after the code.
+                                // Single issue clinical view: show code description after the code.
                                 $binfo[0] .= $arlinkbeg . text($codekeydisp) . " " . text($title) . $arlinkend;
                             } else {
-                            // Otherwise offer the description as a tooltip.
+                                // Otherwise offer the description as a tooltip.
                                 $binfo[0] .= "<span data-toggle='tooltip' data-placement='top' title='" . attr($title) . "'>" . $arlinkbeg . text($codekeydisp) . $arlinkend . "</span>";
                             }
                             if ($billing_view) {
@@ -726,197 +719,39 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                                         $binfo[$i] .= '&nbsp;';
                                     }
                                 } else {
-
-                                   //ALB Keep a total of what the patient paid in the billing table
-                                   if ($totalptpaid == 0) {
-                                      $totalptpaid = $arinvoice[$codekey]['ptp'];
-                                   } else {
-                                      $totalptpaid += $arinvoice[$codekey]['ptp'];
-                                   }
-
-                        //ALB Keep a total of patient adjustments in the billing table
-                        if ($totalptadj == 0) {
-                           $totalptadj = $arinvoice[$codekey]['ptadj'];
-                        } else {
-                           $totalptadj += $arinvoice[$codekey]['ptadj'];
-                        }
-
-                        $binfo[1] .= text(oeFormatMoney($arinvoice[$codekey]['chg'] + $arinvoice[$codekey]['adj']));
-                        //ALB Do not add (or actually subtract) what patient paid from here, just insurance
-                        $binfo[2] .= text(oeFormatMoney($arinvoice[$codekey]['chg'] - $arinvoice[$codekey]['bal'] - $arinvoice[$codekey]['ptp'])); 
-                        //ALB Do not add (or actually subtract) pt adjustments from here, just insurance
-                        $binfo[3] .= text(oeFormatMoney($arinvoice[$codekey]['adj'] - $arinvoice[$codekey]['ptadj']));
-                        //ALB Do not subtract (or, essentially, add back) what the patient paid, rather than insurance, as well as pt adj
-                        $binfo[4] .= text(oeFormatMoney($arinvoice[$codekey]['bal'] + $arinvoice[$codekey]['ptp'] + $arinvoice[$codekey]['ptadj']));
-                        //ALB Keeping the running total balance
-                        $totalbalance = $totalbalance + $arinvoice[$codekey]['bal'];
-                        if (!$pmt_method) {
-                            $pmt_method = $arinvoice[$codekey]['pmt_method'];
-                        } elseif ($arinvoice[$codekey]['pmt_method'] != '') {
-                            $pmt_method .= '/' . $arinvoice[$codekey]['pmt_method'];
-                        }
-                        if (!$adj_rsn) {
-                            $adj_rsn = $arinvoice[$codekey]['adj_rsn'];
-                        } elseif ($arinvoice[$codekey]['adj_rsn'] != '') {
-                            $adj_rsn .= '/' . $arinvoice[$codekey]['adj_rsn'];
-                        }
-
+                                    $binfo[1] .= text(oeFormatMoney($arinvoice[$codekey]['chg'] + ($arinvoice[$codekey]['adj'] ?? null)));
+                                    $binfo[2] .= text(oeFormatMoney($arinvoice[$codekey]['chg'] - $arinvoice[$codekey]['bal']));
+                                    $binfo[3] .= text(oeFormatMoney($arinvoice[$codekey]['adj'] ?? null));
+                                    $binfo[4] .= text(oeFormatMoney($arinvoice[$codekey]['bal']));
                                     unset($arinvoice[$codekey]);
                                 }
                             }
                         } // end foreach
 
-              //ALB Add any amount that the patient paid from the billing table
-              if ($billing_view && $totalptpaid != 0) {
-                    if ($binfo[0]) {
-                        for ($i = 0; $i < 5; ++$i) {
-                            $binfo[$i] .= '<br>';
-                        }
-                    }
-                    for ($i = 0; $i < 5; ++$i) {
-                        $binfo[$i] .= "<font color='royalblue'>";
-                    }
-                    $binfo[0] .= "<span title='" . $pmt_method . "'>COPAY</span>";
-                    $binfo[1] .= "0.00";
-                    $binfo[2] .= text(oeFormatMoney($totalptpaid));
-                    $binfo[3] .= "0.00";
-                    $binfo[4] .= text(oeFormatMoney(-$totalptpaid));
-                    for ($i = 0; $i < 5; ++$i) {
-                        $binfo[$i] .= "</font>";
-                    }
-                    $totalptpaid = 0;
-                    $pmt_method = '';
-             }
-
-              if ($billing_view && $totalptadj != 0) {
-                    if ($binfo[0]) {
-                        for ($i = 0; $i < 5; ++$i) {
-                            $binfo[$i] .= '<br>';
-                        }
-                    }
-                    for ($i = 0; $i < 5; ++$i) {
-                        $binfo[$i] .= "<font color='royalblue'>";
-                    }
-                    $binfo[0] .= "<span title='" . $adj_rsn . "'>PT ADJUST</span>";
-                    $binfo[1] .= "0.00";
-                    $binfo[2] .= "0.00";
-                    $binfo[3] .= text(oeFormatMoney($totalptadj));
-                    $binfo[4] .= text(oeFormatMoney(-$totalptadj));
-                    for ($i = 0; $i < 5; ++$i) {
-                        $binfo[$i] .= "</font>";
-                    }
-                    $totalptadj = 0;
-                    $adj_rsn = '';
-             }
-
-
                         // Pick up any remaining unmatched invoice items from the accounting
                         // system.  Display them in red, as they should be unusual.
-
-                        //ALB Replaced all of the code below
-
                         // Except copays aren't unusual but displaying them in red
                         // helps billers spot them quickly :)
-                        //if (!empty($arinvoice)) {
-                        //   foreach ($arinvoice as $codekey => $val) {
-                        //        if ($binfo[0]) {
-                        //            for ($i = 0; $i < 5; ++$i) {
-                        //                $binfo[$i] .= '<br />';
-                        //            }
-                        //        }
-                        //        for ($i = 0; $i < 5; ++$i) {
-                        //            $binfo[$i] .= "<p class='text-danger'>";
-                        //        }
-                        //        $binfo[0] .= text($codekey);
-                        //        $binfo[1] .= text(oeFormatMoney($val['chg'] + $val['adj']));
-                        //        $binfo[2] .= text(oeFormatMoney($val['chg'] - $val['bal']));
-                        //        $binfo[3] .= text(oeFormatMoney($val['adj']));
-                        //        $binfo[4] .= text(oeFormatMoney($val['bal']));
-                        //        for ($i = 0; $i < 5; ++$i) {
-                        //            $binfo[$i] .= "</font>";
-                        //        }
-                        //    }
-                        //}
-
-            //ALB Added all of this code below
-            // ALB These may be coming from somewhere else, such as front payment, so display in blue instead
-            if (!empty($arinvoice)) { 
-                foreach ($arinvoice as $codekey => $val) {
-                    if (text($codekey) == 'CO-PAY') {
-                      $pmt_method = $val['pmt_method'];
-                      $adj_rsn = $val['adj_rsn'];
-
-                      if ($val['chg'] - $val['bal'] != 0) { //Pt payment
-                        if ($binfo[0]) {
-                           for ($i = 0; $i < 5; ++$i) {
-                              $binfo[$i] .= '<br>';
-                           }
+                        if (!empty($arinvoice)) {
+                            foreach ($arinvoice as $codekey => $val) {
+                                if ($binfo[0]) {
+                                    for ($i = 0; $i < 5; ++$i) {
+                                        $binfo[$i] .= '<br />';
+                                    }
+                                }
+                                for ($i = 0; $i < 5; ++$i) {
+                                    $binfo[$i] .= "<p class='text-danger'>";
+                                }
+                                $binfo[0] .= text($codekey);
+                                $binfo[1] .= text(oeFormatMoney($val['chg'] + $val['adj']));
+                                $binfo[2] .= text(oeFormatMoney($val['chg'] - $val['bal']));
+                                $binfo[3] .= text(oeFormatMoney($val['adj']));
+                                $binfo[4] .= text(oeFormatMoney($val['bal']));
+                                for ($i = 0; $i < 5; ++$i) {
+                                    $binfo[$i] .= "</font>";
+                                }
+                            }
                         }
-                        for ($i = 0; $i < 5; ++$i) {
-                            $binfo[$i] .= "<font color='blue'>";
-                        }
-                        $binfo[0] .= "<span title='" . $pmt_method . "'>COPAY</span>";
-                        $binfo[1] .= "0.00";
-                        $binfo[2] .= text(oeFormatMoney($val['chg'] - $val['bal']));
-                        $binfo[3] .= "0.00";
-                        $binfo[4] .= text(oeFormatMoney(-($val['chg'] - $val['bal'])));
-                        for ($i = 0; $i < 5; ++$i) {
-                            $binfo[$i] .= "</font>";
-                        }
-                        $pmt_method = '';
-                     }  //end pt payment
-
-                    if ($val['adj'] != 0) { //Pt adjustment
-                      if ($binfo[0]) {
-                        for ($i = 0; $i < 5; ++$i) {
-                            $binfo[$i] .= '<br>';
-                        }
-                      }
-                      for ($i = 0; $i < 5; ++$i) {
-                          $binfo[$i] .= "<font color='blue'>";
-                      }
-                      $binfo[0] .= "<span title='" . $adj_rsn . "'>PT ADJUST</span>";
-                      $binfo[1] .= "0.00";
-                      $binfo[2] .= "0.00";
-                      $binfo[3] .= text(oeFormatMoney($val['adj']));
-                      $binfo[4] .= text(oeFormatMoney(-$val['adj']));
-                      for ($i = 0; $i < 5; ++$i) {
-                          $binfo[$i] .= "</font>";
-                      }
-                      $adj_rsn = '';
-                    } //end if pt adjustment
-                 } else { //not pt payment or adjustment, just display
-                    if ($binfo[0]) {
-                        for ($i = 0; $i < 5; ++$i) {
-                            $binfo[$i] .= '<br>';
-                        }
-                    }
-                    for ($i = 0; $i < 5; ++$i) {
-                        $binfo[$i] .= "<font color='blue'>";
-                    }
-                   
-                    $binfo[0] .= text($codekey);
-                    $binfo[1] .= text(oeFormatMoney($val['chg'] + $val['adj']));
-                    $binfo[2] .= text(oeFormatMoney($val['chg'] - $val['bal']));
-                    $binfo[3] .= text(oeFormatMoney($val['adj']));
-                    $binfo[4] .= text(oeFormatMoney($val['bal']));
-                    for ($i = 0; $i < 5; ++$i) {
-                        $binfo[$i] .= "</font>";
-                    }
-                 }
-
-                 //ALB Keeping the running total balance
-                 $totalbalance = text(oeFormatMoney($totalbalance + $val['bal']));
-                   
-                } //end foreach $arinvoice
-                $totalptpaid = 0;
-                $pmt_method = '';
-                $totalptadj = 0;
-                $adj_rsn = '';
-            }  //end if !empty($arinvoice)
-
-
-
                     } // end if there is billing
 
                     echo "<td class='text'>" . $binfo[0] . "</td>\n";
@@ -927,48 +762,36 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                     echo "<td class='text align-top' colspan='5' rowspan='" . attr($encounter_rows) . "'>(" . xlt("No access") . ")</td>\n";
                 }
 
-                    // show insurance
+                // show insurance
                 if ($attendant_type == 'pid' && !$GLOBALS['ippf_specific']) {
-        //ALB - Changed from Date being displayed when no insurance to Self-Pay
-        $insured = "&nbsp;" . xlt('Self-Pay') . "<br>\n"; //oeFormatShortDate($raw_encounter_date);
+                    $insured = oeFormatShortDate($raw_encounter_date);
                     if ($auth_demo) {
                         $responsible = -1;
                         if ($arid) {
-                                $responsible = InvoiceSummary::arResponsibleParty($pid, $result4['encounter']);
+                            $responsible = InvoiceSummary::arResponsibleParty($pid, $result4['encounter']);
                         }
                         $subresult5 = getInsuranceDataByDate($pid, $raw_encounter_date, "primary");
                         if (!empty($subresult5["provider_name"])) {
                             $style = $responsible == 1 ? " style='color: var(--danger)'" : "";
                             $insured = "<span class='text'$style>&nbsp;" . xlt('Primary') . ": " .
-                            text($subresult5["provider_name"]) . "</span><br />\n";
+                                text($subresult5["provider_name"]) . "</span><br />\n";
                         }
                         $subresult6 = getInsuranceDataByDate($pid, $raw_encounter_date, "secondary");
                         if (!empty($subresult6["provider_name"])) {
                             $style = $responsible == 2 ? " style='color: var(--danger)'" : "";
                             $insured .= "<span class='text'$style>&nbsp;" . xlt('Secondary') . ": " .
-                            text($subresult6["provider_name"]) . "</span><br />\n";
+                                text($subresult6["provider_name"]) . "</span><br />\n";
                         }
                         $subresult7 = getInsuranceDataByDate($pid, $raw_encounter_date, "tertiary");
                         if ($subresult6 && !empty($subresult7["provider_name"])) {
                             $style = $responsible == 3 ? " style='color: var(--danger)'" : "";
                             $insured .= "<span class='text'$style>&nbsp;" . xlt('Tertiary') . ": " .
-                            text($subresult7["provider_name"]) . "</span><br />\n";
+                                text($subresult7["provider_name"]) . "</span><br />\n";
                         }
-                        
-             //ALB If total balance is 0, no need to display patient in red. Also added Patient owed if <0.
-             if ($responsible <= 0 && oeFormatMoney($totalbalance) != 0) {
-                if (oeFormatMoney($totalbalance) > 0) {
-                  $insured .= "<span class='text' style='color:red'>&nbsp;" . xlt('Patient') .
-                            "</span><br>\n";
-                } else {
-                  $insured .= "<span class='text' style='color:red'>&nbsp;" . xlt('Patient Owed') .
-                            "</span><br>\n";
-                }
-             }
-                        //if ($responsible == 0) {
-                        //    $insured .= "<span class='text' style='color: var(--danger)'>&nbsp;" . xlt('Patient') .
-                        //                "</span><br />\n";
-                        //}
+                        if ($responsible == 0) {
+                            $insured .= "<span class='text' style='color: var(--danger)'>&nbsp;" . xlt('Patient') .
+                                "</span><br />\n";
+                        }
                     } else {
                         $insured = " (" . xlt("No access") . ")";
                     }
@@ -998,7 +821,7 @@ function efmouseover(elem, ptid, encid, formname, formid) {
                     echo "<td> <div style='z-index: 9999'>  <a href='#' class='btn btn-primary' onclick='createFollowUpEncounter(event," . attr_js($encounterId) . ")'><span>" . xlt('Create follow-up encounter') . "</span></a> </div></td>\n";
                 }
 
-                    echo "</tr>\n";
+                echo "</tr>\n";
             } // end while
 
 
@@ -1017,39 +840,39 @@ function efmouseover(elem, ptid, encid, formname, formid) {
 <span class='position-absolute border border-danger w-auto jumbotron p-1 m-4' id='tooltipdiv' style='max-width: 75%; visibility: hidden;'></span>
 
 <script>
-// jQuery stuff to make the page a little easier to use
-function createFollowUpEncounter(event, encId){
-    event.stopPropagation();
-    var data = {
-        encounterId: encId,
-        mode: 'follow_up_encounter'
-    };
-    top.window.parent.newEncounter(data);
-}
+    // jQuery stuff to make the page a little easier to use
+    function createFollowUpEncounter(event, encId){
+        event.stopPropagation();
+        var data = {
+            encounterId: encId,
+            mode: 'follow_up_encounter'
+        };
+        top.window.parent.newEncounter(data);
+    }
 
-$(function () {
-    $(".encrow").on("mouseover", function() { $(this).toggleClass("highlight"); });
-    $(".encrow").on("mouseout", function() { $(this).toggleClass("highlight"); });
-    $(".encrow").on("click", function() { toencounter(this.id); });
+    $(function () {
+        $(".encrow").on("mouseover", function() { $(this).toggleClass("highlight"); });
+        $(".encrow").on("mouseout", function() { $(this).toggleClass("highlight"); });
+        $(".encrow").on("click", function() { toencounter(this.id); });
 
-    $(".docrow").on("mouseover", function() { $(this).toggleClass("highlight"); });
-    $(".docrow").on("mouseout", function() { $(this).toggleClass("highlight"); });
-    $(".docrow").on("click", function() { todocument(this.id); });
+        $(".docrow").on("mouseover", function() { $(this).toggleClass("highlight"); });
+        $(".docrow").on("mouseout", function() { $(this).toggleClass("highlight"); });
+        $(".docrow").on("click", function() { todocument(this.id); });
 
-    $(".billing_note_text").on("mouseover", function() { $(this).toggleClass("billing_note_text_highlight"); });
-    $(".billing_note_text").on("mouseout", function() { $(this).toggleClass("billing_note_text_highlight"); });
-    $(".billing_note_text").on("click", function(evt) {
-        evt.stopPropagation();
-        const url = 'edit_billnote.php?feid=' + encodeURIComponent(this.id);
-        dlgopen(url, '', 'modal-sm', 350, false, '', {
-            onClosed: 'reload',
+        $(".billing_note_text").on("mouseover", function() { $(this).toggleClass("billing_note_text_highlight"); });
+        $(".billing_note_text").on("mouseout", function() { $(this).toggleClass("billing_note_text_highlight"); });
+        $(".billing_note_text").on("click", function(evt) {
+            evt.stopPropagation();
+            const url = 'edit_billnote.php?feid=' + encodeURIComponent(this.id);
+            dlgopen(url, '', 'modal-sm', 350, false, '', {
+                onClosed: 'reload',
+            });
         });
     });
-});
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-});
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 
 </script>
 </body>
