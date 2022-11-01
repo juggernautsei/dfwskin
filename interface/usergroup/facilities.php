@@ -15,6 +15,7 @@
  */
 
 require_once("../globals.php");
+require_once("$srcdir/patient.inc"); //ALB Added this
 
 use OpenEMR\Common\Acl\AclMain;
 use OpenEMR\Common\Csrf\CsrfUtils;
@@ -183,12 +184,15 @@ $(function () {
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th><?php echo xlt('Name'); ?></th>
+                                <th><?php echo xlt('Legal Name'); ?></th>
+                                <th><?php echo xlt('Office Name'); ?></th>
                                 <th><?php echo xlt('Tax ID'); ?></th>
                                 <th><?php echo xlt('NPI'); ?></th>
-                                <th><?php echo xlt('Billing Address'); ?></th>
-                                <th><?php echo xlt('Mailing Address'); ?></th>
+                                <th><?php echo xlt('Service Address');  //ALB Changed to service address ?></th>
+                                <!--ALB Don't need this line, but added next line <th><?php echo xlt('Mailing Address'); ?></th> -->
+                                <th><?php echo xlt('Billing Location'); ?></th>
                                 <th><?php echo xlt('Phone'); ?></th>
+                                <th><?php echo xlt('Fax'); ?></th> <!--ALB Added this -->
                             </tr>
                         </thead>
                         <tbody>
@@ -236,11 +240,14 @@ $(function () {
                                     ?>
                             <tr height="22">
                                  <td valign="top" class="text"><strong><a href="facility_admin.php?fid=<?php echo attr_url($iter3["id"]); ?>" class="medium_modal"><span><?php echo xlt($iter3["name"]);?></span></a></strong>&nbsp;</td>
+                                 <td valign="top" class="text"><?php echo text(getFacilityNickname($iter3["id"])); ?>&nbsp;</td> <!--ALB Added this -->
                                  <td valign="top" class="text"><?php echo text($iter3["federal_ein"]); ?>&nbsp;</td>
                                  <td valign="top" class="text"><?php echo text($iter3["facility_npi"]); ?>&nbsp;</td>
                                  <td valign="top" class="text"><?php echo text($varstreet . $varcity . $varstate . $iter3["country_code"] . " " . $iter3["postal_code"]); ?>&nbsp;</td>
-                                 <td valign="top" class="text"><?php echo text($varmstreet . $varmcity . $varmstate . $iter3['mail_zip']); ?></td>
+                                 <!--ALB Don't need <td valign="top" class="text"><?php echo text($varmstreet . $varmcity . $varmstate . $iter3['mail_zip']); ?></td> -->
+                                 <td><?php echo xlt($iter3["billing_location"] == 1 ? "Yes" : "No") ;?>&nbsp;</td> <!--ALB Added -->
                                  <td><?php echo text($iter3["phone"]);?>&nbsp;</td>
+                                 <td><?php echo text($iter3["fax"]);?>&nbsp;</td> <!-- ALB Added -->
                             </tr>
                                     <?php
                                 }

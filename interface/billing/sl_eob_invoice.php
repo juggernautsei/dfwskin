@@ -284,6 +284,7 @@ if (empty($ferow)) {
 $patient_id = (int) $ferow['pid'];
 $encounter_id = (int) $ferow['encounter'];
 $svcdate = substr($ferow['date'], 0, 10);
+$last_stmt_date = $ferow['last_stmt_date']; //ALB Added this
 $form_payer_id = (!empty($_POST['form_payer_id'])) ? (0 + $_POST['form_payer_id']) : 0;
 $form_reference = $_POST['form_reference'] ?? null;
 $form_check_date   = fixDate(($_POST['form_check_date'] ?? ''), date('Y-m-d'));
@@ -633,7 +634,7 @@ $bnrow = sqlQuery("select billing_note from form_encounter where pid = ? AND enc
                                 }
                                 $checked = ($last_level_closed == $key) ? " checked" : "";
                                 echo "<label class='radio-inline'>";
-                                echo "<input type='radio' name='form_done' value='" . attr($key) . "'$checked />" . text($value);
+                                echo "&nbsp;<input type='radio' name='form_done' value='" . attr($key) . "'$checked />&nbsp;" . text($value); //ALB Added 2 &nbsp; here
                                 echo "</label>";
                             }
                             ?>
@@ -678,7 +679,7 @@ $bnrow = sqlQuery("select billing_note from form_encounter where pid = ? AND enc
                         <label class="col-form-label" for=""><?php echo xlt('Secondary billing'); ?>:</label>
                         <div class="pl-3">
                             <label class="checkbox-inline">
-                                <input name="form_secondary" type="checkbox" value="1" /><?php echo xlt('Needs secondary billing') ?>
+                                <input name="form_secondary" type="checkbox" value="1" />&nbsp;<?php echo xlt('Needs secondary billing') ?>
                             </label>
                         </div>
                     </div>

@@ -954,11 +954,11 @@ if (
                 </div>
                 <fieldset id="search-results" class="oe-show-hide px-2">
                     <legend><span><?php echo xlt('Search Results'); ?></span>
-                        <div class="oe-pull-away oe-legend-radio">
+                        <!--ALB Don't need <div class="oe-pull-away oe-legend-radio">
                             <label class="checkbox-inline">
                                 <input type="checkbox" id="posting_adj_disable" name="posting_adj_disable" onchange='persistCriteria(this, event)' title="<?php echo xlt("Disable automatically calculating balance adjustments for invoice posting") ?>" value="<?php echo attr($posting_adj_disable); ?>" <?php echo ' ' . attr($posting_adj_disable); ?> /><?php echo xlt('Disable Auto Adjustments'); ?>
                             </label>
-                        </div>
+                        </div> -->
                     </legend>
                     <div class="table-responsive">
                         <?php
@@ -1118,8 +1118,8 @@ if (
                                 <th class="dehead text-center"><?php echo xlt('Prv'); ?></th>
                                 <?php
                                 if (!$eracount) { ?>
+                                    <th class="dehead text-center"><?php echo xlt('Email'); ?></th><!--ALB Changed these around-->
                                     <th class="dehead text-left"><?php echo xlt('Sel'); ?></th>
-                                    <th class="dehead text-center"><?php echo xlt('Email'); ?></th>
                                     <?php
                                 } ?>
                             </tr>
@@ -1248,6 +1248,18 @@ if (
                                     <td class="detail text-right"><?php echo text(bucks($balance)); ?>&nbsp;</td>
                                     <td class="detail text-center"><?php echo $duncount ? text($duncount) : "&nbsp;" ?></td>
                                     <?php if (!$eracount) { ?>
+                                    <!--ALB Changed the next 2 columns around -->
+                                    <td class="detail text-left">
+                                        <?php
+                                        $patientData = sqlQuery("SELECT * FROM `patient_data` WHERE `pid`=?", array($row['pid']));
+                                        if ($patientData['hipaa_allowemail'] == "YES" && $patientData['allow_patient_portal'] == "YES" && $patientData['hipaa_notice'] == "YES" && validEmail($patientData['email'])) {
+                                            echo xlt("YES");
+                                        } else {
+                                            echo xlt("NO");
+                                        }
+                                        ?>
+                                    </td>
+
                                         <td class="detail text-left">
                                             <!--ALB Changed below from $isduept to $isdueorowedpt -->
                                             <input type='checkbox'
@@ -1264,16 +1276,6 @@ if (
                                             } ?>
                                         </td>
                                     <?php } ?>
-                                    <td class="detail text-left">
-                                        <?php
-                                        $patientData = sqlQuery("SELECT * FROM `patient_data` WHERE `pid`=?", array($row['pid']));
-                                        if ($patientData['hipaa_allowemail'] == "YES" && $patientData['allow_patient_portal'] == "YES" && $patientData['hipaa_notice'] == "YES" && validEmail($patientData['email'])) {
-                                            echo xlt("YES");
-                                        } else {
-                                            echo xlt("NO");
-                                        }
-                                        ?>
-                                    </td>
                                 </tr>
                                 <?php
                             } // end while

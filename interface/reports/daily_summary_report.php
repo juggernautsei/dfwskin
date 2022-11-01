@@ -237,6 +237,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
         $totalAppointmentSql = fetchAppointments($from_date, $to_date, null, $providerID, $facilityID);
         if (count($totalAppointmentSql) > 0) { // check if $totalAppointmentSql array has value
             foreach ($totalAppointmentSql as $appointment) {
+
                 $eventDate = $appointment['pc_eventDate'];
                 $facility = $appointment['name'];
                 $providerName = $appointment['ufname'] . ' ' . $appointment['ulname'];
@@ -248,10 +249,11 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
 
                 if (!isset($totalAppointment[$eventDate][$facility])) {
                     $totalAppointment[$eventDate][$facility] = [];
-                    //ALB Added facility nickname here
-                    $totalAppointment[$eventDate][$facility_nickname] = $appointment['nickname'];
-
                 }
+
+                //ALB Added facility nickname here
+                $totalAppointment[$eventDate][$facility_nickname] = $appointment['nickname'];
+
 
                 if (!isset($totalAppointment[$eventDate][$facility][$providerName])) {
                     $totalAppointment[$eventDate][$facility][$providerName] = [];
@@ -348,15 +350,15 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                 <?php
                 if (count($dailySummaryReport) > 0) { // check if daily summary array has value
                     foreach ($dailySummaryReport as $date => $dataValue) { //   daily summary array which consists different/dynamic values
-                        foreach ($facilities as $facility) { // facility array
+                        //foreach ($facilities as $facility) { // facility array //ALB Need to comment this out
                             if (isset($dataValue[$facility])) {
                                 foreach ($dataValue[$facility] as $provider => $information) { // array which consists different/dynamic values
-
+                                    //echo "<pre>";var_dump($dailySummaryReport);echo "</pre>";
                                     ?>
                                     <tr>
                                         <td><?php echo text(oeFormatShortDate($date)); ?></td>
                                         <!-- ALB Display facility nickname here instead of name -->
-                                        <td><?php echo text($dataValue['nickname']); ?></td>
+                                        <td><?php echo text($dataValue['facility_nickname']); ?></td>
                                         <td><?php echo text($provider); ?></td>
                                         <td><?php echo isset($information['appointments']) ? text($information['appointments']) : 0; ?></td>
                                         <td><?php echo isset($information['newPatient']) ? text($information['newPatient']) : 0; ?></td>
@@ -398,7 +400,7 @@ $selectedProvider = isset($_POST['form_provider']) ? $_POST['form_provider'] : "
                                     }
                                 }
                             }
-                        }
+                      // ALB Comment this out }
                     }
                     ?>
                     <!--display total count-->

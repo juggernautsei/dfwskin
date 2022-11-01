@@ -549,9 +549,9 @@ if ($fend > ($count ?? null)) {
         <label for="modifier" class="col-form-label col-form-label-sm col-md-1"><?php echo xlt('Modifier'); ?>:</label>
         <div class="col-md">
             <?php if ($mode == "modify") { ?>
-              <input type='text' size='6' class='form-control form-control-sm' name='modifier' readonly='readonly' value='<?php echo attr($modifier) ?>' />
+              <input type='text' size='2' class='form-control form-control-sm' name='modifier' readonly='readonly' value='<?php echo attr($modifier) ?>' />
           <?php } else { ?>
-              <input type='text' size='6' class='form-control form-control-sm' name='modifier' value='<?php echo attr($modifier ?? '') ?>' />
+              <input type='text' size='2' class='form-control form-control-sm' name='modifier' value='<?php echo attr($modifier ?? '') ?>' />
             <?php } ?>
           <?php } else { ?>
               <input type='hidden' name='modifier' value='' />
@@ -561,12 +561,14 @@ if ($fend > ($count ?? null)) {
           <input type='checkbox' name='active' value='1'<?php if (!empty($active) || ($mode == 'modify' && $active == null)) {
                 echo ' checked'; } ?> />
           <?php echo xlt('Active'); ?>
-                <!--ALB Added this -->
-                &nbsp;&nbsp;
-                <?php echo xlt('Effective Date'); ?>:
-                <input type='text' size='10' name="eff_date" value='<?php echo attr($eff_date) ?>'>
+        </div>                
 
+        <!--ALB Added this -->
+        <label class="col-form-label col-form-label-sm col-md-2"><?php echo xlt('Effective Date'); ?>:</label>
+        <div class="col-md"> 
+               <input type='text' class='form-control form-control-sm' size='6' name="eff_date" value='<?php echo attr($eff_date) ?>'>
         </div>
+
       </div>
       <div class="form-group row">
         <label for="code_text" class="col-form-label col-form-label-sm col-md-1"><?php echo xlt('Description'); ?>:</label>
