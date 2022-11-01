@@ -207,13 +207,6 @@ function fetch_reminders($pid, $appt_date)
 </head>
 
 <body class="body_top">
-<?php //ALB
-if ($_POST['form_progress']) {
-    echo "<div style='display:none'>";
-} else {
-    echo "<div style='display:block'>";
-}
-?>
 
 <!-- Required for the popup date selectors -->
 <div id="overDiv"
@@ -228,11 +221,8 @@ if ($_POST['form_progress']) {
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
 <div id="report_parameters">
-    <!-- ALB -->
-    <input type='hidden' name='form_progress' id='form_progress' value=''/>
-    <input type='hidden' name='form_appt_label' id='form_progress' value=''/>
 
-    <table>
+<table>
     <tr>
         <td width='650px'>
         <div style='float: left'>
@@ -604,12 +594,295 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     }
 
 //ALB - Gather PIDs and dates for checked boxes for progress notes
-    if ($_POST['form_progress']) {
-        echo "landed";
+    if ($_POST['form_progress']) { ?>
+        <div id="report_parameters">
+            <a href='#' class='css_button' onclick='window.print()'> <span> <?php echo xlt('Print'); ?>
+				</span> </a>
+        </div>
+
+        <?php
+        foreach ($_POST['form_cb'] as $key => $value) {
+            //ALB Code below comes from progress_note_report.php file.
+            ?>
+            <div class="page">
+                <?php
+
+                $pid=substr($key,0,strpos($key,";"));
+                $appt_date=substr($key,strpos($key,";")+1);
+                $appt_date_YYYY= DateToYYYYMMDD($appt_date);
+
+                $titleres = getPatientData($pid, "fname,lname,providerID,sex,title,usertext7,genericname1,genericval1, DOB,DATE_FORMAT(DOB,'%m/%d/%Y') as DOB_TS");
+                if ($titleres['usertext7']<>'') {
+                    $nickname = " ''" . $titleres['usertext7'] . "''";
+                } else {
+                    $nickname = '';
+                }
+                if ($_SESSION['pc_facility']) {
+                    $sql = "select * from facility where id=" . $_SESSION['pc_facility'];
+                } else {
+                    $sql = "SELECT * FROM facility ORDER BY billing_location DESC LIMIT 1";
+                }
+                /******************************************************************/
+                $db = $GLOBALS['adodb']['db'];
+                $results = $db->Execute($sql);
+                $facility = array();
+                if (!$results->EOF) {
+                    $facility = $results->fields;
+                }
+                ?>
+                <table style='width:100%' class="table">
+                    <tr>
+                        <th colspan='3'>
+                            <h3 align='center'><?php echo xlt('Progress Note'); ?></h3>
+                            <!-- Don't need it for now
+<div align='right'><?php //echo $facility['name'] ?><br>
+<?php //echo text($facility['street']) ?><br>
+<?php //echo text($facility['city']) ?>, <?php //echo text($facility['state']) ?> <?php //echo text($facility['postal_code']) ?><br clear='all'></div>
+</p>
+-->
+        <h3 align='center'><span class='title'><?php echo xlt('Patient Name'); ?>: <u><?php echo text($titleres['title']) . " " . text($titleres['lname']) . ", " . text($titleres['fname']) . text($nickname) ; ?></u>
+        <?php echo xlt('Patient ID'); ?>: <u><?php echo text($pid); ?></u>
+        <?php echo xlt('Date'); ?>: <u><?php echo text($appt_date); ?></u><p>
+        <?php echo xlt('Age'); ?>: <u><?php echo getPatientAge($titleres['DOB'],$appt_date_YYYY); ?></u>
+        <?php echo xlt('Gender'); ?>: <u><?php echo text($titleres['sex']); ?></u>
+        <?php echo xlt('DOB'); ?>: <u><?php echo text($titleres['DOB_TS']); ?></u>
+        </span>
+                            </h3>
+                        </th>
+                    </tr>
+
+                    <tr>
+
+                        <!--1st column -->
+                        <td width='30%' valign='top'>
+                            <table border='1'>
+                                <?php
+                                if ($titleres['genericname1']<>'') {
+                                    echo '<tr><td><span class="text"><b>';
+                                    echo xlt('Referring MD') . ': <u>' . text($titleres['genericname1']) . '</u></b></span></td></tr>';
+                                } ?>
+                                <?php
+                                if ($titleres['genericval1']<>'') {
+                                    echo '<tr><td><span class="text"><b>';
+                                    echo xlt('PCP') . ': <u>' . text($titleres['genericval1']) . '</u></b></span></td></tr>';
+                                }
+                                    $numcols = '1';
+                                    $ix = 0;
+                                    $old_nkey="";$display_current_medications_below=1;
 
 
+                                    foreach ($ISSUE_TYPES as $nkey => $arr) {
 
+                                    $query = "SELECT * FROM lists WHERE pid = ? AND type = ? AND ";
+                                    $query .= "(enddate is null or enddate = '' or enddate = '0000-00-00') ";
+                                    $query .= "ORDER BY begdate DESC, id DESC";
+                                    $pres = sqlStatement($query, array($pid, $nkey) );
+
+                                    if (sqlNumRows($pres) > 0 || $ix == 0 || $nkey == "allergy" || $nkey == "medication") {
+                                    $old_nkey=$nkey;
+                                    ?>
+
+                                    <td>
+                                        <span class="text"><b><?php echo htmlspecialchars($arr[0],ENT_NOQUOTES); ?></b></span>
+
+                                    </td>
+                                </tr>
+                            <?php
+                            //echo "<table>";
+                            if (sqlNumRows($pres) == 0) {
+                                if ( getListTouch($pid,$nkey) ) {
+                                    // Data entry has happened to this type, so can display an explicit None.
+                                    echo "  <tr><td><span class='text'>&nbsp;&nbsp;" . htmlspecialchars( xlt('None'), ENT_NOQUOTES) . "</span></td></tr>\n";
+                                }
+                                else {
+                                    // Data entry has not happened to this type, so show 'Nothing Recorded"
+                                    echo "  <tr><td><span class='text'>&nbsp;&nbsp;" . htmlspecialchars( xlt('Nothing Recorded'), ENT_NOQUOTES) . "</span></td></tr>\n";
+                                }
+                            }
+
+                            while ($row = sqlFetchArray($pres)) {
+                                // output each issue for the $ISSUE_TYPE
+                                if (!$row['enddate'] && !$row['returndate'])
+                                    $rowclass="noend_noreturn";
+                                else if (!$row['enddate'] && $row['returndate'])
+                                    $rowclass="noend";
+                                else if ($row['enddate'] && !$row['returndate'])
+                                    $rowclass = "noreturn";
+
+                                echo " <tr class='text $rowclass;'>\n";
+
+                                //turn allergies red and bold and show the reaction (if exist)
+                                if ($nkey == "allergy") {
+                                    $reaction = "";
+                                    if (!empty($row['reaction'])) {
+                                        $reaction = " (" . $row['reaction'] . ")";
+                                    }
+                                    echo "<td style='color:red;font-weight:bold;'>&nbsp;&nbsp;" . htmlspecialchars($row['title'] . $reaction, ENT_NOQUOTES) . "</td>\n";
+                                }
+
+                                //ALB - Problems with notes describing color in the Outcome list are turned that color and bold
+                                elseif ($nkey == "medical_problem") {
+                                    $tempres = sqlStatement("SELECT * FROM list_options " .
+                                        "WHERE list_id = 'outcome' AND option_id = ".
+                                        $row['outcome'] . " LIMIT 1");
+                                    while ($temprow = sqlFetchArray($tempres)) {
+                                        if ($temprow['notes'] <> '') {
+                                            $color = $temprow['notes'];
+                                            echo "<td style='color:$color; font-weight:bold;'>&nbsp;&nbsp;" . htmlspecialchars($row['title'], ENT_NOQUOTES) . "</td>\n";
+                                        } else {
+                                            echo "  <td>&nbsp;&nbsp;" . htmlspecialchars($row['title'],ENT_NOQUOTES) . "</td>\n";
+                                        }
+                                    }
+                                }
+                                else {
+                                    echo "<td>&nbsp;&nbsp;" . htmlspecialchars($row['title'],ENT_NOQUOTES) . "</td>\n";
+                                }
+
+                                echo " </tr>\n";
+                            }
+
+                            }
+                            ++$ix;
+                            }
+                            ?>
+                            </table>
+                        </td>
+
+                        <!--2nd column -->
+                        <td width='40%' valign='top'>
+                            <?php
+                            $cres = sqlQuery("SELECT COUNT(*) as forms from form_encounter where pid = ? AND DATE(date) < ?", array($pid, $appt_date_YYYY)); //NOW()", [$pid]);
+                            $row = $cres['forms'];
+                            if ($row>0) {
+                                    echo "<span class='text'><b>" . xlt('Established Patient') . "</b></span><p>";
+
+                                    //Get last skin check date
+                                    $TBSE_date = '';
+                                    $cres = sqlStatement("SELECT DATE(date) AS TBSE_date from rule_patient_data where pid = '$pid' AND item='act_tbse' and DATE(date) < '$appt_date_YYYY' AND complete = 'YES' ORDER BY date DESC LIMIT 1");
+                                    while ($result = sqlFetchArray($cres)) {
+                                        $TBSE_date = $result['TBSE_date'];
+                                    }
+                                    if ($TBSE_date == '') {
+                                        $TBSE_date = 'None';
+                                    }
+                                    echo "<span class='text'><b>" . xlt('Last TBSE') . ": <u>$TBSE_date</u></b></span><p>";
+
+
+                                    // Only show last SOAP note. Include form's report.php files
+                                    $inclookupres = sqlStatement("SELECT formdir, form_id, f.encounter, fe.date FROM forms AS f JOIN form_encounter AS fe ON f.pid = fe.pid
+AND f.encounter = fe.encounter WHERE f.pid = '$pid' AND f.formdir = 'soap' AND f.deleted = 0 AND DATE( fe.date ) < '$appt_date_YYYY'
+ORDER BY fe.date DESC LIMIT 1");
+                                    while ($result = sqlFetchArray($inclookupres)) {
+                                        $formdir = $result['formdir'];
+                                        $form_id = $result['form_id'];
+                                        $form_encounter = $result['encounter'];
+                                        $form_date = substr($result['date'], 0, 10);
+
+                                        echo "<span class='text'><b>" . xlt('Last Visit Note (') . $form_date . "):</b></span><p>";
+                                        echo "<table border='1'><tr><td>";
+                                        include_once($GLOBALS['incdir'] . "/forms/$formdir/report.php");
+                                        call_user_func("soap_report", $pid, $form_encounter, 1, $form_id);
+                                    }
+                                    echo "</td></tr></table>";
+                                } else {
+                                    echo "<span class='text'><b>" . xlt('New Patient') . "</b></span><p>";
+                                }
+
+
+                            ?>
+                            <hr>
+                            <?php
+                            $cres = sqlStatement("SELECT pc_hometext from openemr_postcalendar_events where pc_pid = '$pid' AND pc_eventDate = '$appt_date_YYYY' LIMIT 1");
+                            $reason_for_visit = '';
+                            while($result = sqlFetchArray($cres)) {
+                                $reason_for_visit = $result['pc_hometext'];
+                            }
+                            echo "<span class='text'><b>". xlt('Chief Complaint/Reason for Visit').": </b><u>$reason_for_visit</u></span><p>";
+
+                            ?>
+
+                            <span class='text'><b>Subjective:
+                                                  <br><br><br>
+                                                  Objective:
+                                                  <br><br><br>
+                                                  Assessment:
+                                                  <br><br><br>
+                                                  Plan:
+                                                  <br><br><br>
+                                                  Follow Up:<hr></b></span>
+
+                        </td>
+
+                        <!--3rd column -->
+                        <td width='30%' valign='top'><table border='1'><tr><td>
+                                        <?php
+
+                                        $result1 = getInsuranceData($pid, "primary", "copay, provider, DATE_FORMAT(`date`,'%Y-%m-%d') as effdate");
+                                        $insco_name1 = "";
+
+                                        if ($result1['provider']) {   // Use provider in case there is an ins record w/ unassigned insco
+                                            $insco_name1 = getInsuranceProvider($result1['provider']);
+                                            $insco_effdate = $result1['effdate'];
+                                        }
+
+                                        $result2 = getInsuranceData($pid, "secondary", "copay, provider, DATE_FORMAT(`date`,'%Y-%m-%d') as effdate");
+                                        $insco_name2 = "";
+
+                                        if ($result2['provider']) {   // Use provider in case there is an ins record w/ unassigned insco
+                                            $insco_name2 = getInsuranceProvider($result2['provider']);
+                                        }
+
+                                        $result3 = getInsuranceData($pid, "tertiary", "copay, provider, DATE_FORMAT(`date`,'%Y-%m-%d') as effdate");
+                                        $insco_name3 = "";
+
+                                        if ($result3['provider']) {   // Use provider in case there is an ins record w/ unassigned insco
+                                            $insco_name3 = getInsuranceProvider($result3['provider']);
+                                        }
+
+
+                                        echo "<div class='text insurance'>";
+
+					echo "<b>". xlt(' Patient Due') . ":</b> " .
+                                           (get_patient_balance($pid, false) <> 0 ? "<span class=bold style='color:red'>" . text(oeFormatMoney(get_patient_balance($pid, false))) . "</span><br>"
+                                                                                  : text(oeFormatMoney(get_patient_balance($pid, false))) . "<br>");
+
+					echo "<b>". xlt(' Total Balance') . ":</b> " .
+					text(oeFormatMoney(get_patient_balance($pid, true)));
+					echo "<hr style='margin-top:0;margin-bottom:0;color:black;height:5px'/>";
+
+                                        echo "<b>".xlt('Insurance Data').":</b><br>";
+                                        if ($insco_name1) {
+                                            echo "<span class=bold>".xlt('Primary').": $insco_name1</span><br>";
+                                        } else {
+                                            echo "<span class=bold style='color:red'>".xlt('Self-Pay')."</span><br>";
+                                        }
+                                        if ($insco_name2) {
+                                            echo "<span class=bold>".xlt('Secondary').": $insco_name2</span><br>";
+                                        }
+                                        if ($insco_name3) {
+                                            echo "<span class=bold>".xlt('Tertiary').": $insco_name3</span><br>";
+                                        }
+
+                                        $cres = sqlStatement("SELECT body from pnotes where pid = '$pid' AND title='Insurance' AND deleted=0 AND activity=1 AND date(date) >= '$insco_effdate' ORDER by id DESC LIMIT 3");
+                                        while($result = sqlFetchArray($cres)) {
+                                            $ins_note = $result['body'];
+                                            echo "<span class=bold>".xlt('Ins Note').": </span>$ins_note<br>";
+                                        }
+
+                                        ?>
+            </div></td></tr></table>
+
+            </td></tr>
+            </table>
+
+            </div> <!--page break-->
+
+            <?php
+        }
     }
+
+//ALB Insert all above
+
 
 } else { ?>
 <div class='text'><?php echo xlt('Please input search criteria above, and click Submit to view results.'); ?>
