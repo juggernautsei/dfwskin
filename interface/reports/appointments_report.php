@@ -594,7 +594,7 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     }
 
 //ALB - Gather PIDs and dates for checked boxes for progress notes
-    if ($_POST['form_progress']) { ?>
+    if ($_POST['form_progress']) {  die('Posted!');  ?>
         <div id="report_parameters">
             <a href='#' class='css_button' onclick='window.print()'> <span> <?php echo xlt('Print'); ?>
 				</span> </a>
