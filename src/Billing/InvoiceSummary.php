@@ -219,7 +219,7 @@ class InvoiceSummary
                $codes[$code]['ptp'] += $tmp['pmt'];
                $codes[$code]['ptadj'] += $row['adj_amount'];
                if ($codes[$code]['pmt_method'] && $tmp['src'] !='') $codes[$code]['pmt_method'] .= "/"; 
-               $codes[$code]['pmt_method'] .= $tmp['src'];
+               $codes[$code]['pmt_method'] .= $tmp['pmt_method']; //ALB Correction $tmp['src'];
                if ($codes[$code]['adj_rsn'] && $tmp['rsn'] !='') $codes[$code]['adj_rsn'] .= "/"; 
                $codes[$code]['adj_rsn'] .= $tmp['rsn'];
             }
