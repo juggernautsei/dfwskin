@@ -235,7 +235,7 @@ if ($_POST['form_progress']) {
         <table>
             <tr>
                 <td width='650px'>
-                    <div style='float: left'>
+                    <div style=''>
 
                         <table class='text'>
                             <tr>
