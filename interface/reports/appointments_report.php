@@ -168,7 +168,17 @@ function fetch_reminders($pid, $appt_date)
             // location.reload();
             document.forms[0].submit();
         }
-        </script>
+        //ALB
+        function checkAll(checked) {
+            var f = document.forms[0];
+            for (var i = 0; i < f.elements.length; ++i) {
+                var ename = f.elements[i].name;
+                if (ename.indexOf('form_cb[') == 0)
+                    f.elements[i].checked = checked;
+            }
+        }
+
+    </script>
 
         <style>
         /* specifically include & exclude from printing */
