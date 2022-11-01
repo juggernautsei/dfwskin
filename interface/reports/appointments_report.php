@@ -388,6 +388,9 @@ function fetch_reminders($pid, $appt_date)
 <!-- end of search parameters --> <?php
 if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby']) || !empty($_POST['form_progress'])) {
     $showDate = ($from_date != $to_date) || (!$to_date);
+    if ($_POST['form_progress']) {
+        echo "True!";
+    }
     ?>
 <div id="report_results">
 <table class='table'>
