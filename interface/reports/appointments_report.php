@@ -579,7 +579,7 @@ if ($_POST['form_progress']) {
         </div>
 
         <!--ALB Adding checkboxes for progress notes -->
-        <div style='float;margin-top:5px'>
+        <div style='margin-top:5px'>
             <a href='javascript:;' class='btn btn-primary btn-transmit'  onclick='checkAll(true)'><span><?php echo xlt('Select All'); ?></span></a>
             <a href='javascript:;' class='btn btn-primary btn-transmit'  onclick='checkAll(false)'><span><?php echo xlt('Clear All'); ?></span></a>
             <a href='javascript:;' class='btn btn-primary btn-transmit' onclick='$("#form_progress").attr("value","true"); $("#theform").submit();'>
