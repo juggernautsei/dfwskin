@@ -589,7 +589,7 @@ if ($_POST['form_progress']) {
                 <?php echo xlt('Generate Labels'); ?>
             </a>
             <!--a href='javascript:;' class='css_button' onclick='$("#form_appt_label").attr("value","true");'window.open("../patient_file/appt_label.php", "_blank").opener = null'>
-            <span><?php echo xlt('Generate Labels'); ?></span>
+            <span><?php //echo xlt('Generate Labels'); ?></span>
         </a-->
         </div>
         <br>
