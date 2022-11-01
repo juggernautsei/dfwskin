@@ -604,16 +604,9 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     }
 
 //ALB - Gather PIDs and dates for checked boxes for progress notes
-    if ($_POST['form_progress']) { echo "landed";?>
-        <div id="report_parameters">
-            <a href='#' class='css_button' onclick='window.print()'> <span> <?php echo xlt('Print'); ?>
-				</span> </a>
-        </div>
+    if ($_POST['form_progress']) {
+        echo "landed";
 
-        <?php
-        foreach ($_POST['form_cb'] as $key => $value) {
-                var_dump($value);
-        }
 
 
     }
