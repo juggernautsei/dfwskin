@@ -207,6 +207,13 @@ function fetch_reminders($pid, $appt_date)
 </head>
 
 <body class="body_top">
+<?php //ALB
+if ($_POST['form_progress']) {
+    echo "<div style='display:none'>";
+} else {
+    echo "<div style='display:block'>";
+}
+?>
 
 <!-- Required for the popup date selectors -->
 <div id="overDiv"
@@ -221,8 +228,11 @@ function fetch_reminders($pid, $appt_date)
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
 <div id="report_parameters">
+    <!-- ALB -->
+    <input type='hidden' name='form_progress' id='form_progress' value=''/>
+    <input type='hidden' name='form_appt_label' id='form_progress' value=''/>
 
-<table>
+    <table>
     <tr>
         <td width='650px'>
         <div style='float: left'>
@@ -594,7 +604,6 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     }
 
 //ALB - Gather PIDs and dates for checked boxes for progress notes
-    var_dump($_POST['form_progress']);
     if ($_POST['form_progress']) { ?>
         <div id="report_parameters">
             <a href='#' class='css_button' onclick='window.print()'> <span> <?php echo xlt('Print'); ?>
