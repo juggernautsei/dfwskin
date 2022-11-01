@@ -386,7 +386,7 @@ function fetch_reminders($pid, $appt_date)
 
 </div>
 <!-- end of search parameters --> <?php
-if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
+if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby']) || !empty($_POST['form_progress'])) {
     $showDate = ($from_date != $to_date) || (!$to_date);
     ?>
 <div id="report_results">
@@ -597,7 +597,7 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     <div style='float;margin-top:5px'>
         <a href='javascript:;' class='btn btn-primary btn-transmit'  onclick='checkAll(true)'><span><?php echo xlt('Select All'); ?></span></a>
         <a href='javascript:;' class='btn btn-primary btn-transmit'  onclick='checkAll(false)'><span><?php echo xlt('Clear All'); ?></span></a>
-        <a href='javascript:;' class='btn btn-primary btn-transmit' onclick='$("#theform").submit(); $("#form_progress").attr("value","true"); '>
+        <a href='javascript:;' class='btn btn-primary btn-transmit' onclick='$("#form_progress").attr("value","true"); $("#theform").submit();'>
             <span><?php echo xlt('Generate Progress Notes'); ?></span>
         </a>
         <a href='#' class='btn btn-primary btn-transmit' onclick='window.open("../patient_file/appt_label.php", "_blank").opener = null' onsubmit='return top.restoreSession()'>
@@ -620,7 +620,7 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     }
 
 //ALB - Gather PIDs and dates for checked boxes for progress notes
-    var_dump($_POST['form_progress']);
+    var_dump();
     if ($_POST['form_progress']) { ?>
         <div id="report_parameters">
             <a href='#' class='css_button' onclick='window.print()'> <span> <?php echo xlt('Print'); ?>
