@@ -918,7 +918,7 @@ ORDER BY fe.date DESC LIMIT 1");
 <input type="hidden" name="form_orderby" value="<?php echo attr($form_orderby) ?>" />
 <input type="hidden" name="patient" value="<?php echo attr($patient) ?>" />
 <input type='hidden' name='form_refresh' id='form_refresh' value='' />
-<input type="hidden" name="form_progress" id="form_progress" value="" />
+<input type="hidden" name="form_progress" id="form_progress" value="" /> <!--ALB Add this -->
 </form>
 
 <script>
