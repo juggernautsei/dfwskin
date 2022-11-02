@@ -219,7 +219,7 @@ function fetch_reminders($pid, $appt_date)
 
 <form method='post' name='theform' id='theform' action='appointments_report.php' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-    <input type="hidden" name="form_progress" value="">
+
 
 <div id="report_parameters">
 
@@ -916,7 +916,9 @@ ORDER BY fe.date DESC LIMIT 1");
 </div>
 <?php } ?>
 <input type="hidden" name="form_orderby" value="<?php echo attr($form_orderby) ?>" /> <input type="hidden" name="patient" value="<?php echo attr($patient) ?>" />
-<input type='hidden' name='form_refresh' id='form_refresh' value='' /></form>
+<input type='hidden' name='form_refresh' id='form_refresh' value='' />
+<input type="hidden" name="form_progress" value="">
+</form>
 
 <script>
 
