@@ -598,7 +598,7 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     <div style='float;margin-top:5px'>
         <a href='javascript:;' class='btn btn-primary btn-transmit'  onclick='checkAll(true)'><span><?php echo xlt('Select All'); ?></span></a>
         <a href='javascript:;' class='btn btn-primary btn-transmit'  onclick='checkAll(false)'><span><?php echo xlt('Clear All'); ?></span></a>
-        <a href='javascript:;' class='btn btn-primary btn-transmit' onclick='$("#form_progress").val("true"); $("#theform").submit();'>
+        <a href='javascript:;' class='btn btn-primary btn-transmit' onclick='$("#form_progress").val("true"); $("#theform").submit();'><!--ALB the jquery command changed -->
             <span><?php echo xlt('Generate Progress Notes'); ?></span>
         </a>
         <a href='#' class='btn btn-primary btn-transmit' onclick='window.open("../patient_file/appt_label.php", "_blank").opener = null' onsubmit='return top.restoreSession()'>
@@ -631,7 +631,7 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
         foreach ($_POST['form_cb'] as $key => $value) {
             //ALB Code below comes from progress_note_report.php file.
             ?>
-            <div class="page">
+            <div class="contain-l">
                 <?php
 
                 $pid=substr($key,0,strpos($key,";"));
@@ -918,7 +918,7 @@ ORDER BY fe.date DESC LIMIT 1");
 <input type="hidden" name="form_orderby" value="<?php echo attr($form_orderby) ?>" />
 <input type="hidden" name="patient" value="<?php echo attr($patient) ?>" />
 <input type='hidden' name='form_refresh' id='form_refresh' value='' />
-<input type="hidden" name="form_progress" id="form_progress" value="" />
+<input type="hidden" name="form_progress" id="form_progress" value="" /> <!-- ALB -->
 </form>
 
 <script>
