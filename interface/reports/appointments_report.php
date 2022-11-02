@@ -1,5 +1,5 @@
 <?php
-
+var_dump($_POST);
 /**
  * This report shows upcoming appointments with filtering and
  * sorting by patient, practitioner, appointment type, and date.
@@ -386,7 +386,7 @@ function fetch_reminders($pid, $appt_date)
 
 </div>
 <!-- end of search parameters --> <?php
-if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby']) || !empty($_POST['form_progress'])) {
+if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     $showDate = ($from_date != $to_date) || (!$to_date);
     if ($_POST['form_progress']) {
         echo "True!"; die('True');

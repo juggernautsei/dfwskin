@@ -227,8 +227,7 @@ window.onload = function() {
 // Mouseover handler for encounter form names. Brings up a custom tooltip
 // to display the form's contents.
 function efmouseover(elem, ptid, encid, formname, formid) {
- ttMouseOver(elem, "encounters_ajax.php?ptid=" + encodeURIComponent(ptid) + "&encid=" + encodeURIComponent(encid) +
-  "&formname=" + encodeURIComponent(formname) + "&formid=" + encodeURIComponent(formid) + "&csrf_token_form=" + <?php echo js_url(CsrfUtils::collectCsrfToken()); ?>);
+ ttMouseOver(elem, "encounters_ajax.php?ptid=" + encodeURIComponent(ptid) + "&encid=" + encodeURIComponent(encid) +  "&formname=" + encodeURIComponent(formname) + "&formid=" + encodeURIComponent(formid) + "&csrf_token_form=" + <?php echo js_url(CsrfUtils::collectCsrfToken()); ?>);
 }
 
 </script>
