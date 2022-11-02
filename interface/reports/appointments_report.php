@@ -219,6 +219,7 @@ function fetch_reminders($pid, $appt_date)
 
 <form method='post' name='theform' id='theform' action='appointments_report.php' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
+    <input type="hidden" name="form_progress" value="">
 
 <div id="report_parameters">
 
