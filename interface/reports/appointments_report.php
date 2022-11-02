@@ -1,5 +1,5 @@
 <?php
-echo "<pre>"; var_dump($_POST['form_progress']); echo "</pre>";
+echo "<pre>"; var_dump($_POST); echo "</pre>";
 
 /**
  * This report shows upcoming appointments with filtering and
