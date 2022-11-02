@@ -1,5 +1,5 @@
 <?php
-echo "<pre>"; var_dump($_POST); echo "</pre>";
+echo "<pre>"; var_dump($_POST['form_progress']); echo "</pre>";
 
 /**
  * This report shows upcoming appointments with filtering and
@@ -220,7 +220,7 @@ function fetch_reminders($pid, $appt_date)
 
 <form method='post' name='theform' id='theform' action='appointments_report.php' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-    <input type="hidden" name="form_progress" >
+    <input type="hidden" name="form_progress" value=false>
 
 <div id="report_parameters">
 
