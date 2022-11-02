@@ -219,7 +219,7 @@ function fetch_reminders($pid, $appt_date)
 
 <form method='post' name='theform' id='theform' action='appointments_report.php' onsubmit='return top.restoreSession()'>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
-
+    <input type="hidden" name="form_progress" value="">
 
 <div id="report_parameters">
 
@@ -389,9 +389,6 @@ function fetch_reminders($pid, $appt_date)
 <!-- end of search parameters --> <?php
 if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
     $showDate = ($from_date != $to_date) || (!$to_date);
-    if ($_POST['form_progress']) {
-        echo "True!"; die('True');
-    }
     ?>
 <div id="report_results">
 <table class='table'>
