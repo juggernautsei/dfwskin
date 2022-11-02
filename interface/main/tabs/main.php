@@ -233,7 +233,7 @@ $esignApi = new Api();
          */
         function assignPatientDocuments(patientId) {
             let url = top.webroot_url + '/portal/import_template_ui.php?from_demo_pid=' + encodeURIComponent(patientId);
-            dlgopen(url, 'pop-assignments', 700, 850, '', '', {
+            dlgopen(url, 'pop-assignments', 'modal-lg', 850, '', '', {
                 allowDrag: true,
                 allowResize: true,
                 sizeHeight: 'full',

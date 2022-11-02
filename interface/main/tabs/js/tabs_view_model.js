@@ -298,7 +298,7 @@ function loadCurrentEncounter()
 
 function popMenuDialog(url, title) {
     let notlike = title.toLowerCase();
-    dlgopen(url, 'menupopup', 'modal-mlg', 500, '', title, {
+    dlgopen(url, 'menupopup', 'modal-mlg', 700, '', title, {
         sizeHeight: notlike.search('label') !== -1 ? 'full' : 'auto'
     });
 }
