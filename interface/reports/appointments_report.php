@@ -1,5 +1,5 @@
 <?php
-var_dump($_POST);
+
 /**
  * This report shows upcoming appointments with filtering and
  * sorting by patient, practitioner, appointment type, and date.
