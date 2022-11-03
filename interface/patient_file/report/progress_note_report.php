@@ -11,7 +11,6 @@ require_once("$srcdir/forms.inc");
 require_once("$srcdir/pnotes.inc");
 require_once("$srcdir/patient.inc");
 require_once("$srcdir/options.inc.php");
-require_once("$srcdir/acl.inc");
 require_once("$srcdir/lists.inc");
 require_once("$srcdir/report.inc");
 require_once("$srcdir/classes/Document.class.php");
@@ -19,16 +18,14 @@ require_once("$srcdir/classes/Note.class.php");
 require_once("$srcdir/formatting.inc.php");
 require_once(dirname(__file__) . "/../../../custom/code_types.inc.php");
 
+use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Core\Header;
 
-// get various authorization levels
-$auth_notes_a  = acl_check('encounters', 'notes_a');
-$auth_notes    = acl_check('encounters', 'notes');
-$auth_coding_a = acl_check('encounters', 'coding_a');
-$auth_coding   = acl_check('encounters', 'coding');
-$auth_relaxed  = acl_check('encounters', 'relaxed');
-$auth_med      = acl_check('patients'  , 'med');
-$auth_demo     = acl_check('patients'  , 'demo');
+if (!empty($_POST)) {
+    if (!CsrfUtils::verifyCsrfToken($_POST["csrf_token_form"])) {
+        CsrfUtils::csrfNotVerified();
+    }
+}
 
 $printable = empty($_GET['printable']) ? false : true;
 unset($_GET['printable']);
@@ -53,8 +50,8 @@ function postToGet($arin) {
 ?>
 <html>
 <head>
-<?php html_header_show();?>
-    <?php Header::setupHeader();?>
+<title><?php echo xlt('Progress Note'); ?></title>
+<?php Header::setupHeader(["datetime-picker","report-helper"]); ?>
 
 <?php // do not show stuff from report.php in forms that is encaspulated
       // by div of navigateLink class. Specifically used for CAMOS, but
@@ -316,7 +313,7 @@ Follow Up:<hr></b></span>
 echo "<div class='text insurance'>";
 
 echo "<b>". xlt(' Patient Due') . ":</b> " . 
-(get_patient_balance($pid, false) <> 0 ? "<span class=bold style='color:red'>" . text(oeFormatMoney(get_patient_balance($pid, false))) . "</span><br>"
+(get_patient_balance($pid, false) <> 0 ? "<span class='text insurance' style='color:red'><b>" . text(oeFormatMoney(get_patient_balance($pid, false))) . "</span></b><br>"
                                       : text(oeFormatMoney(get_patient_balance($pid, false))) . "<br>");
 
 
@@ -325,21 +322,21 @@ text(oeFormatMoney(get_patient_balance($pid, true)));
 echo "<hr style='margin-top:0;margin-bottom:0;color:black;height:5px'/>";
 echo "<b>".xl('Insurance Data').":</b><br>";
 if ($insco_name1) {
-  echo "<span class=bold>".xl('Primary').": $insco_name1</span><br>";
+  echo "<span class='text insurance'><b>".xl('Primary').": $insco_name1</span></b><br>";
 } else {
-  echo "<span class=bold style='color:red'>".xl('Self-Pay')."</span><br>";
+  echo "<span class='text insurance' style='color:red'><b>".xl('Self-Pay')."</span></b><br>";
 }
 if ($insco_name2) {
-  echo "<span class=bold>".xl('Secondary').": $insco_name2</span><br>";
+  echo "<span class='text insurance'><b>".xl('Secondary').": $insco_name2</span></b><br>";
 }
 if ($insco_name3) {
-  echo "<span class=bold>".xl('Tertiary').": $insco_name3</span><br>";
+  echo "<span class='text insurance'><b>".xl('Tertiary').": $insco_name3</span></b><br>";
 }
 
 $cres = sqlStatement("SELECT body from pnotes where pid = '$pid' AND title='Insurance' AND deleted=0 AND activity=1 AND date(date) >= '$insco_effdate' ORDER by id DESC LIMIT 3");
 while($result = sqlFetchArray($cres)) {
   $ins_note = $result['body'];
-  echo "<span class=bold>".xl('Ins Note').": </span>$ins_note<br>";
+  echo "<span class='text insurance'><b>".xl('Ins Note').": </b></span>$ins_note<br>";
 }
 
 ?>

@@ -549,32 +549,32 @@ function toencounter(enc, datestr, topframe) {
                     <br />
                     <?php echo text($frow['phone']) ?>
                 </p>
-
+                <hr> <!--ALB -->
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tr>
-                            <td><?php echo xlt('Date'); ?>:</td>
-                            <td><?php echo text(oeFormatSDFT(strtotime($payrow['dtime']))) ?></td>
+                            <td align='right'><?php echo xlt('Date'); ?>:</td> <!--ALB Changed all the alignments below -->
+                            <td align='left'><?php echo text(oeFormatSDFT(strtotime($payrow['dtime']))) ?></td>
                         </tr>
                         <tr>
-                            <td><?php echo xlt('Patient'); ?>:</td>
-                            <td><?php echo text($patdata['fname']) . " " . text($patdata['mname']) . " " .
+                            <td align='right'><?php echo xlt('Patient'); ?>:</td>
+                            <td align='left'><?php echo text($patdata['fname']) . " " . text($patdata['mname']) . " " .
                             text($patdata['lname']) . " (" . text($patdata['pubpid']) . ")" ?></td>
                         </tr>
                         <tr>
-                            <td><?php echo xlt('How Paid'); ?>:</td>
-                            <td><?php echo generate_display_field(array('data_type' => '1', 'list_id' => 'payment_method'), $payrow['method']); ?></td>
+                            <td align='right'><?php echo xlt('Payment Method'); ?>:</td> <!--ALB -->
+                            <td align='left'><?php echo generate_display_field(array('data_type' => '1', 'list_id' => 'payment_method'), $payrow['method']); ?></td>
                         </tr>
                         <tr>
-                            <td><?php echo xlt('Check or Reference Number'); ?>:</td>
-                            <td><?php echo text($payrow['source']) ?></td>
+                            <td align='right'><?php echo xlt('Check/Reference Number'); ?>:</td>
+                            <td align='left'><?php echo ($payrow['source'] ? text($payrow['source']) : xlt("N/A")) ?></td>
                         </tr>
                         <tr>
-                            <td><?php echo xlt('Amount for This Visit'); ?>:</td>
-                            <td><?php echo text(oeFormatMoney($payrow['amount1'])) ?></td>
+                            <td align='right'><?php echo xlt('Amount for This Visit*'); ?>:</td> <!--ALB A few formatting changes -->
+                            <td align='left'><?php echo text('$' . oeFormatMoney($payrow['amount1'])) ?></td>
                         </tr>
                         <tr>
-                            <td>
+                            <td align='right'>
                             <?php
                             if ($_REQUEST['radio_type_of_payment'] == 'pre_payment') {
                                 echo xlt('Pre-payment Amount');
@@ -583,11 +583,17 @@ function toencounter(enc, datestr, topframe) {
                             }
                             ?>
                             :</td>
-                            <td><?php echo text(oeFormatMoney($payrow['amount2'])) ?></td>
+                            <td align='left'><?php echo text('$' . oeFormatMoney($payrow['amount2'])) ?></td>
                         </tr>
+
+                        <tr> <!-- ALB Added this -->
+                            <td align='right'><?php echo xlt('Total Amount Paid'); ?>: </td>
+                            <td align='left'><?php echo text('$' . oeFormatMoney($payrow['amount1']+$payrow['amount2'])) ?></td>
+                        </tr>
+
                         <tr>
-                            <td><?php echo xlt('Received By'); ?>:</td>
-                            <td><?php echo text($payrow['user']) ?></td>
+                            <td align='right'><?php echo xlt('Received By'); ?>:</td>
+                            <td align='left'><?php echo text($payrow['user']) ?></td>
                         </tr>
                     </table>
                 </div>

@@ -601,9 +601,9 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
         <a href='javascript:;' class='btn btn-primary btn-transmit' onclick='$("#form_progress").val("true"); $("#theform").submit();'>
             <span><?php echo xlt('Generate Progress Notes'); ?></span>
         </a>
-        <a href='#' class='btn btn-primary btn-transmit' onclick='window.open("../patient_file/appt_label.php", "_blank").opener = null' onsubmit='return top.restoreSession()'>
+        <!--a href='#' class='btn btn-primary btn-transmit' onclick='window.open("../patient_file/appt_label.php", "_blank").opener = null' onsubmit='return top.restoreSession()'>
             <?php echo xlt('Generate Labels'); ?>
-        </a>
+        </a> -->
         <!--a href='javascript:;' class='css_button' onclick='$("#form_appt_label").attr("value","true");'window.open("../patient_file/appt_label.php", "_blank").opener = null'>
             <span><?php echo xlt('Generate Labels'); ?></span>
         </a-->
