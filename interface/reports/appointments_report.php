@@ -625,7 +625,7 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
 //ALB - Gather PIDs and dates for checked boxes for progress notes
     if ($_POST['form_progress']) { ?>
         <div id="report_parameters">
-            <a href='#' class='css_button' onclick='window.print()'> <span> <?php echo xlt('Print'); ?>
+            <a href='#' class='css_button' onclick='top.restoreSession(); window.print()'> <span> <?php echo xlt('Print'); ?>
 				</span> </a>
         </div>
 
@@ -831,13 +831,13 @@ ORDER BY fe.date DESC LIMIT 1");
                             ?>
 
                             <span class='text'><b>Subjective:
-                                                  <br><br><br>
+                                                  <br>
                                                   Objective:
-                                                  <br><br><br>
+                                                  <br>
                                                   Assessment:
-                                                  <br><br><br>
+                                                  <br>
                                                   Plan:
-                                                  <br><br><br>
+                                                  <br>
                                                   Follow Up:<hr></b></span>
 
                         </td>
@@ -872,7 +872,7 @@ ORDER BY fe.date DESC LIMIT 1");
                                         echo "<div class='text insurance'>";
 
 					echo "<b>". xlt(' Patient Due') . ":</b> " .
-                                           (get_patient_balance($pid, false) <> 0 ? "<span class=bold style='color:red'>" . text(oeFormatMoney(get_patient_balance($pid, false))) . "</span><br>"
+                                           (get_patient_balance($pid, false) <> 0 ? "<span class='text insurance' style='color:red'><b>" . text(oeFormatMoney(get_patient_balance($pid, false))) . "</b></span><br>"
                                                                                   : text(oeFormatMoney(get_patient_balance($pid, false))) . "<br>");
 
 					echo "<b>". xlt(' Total Balance') . ":</b> " .
@@ -881,21 +881,21 @@ ORDER BY fe.date DESC LIMIT 1");
 
                                         echo "<b>".xlt('Insurance Data').":</b><br>";
                                         if ($insco_name1) {
-                                            echo "<span class=bold>".xlt('Primary').": $insco_name1</span><br>";
+                                            echo "<b>".xlt('Primary').": $insco_name1</b><br>";
                                         } else {
-                                            echo "<span class=bold style='color:red'>".xlt('Self-Pay')."</span><br>";
+                                            echo "<span class='text insurance' style='color:red'><b>".xlt('Self-Pay')."</b></span><br>";
                                         }
                                         if ($insco_name2) {
-                                            echo "<span class=bold>".xlt('Secondary').": $insco_name2</span><br>";
+                                            echo "<b>".xlt('Secondary').": $insco_name2</b><br>";
                                         }
                                         if ($insco_name3) {
-                                            echo "<span class=bold>".xlt('Tertiary').": $insco_name3</span><br>";
+                                            echo "<b>".xlt('Tertiary').": $insco_name3</b><br>";
                                         }
 
                                         $cres = sqlStatement("SELECT body from pnotes where pid = '$pid' AND title='Insurance' AND deleted=0 AND activity=1 AND date(date) >= '$insco_effdate' ORDER by id DESC LIMIT 3");
                                         while($result = sqlFetchArray($cres)) {
                                             $ins_note = $result['body'];
-                                            echo "<span class=bold>".xlt('Ins Note').": </span>$ins_note<br>";
+                                            echo "<b>".xlt('Ins Note').": </b>$ins_note<br>";
                                         }
 
                                         ?>

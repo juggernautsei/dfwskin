@@ -272,13 +272,13 @@ echo "<span class='text'><b>". xl('Chief Complaint/Reason for Visit').": </b><u>
 
 ?>
 <span class='text'><b>Subjective:
-<br><br><br>
+<br>
 Objective:
-<br><br><br>
+<br>
 Assessment:
-<br><br><br>
+<br>
 Plan:
-<br><br><br>
+<br>
 Follow Up:<hr></b></span>
 </td>
 

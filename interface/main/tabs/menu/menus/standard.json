@@ -1520,18 +1520,6 @@
         "icon": "fa-caret-right",
         "children": [
           {
-            "label": "Daily Report",
-            "menu_id": "rep0",
-            "target": "rep",
-            "url": "/interface/reports/daily_summary_report.php",
-            "children": [],
-            "requirement": 0,
-            "acl_req": [
-              "acct",
-              "rep_a"
-            ]
-          },
-          {
             "label": "Appointments",
             "menu_id": "rep0",
             "target": "rep",
@@ -1605,6 +1593,18 @@
             "acl_req": [
               "encounters",
               "coding_a"
+            ]
+          },
+          {
+            "label": "Daily Report",
+            "menu_id": "rep0",
+            "target": "rep",
+            "url": "/interface/reports/daily_summary_report.php",
+            "children": [],
+            "requirement": 0,
+            "acl_req": [
+              "acct",
+              "rep_a"
             ]
           },
           {
