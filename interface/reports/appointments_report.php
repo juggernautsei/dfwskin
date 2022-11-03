@@ -183,6 +183,8 @@ function fetch_reminders($pid, $appt_date)
         <style>
         /* specifically include & exclude from printing */
         @media print {
+            .pagebreak { page-break-after: always; } /* page-break-before works, as well */
+
             #report_parameters {
                 visibility: hidden;
                 display: none;
@@ -631,7 +633,7 @@ if (!empty($_POST['form_refresh']) || !empty($_POST['form_orderby'])) {
         foreach ($_POST['form_cb'] as $key => $value) {
             //ALB Code below comes from progress_note_report.php file.
             ?>
-            <div class="page">
+            <div class="container">
                 <?php
 
                 $pid=substr($key,0,strpos($key,";"));
@@ -902,7 +904,8 @@ ORDER BY fe.date DESC LIMIT 1");
             </td></tr>
             </table>
 
-            </div> <!--page break-->
+            </div> <!--page break ALB-->
+            <div class="pagebreak"> </div>
 
             <?php
         }
