@@ -796,7 +796,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                     $date_of_death = $date_of_death['date_deceased'];
                 }
                 ?>
-                parent.left_nav.setPatient(<?php echo js_escape($result['fname'] . " " . $result['lname'] ." ". $result['usertext7']) . //ALB Added nickname here
+                parent.left_nav.setPatient(<?php echo js_escape($result['fname'] . " " . $result['lname']) .
                                                 "," . js_escape($pid) . "," . js_escape($result['pubpid']) . ",'',";
                 if (empty($date_of_death)) {
                     echo js_escape(" " . xl('DOB') . ": " . oeFormatShortDate($result['DOB_YMD']) . " " . xl('Age') . ": " . getPatientAgeDisplay($result['DOB_YMD']));
@@ -1593,11 +1593,13 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 }
                             }
 
-                            // Note the translaution occurs here instead of in teh Twig file for some specific concatenation needs
-                            $etitle = xl('(Click to edit)');
+                            // Note the translation occurs here instead of in the Twig file for some specific concatenation needs
+                            $etitle = 'Click to edit'; //ALB Changes these lines
                             if ($row['pc_hometext'] != "") {
-                                $etitle = xl('Comments') . ": " . ($row['pc_hometext']) . "\r\n" . $etitle;
+                                $etitle = $row['pc_hometext'];
                             }
+                             
+                            $row['etitle'] = $etitle; //ALB Added this
 
                             if ($extraApptDate && $count > $firstApptIndx) {
                                 $apptStyle = $apptStyle2;
@@ -1612,6 +1614,8 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 
                             $row['pc_eventTime'] = sprintf("%02d", $disphour) . ":{$dispmin}";
                             $row['pc_status'] = generate_display_field(array('data_type' => '1', 'list_id' => 'apptstat'), $row['pc_apptstatus']);
+                            if ($row['pc_status'] == 'None') $row['pc_status'] = 'Scheduled'; //ALB Added this
+                            $row['facility_nickname'] = getFacilityNickname($row['pc_facility']); //ALB Added this
 
                             if (in_array($row['pc_catid'], $therapyGroupCategories)) {
                                 $row['groupName'] = getGroup($row['pc_gid'])['group_name'];
@@ -1689,7 +1693,8 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
 
                     if (isset($pid) && !$GLOBALS['disable_calendar'] && $showpast > 0 && AclMain::aclCheckCore('patients', 'appt')) {
                         $displayPastAppts = true;
-                        $query = "SELECT e.pc_eid, e.pc_aid, e.pc_title, e.pc_eventDate, e.pc_startTime, e.pc_hometext, u.fname, u.lname, u.mname, c.pc_catname, e.pc_apptstatus
+                        //ALB Added pc_facility below
+                        $query = "SELECT e.pc_eid, e.pc_aid, e.pc_title, e.pc_eventDate, e.pc_startTime, e.pc_hometext, u.fname, u.lname, u.mname, c.pc_catname, e.pc_apptstatus, e.pc_facility 
                             FROM openemr_postcalendar_events AS e,
                                 users AS u,
                                 openemr_postcalendar_categories AS c
@@ -1706,7 +1711,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         while ($row = sqlFetchArray($pres)) {
                             $count++;
                             $dayname = date("D", strtotime($row['pc_eventDate']));
-                            $displayMeridiem = "am";
+                            $displayMeridiem = ($GLOBALS['time_display_format'] == 0) ? "" : "am"; //ALB Changed this
                             $disphour = substr($row['pc_startTime'], 0, 2) + 0;
                             $dispmin = substr($row['pc_startTime'], 3, 2);
                             if ($disphour >= 12) {
@@ -1721,11 +1726,17 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                             $petitle = "";
 
                             if ($row['pc_hometext'] != "") {
-                                $petitle = xl('Comments') . ": " . ($row['pc_hometext']) . "\r\n" . $petitle;
+                                $petitle = $row['pc_hometext']; //ALB Changed this
                             }
+                            $row['etitle'] = $petitle; //ALB Added this
+
+                            $row['facility_nickname'] = getFacilityNickname($row['pc_facility']); //ALB Added this
 
                             $row['pc_status'] = generate_display_field(array('data_type' => '1', 'list_id' => 'apptstat'), $row['pc_apptstatus']);
+                            if ($row['pc_status'] == 'None') $row['pc_status'] = 'Scheduled'; //ALB Added this
+       
                             $row['dayName'] = $dayname;
+                            $row['displayMeridiem'] = $displayMeridiem; //ALB Added this
                             $row['pc_eventTime'] = sprintf("%02d", $disphour) . ":{$dispmin}";
                             $row['uname'] = text($row['fname'] . " " . $row['lname']);
                             $row['jsEvent'] = attr_js(preg_replace("/-/", "", $row['pc_eventDate'])) . ', ' . attr_js($row['pc_eid']);

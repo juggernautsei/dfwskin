@@ -96,7 +96,7 @@ switch ($search_any_type) {
                 ?>
 
                     <a class="ptName <?php echo $classes ?? ''; ?> " data-bind="click:refreshPatient,with: patient" href="#" title="<?php echo xla("To Dashboard") ?>">
-                        <span data-bind="text: pname()"></span>
+                        <span data-bind="text:pname()"></span>
                         <<?php echo $pubpidElement;?> class="text-muted">(<span data-bind="text: pubpid"></span>)</<?php echo $pubpidElement;?>>
                     </a>
                     <?php echo ($closeElement !== '') ? "<$closeElement class=\"$closeElementClass\">" : ''; ?>

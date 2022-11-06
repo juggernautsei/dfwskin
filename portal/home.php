@@ -161,7 +161,7 @@ function buildNav($newcnt, $pid, $result)
         ],
         [
             'url' => '#',
-            'label' => xl('Reports'),
+            'label' => xl('Reports/Chart Notes'), //ALB Changed label
             'icon' => 'fa-book-medical',
             'dropdownID' => 'reports',
             'children' => [
@@ -180,16 +180,16 @@ function buildNav($newcnt, $pid, $result)
         ]
     ];
     if (($GLOBALS['portal_two_ledger'] || $GLOBALS['portal_two_payments'])) {
-        if (!empty($GLOBALS['portal_two_ledger'])) {
+        if (!empty($GLOBALS['portal_two_ledger'])) { //ALB Changed the labels below
             $navItems[] = [
                 'url' => '#',
-                'label' => xl('Accountings'),
+                'label' => xl('Billing'),
                 'icon' => 'fa-file-invoice-dollar',
                 'dropdownID' => 'accounting',
                 'children' => [
                     [
                         'url' => '#ledgercard',
-                        'label' => xl('Ledger'),
+                        'label' => xl('Patient Ledger'),
                         'icon' => 'fa-folder-open',
                         'dataToggle' => 'collapse'
                     ]
@@ -236,24 +236,24 @@ function buildNav($newcnt, $pid, $result)
             );
         }
 
-        if (!empty($GLOBALS['portal_onsite_document_download']) && $navItems[$i]['label'] === xl('Reports')) {
+        if (!empty($GLOBALS['portal_onsite_document_download']) && $navItems[$i]['label'] === xl('Reports/Chart Notes')) { //ALB Changed this
             array_push(
                 $navItems[$i]['children'],
                 [
                     'url' => '#reportcard',
-                    'label' => xl('Report Content'),
+                    'label' => xl('Generate Report'), //ALB Changed label
                     'icon' => 'fa-folder-open',
                     'dataToggle' => 'collapse'
                 ],
                 [
                     'url' => '#downloadcard',
-                    'label' => xl('Download Charted Documents'),
+                    'label' => xl('Download Documents'), //ALB Changed label
                     'icon' => 'fa-download',
                     'dataToggle' => 'collapse'
                 ]
             );
         }
-        if (!empty($GLOBALS['portal_two_payments']) && $navItems[$i]['label'] === xl('Accountings')) {
+        if (!empty($GLOBALS['portal_two_payments']) && $navItems[$i]['label'] === xl('Billing')) { //ALB Changed
             $navItems[$i]['children'][] = [
                 'url' => '#paymentcard',
                 'label' => xl('Make Payment'),

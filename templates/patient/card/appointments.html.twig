@@ -4,15 +4,17 @@
     {% set a = appointment %}
     <div class="list-group-item p-1" style="background-color: {{ a.bgColor|text }};">
         <div class="d-flex w-100 justify-content-between">
+
+           <div title='{{ a.etitle|text }}'> {# ALB Added this for mouseover #}
             
                 {% if a.pc_eventDate >= "now"|date("Y-m-d") %} {# ALB I changed this and below at /a tag not to allow past appointments to be changed #}
                 <a href="#" onclick="return oldEvt({{ a.jsEvent }})">
                 {% endif %}
 
                 <div style='font-weight:bold'>
-                  {{ a.dayName|xlt }},&nbsp;
+                  {{ a.dayName|xlt }},
                   {{ a.pc_eventDate|shortDate|text }}
-                  ( {{ a.pc_status|text }} )
+                  ({{ a.pc_status|text }})
                 </div>
                 <div>
                     {{ a.pc_eventTime|text }}&nbsp;{{ a.displayMeridiem|xlt }} {{ a.pc_catname|xlt }}
@@ -24,19 +26,18 @@
                     {{ a.uname|text }}
                 </div>
                 <div>
-                   {# ALB Don't want to hardcode this, but I don't know how to do it otherwise #}
-                   {% if a.pc_facility==3 %}{{"Arlington Office"}}{% endif %}
-                   {% if a.pc_facility==4 %}{{"Southlake Office"}}{% endif %}
-                   {% if a.pc_facility==5 %}{{"Telemedicine"}}{% endif %}
+                   {# ALB Added this #}
+                   {{ a.facility_nickname|text }}
 
                 </div>
                     {% if a.pc_eventDate >= "now"|date("Y-m-d") %}
                 </a>
                 {% endif %}
                 
-            <small class="text-right">
+            {# ALB Don't need this <small class="text-right">
                 {{a.pc_hometext }}
-            </small>
+            </small> #}
+          </div> {# ALB Mouseover #}
         </div>
     </div>
 {% endmacro %}

@@ -82,6 +82,16 @@ function getListData($pid, $type)
             }
         }
 
+        $text_color = ''; //ALB - Problems with notes describing color in the Outcome list are turned that color and bold
+        if ($type == "medical_problem") { 
+                $tempres = sqlQuery("SELECT * FROM list_options " .
+                    	   "WHERE list_id = 'outcome' AND option_id = ? LIMIT 1", array($row['outcome']));
+            	if ($tempres['notes'] != '') {
+                   $text_color = $tempres['notes'];
+	        }
+        } 
+        $row['text_color'] = $text_color;
+
         $list[] = $row;
     }
 
@@ -125,6 +135,8 @@ foreach ($ISSUE_TYPES as $key => $arr) {
     if (!AclMain::aclCheckIssue($key)) {
         continue;
     }
+
+    $text_color = ''; //ALB Added a variable here
 
     if ($old_key == "medication" && $GLOBALS['erx_enable'] && $erx_upload_complete == 1) {
         $display_current_medications_below = 0;
@@ -178,6 +190,7 @@ foreach ($ISSUE_TYPES as $key => $arr) {
         }
 
         $listData = getListData($pid, $key);
+
         $id = $key . "_ps_expand";
         $viewArgs = [
             'title' => xl($arr[0]),
