@@ -82,7 +82,8 @@ $N = 7;
             <?php if ($pending) {
                 echo '<button type="button" id="editDems" class="btn btn-danger btn-sm float-right text-white">' . xlt('Pending Review') . '</button>';
             } else {
-                echo '<button type="button" id="editDems" class="btn btn-success btn-sm float-right text-white">' . xlt('Revise') . '</button>';
+                //ALB I have a template for demographics, don't need it here
+                //echo '<button type="button" id="editDems" class="btn btn-success btn-sm float-right text-white">' . xlt('Revise') . '</button>';
             }
             ?>
             </header>
@@ -100,7 +101,12 @@ $N = 7;
             <header class="card-header border border-bottom-0"><?php echo xlt('Primary Insurance');?></header>
             <div class="card-body border">
 <?php
-            printRecDataOne($insurance_data_array, getRecInsuranceData($pid, "primary"), $N);
+            $ins_array1 = getCurrentRecInsuranceData($pid, "primary"); //ALB If no insurance, just display that (for Primary, display "Self-Pay")
+            if ($ins_array1['provider'][1]['value'] && $ins_array1['provider'][1]['value'] !=0) {
+                printRecDataOne($insurance_data_array, getRecInsuranceData($pid, "primary"), $N);
+            } else {
+                echo "Self-Pay";
+            }
 ?>
             </div>
         </div>
@@ -108,17 +114,28 @@ $N = 7;
             <header class="card-header border border-bottom-0"><?php echo xlt('Secondary Insurance');?></header>
             <div class="card-body border">
 <?php
-            printRecDataOne($insurance_data_array, getRecInsuranceData($pid, "secondary"), $N);
+           $ins_array2 = getCurrentRecInsuranceData($pid, "secondary"); //ALB If no insurance, just display that (for Primary, display "Self-Pay")
+           if ($ins_array2['provider'][1]['value'] && $ins_array2['provider'][1]['value'] !=0) {
+               printRecDataOne($insurance_data_array, getRecInsuranceData($pid, "secondary"), $N);
+           } else {
+               echo "None";
+           }
 ?></div>
         </div>
         <div class="card">
             <header class="card-header border border-bottom-0"><?php echo xlt('Tertiary Insurance');?></header>
             <div class="card-body border">
 <?php
-            printRecDataOne($insurance_data_array, getRecInsuranceData($pid, "tertiary"), $N);
+          $ins_array3 = getCurrentRecInsuranceData($pid, "tertiary"); //ALB If no insurance, just display that (for Primary, display "Self-Pay")
+          if ($ins_array3['provider'][1]['value'] && $ins_array3['provider'][1]['value'] !=0) {
+              printRecDataOne($insurance_data_array, getRecInsuranceData($pid, "tertiary"), $N);
+          } else {
+              echo "None";
+          }
 ?></div>
         </div>
     </div>
+    <!--ALB Don't need this here
     <div>
         <?php
         echo "<div class='card'>";
@@ -150,5 +167,5 @@ $N = 7;
         echo "</div></div>";
         ?>
     </div>
-
+   -->
 </body>

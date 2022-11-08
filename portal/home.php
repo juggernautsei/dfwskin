@@ -116,47 +116,32 @@ if ($appts) {
 
 function buildNav($newcnt, $pid, $result)
 {
+    //ALB Changed the order, labels, and icons for many of these
     $navItems = [
         [
             'url' => '#',
-            'label' => $result['fname'] . ' ' . $result['lname'],
-            'icon' => 'fa-user',
-            'dropdownID' => 'account',
-            'messageCount' => $newcnt ?? 0,
+            'label' => xl('Medical Chart'),
+            'icon' => 'fa-list',
+            'dropdownID' => 'chart',
             'children' => [
                 [
-                    'url' => '#profilecard',
-                    'label' => xl('My Profile'),
-                    'icon' => 'fa-user',
-                    'dataToggle' => 'collapse',
+                  'url' => '#profilecard',
+                  'label' => xl('Demographics'),
+                  'icon' => 'fa-briefcase',
+                  'dataToggle' => 'collapse',
                 ],
-
                 [
-                    'url' => '#secure-msgs-card',
-                    'label' => xl('My Messages'),
-                    'icon' => 'fa-envelope',
-                    'dataToggle' => 'collapse',
-                    'messageCount' => $newcnt ?? 0,
+                  'url' => '#lists',
+                  'label' => xl('Medical History'),
+                  'icon' => 'fa-stethoscope',
+                  'dataToggle' => 'collapse',
                 ],
                 [
                     'url' => '#documentscard',
-                    'label' => xl('My Documents'),
+                    'label' => xl('Update Info'),
                     'icon' => 'fa-file-medical',
                     'dataToggle' => 'collapse'
                 ],
-                [
-                    'url' => '#lists',
-                    'label' => xl('My Dashboard'),
-                    'icon' => 'fa-list',
-                    'dataToggle' => 'collapse'
-                ],
-                [
-                    'url' => '#openSignModal',
-                    'label' => xl('My Signature'),
-                    'icon' => 'fa-file-signature',
-                    'dataToggle' => 'modal',
-                    'dataType' => 'patient-signature'
-                ]
             ],
         ],
         [
@@ -177,11 +162,8 @@ function buildNav($newcnt, $pid, $result)
                     'icon' => 'fa-download',
                 ]
             ]
-        ]
-    ];
-    if (($GLOBALS['portal_two_ledger'] || $GLOBALS['portal_two_payments'])) {
-        if (!empty($GLOBALS['portal_two_ledger'])) { //ALB Changed the labels below
-            $navItems[] = [
+        ],
+        [
                 'url' => '#',
                 'label' => xl('Billing'),
                 'icon' => 'fa-file-invoice-dollar',
@@ -194,9 +176,32 @@ function buildNav($newcnt, $pid, $result)
                         'dataToggle' => 'collapse'
                     ]
                 ]
-            ];
-        }
-    }
+        ],
+        [
+            'url' => '#',
+            'label' => $result['fname'] . ' ' . $result['lname'],
+            'icon' => 'fa-user',
+            'dropdownID' => 'account',
+            'messageCount' => $newcnt ?? 0,
+            'children' => [
+                [
+                    'url' => '#secure-msgs-card',
+                    'label' => xl('Messages'),
+                    'icon' => 'fa-envelope',
+                    'dataToggle' => 'collapse',
+                    'messageCount' => $newcnt ?? 0,
+                ],
+                [
+                    'url' => '#openSignModal',
+                    'label' => xl('Signature'),
+                    'icon' => 'fa-file-signature',
+                    'dataToggle' => 'modal',
+                    'dataType' => 'patient-signature'
+                ]
+            ]
+        ]
+    ];
+
 
     // Build sub nav items
 
@@ -231,7 +236,7 @@ function buildNav($newcnt, $pid, $result)
                 [
                     'url' => 'logout.php',
                     'label' => xl('Logout'),
-                    'icon' => 'fa-ban fa-fw',
+                    'icon' => 'fa-sign-out',
                 ]
             );
         }
