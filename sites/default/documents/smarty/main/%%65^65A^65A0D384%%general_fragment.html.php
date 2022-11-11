@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2022-10-15 07:26:06
+<?php /* Smarty version 2.6.33, created on 2022-11-10 21:21:32
          compiled from /var/www/html/ehrv7/templates/prescription/general_fragment.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'xlt', '/var/www/html/ehrv7/templates/prescription/general_fragment.html', 13, false),array('modifier', 'text', '/var/www/html/ehrv7/templates/prescription/general_fragment.html', 30, false),)), $this); ?>

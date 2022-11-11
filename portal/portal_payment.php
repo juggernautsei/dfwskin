@@ -104,32 +104,35 @@ function rawbucks($amount)
 // Display a row of data for an encounter.
 //
 $var_index = 0;
-$sum_charges = $sum_ptpaid = $sum_inspaid = $sum_duept = $sum_copay = $sum_patcopay = $sum_balance = 0;
-function echoLine($iname, $date, $charges, $ptpaid, $inspaid, $duept, $encounter = 0, $copay = 0, $patcopay = 0)
+$sum_charges = $sum_ptpaid = $sum_inspaid = $sum_duept = $sum_copay = $sum_patcopay = $sum_balance = $sum_adjust = 0; //ALB Added last var
+//ALB Added $adjusment to function vars below
+function echoLine($iname, $date, $charges, $ptpaid, $inspaid, $adjustment, $duept, $encounter = 0, $copay = 0, $patcopay = 0)
 {
-    global $sum_charges, $sum_ptpaid, $sum_inspaid, $sum_duept, $sum_copay, $sum_patcopay, $sum_balance;
+    global $sum_charges, $sum_ptpaid, $sum_inspaid, $sum_duept, $sum_copay, $sum_patcopay, $sum_balance, $sum_adjust; //ALB Added last var
     global $var_index;
     $var_index++;
-    $balance = bucks($charges - $ptpaid - $inspaid);
+    $balance = bucks($charges - $adjustment - $ptpaid - $inspaid); //ALB Changed this to subtract adjustments
     $balance = (round($duept, 2) != 0) ? 0 : $balance; // if balance is due from patient, then insurance balance is displayed as zero
     $encounter = $encounter ? $encounter : '';
     echo " <tr id='tr_" . attr($var_index) . "' >\n";
     echo "  <td class='detail'>" . text(oeFormatShortDate($date)) . "</td>\n";
     echo "  <td class='detail' id='" . attr($date) . "' align='left'>" . text($encounter) . "</td>\n";
     echo "  <td class='detail' align='center' id='td_charges_$var_index' >" . text(bucks($charges)) . "</td>\n";
+    echo "  <td class='detail' align='center' id='td_adjustment_$var_index' >" . text(bucks($adjustment * -1)) . "</td>\n"; //ALB Added this
     echo "  <td class='detail' align='center' id='td_inspaid_$var_index' >" . text(bucks($inspaid * -1)) . "</td>\n";
     echo "  <td class='detail' align='center' id='td_ptpaid_$var_index' >" . text(bucks($ptpaid * -1)) . "</td>\n";
-    echo "  <td class='detail' align='center' id='td_patient_copay_$var_index' >" . text(bucks($patcopay)) . "</td>\n";
-    echo "  <td class='detail' align='center' id='td_copay_$var_index' >" . text(bucks($copay)) . "</td>\n";
+    //ALB echo "  <td class='detail' align='center' id='td_patient_copay_$var_index' >" . text(bucks($patcopay)) . "</td>\n";
+    //ALB echo "  <td class='detail' align='center' id='td_copay_$var_index' >" . text(bucks($copay)) . "</td>\n";
     echo "  <td class='detail' align='center' id='balance_$var_index'>" . text(bucks($balance)) . "</td>\n";
     echo "  <td class='detail' align='center' id='duept_$var_index'>" . text(bucks(round($duept, 2) * 1)) . "</td>\n";
-    echo "  <td class='detail' align='center'><input class='form-control' name='" . attr($iname) . "'  id='paying_" . attr($var_index) .
-        "' " . " value='" . '' . "' onchange='coloring();calctotal()'  autocomplete='off' " . "onkeyup='calctotal()'/></td>\n";
+    //ALB Not paying here echo "  <td class='detail' align='center'><input class='form-control' name='" . attr($iname) . "'  id='paying_" . attr($var_index) .
+    //ALB    "' " . " value='" . '' . "' onchange='coloring();calctotal()'  autocomplete='off' " . "onkeyup='calctotal()'/></td>\n";
     echo " </tr>\n";
 
     $sum_charges += (float)$charges * 1;
     $sum_ptpaid += (float)$ptpaid * -1;
     $sum_inspaid += (float)$inspaid * -1;
+    $sum_adjust += (float)$adjustment * -1; //ALB Added this
     $sum_duept += (float)$duept * 1;
     $sum_patcopay += (float)$patcopay * 1;
     $sum_copay += (float)$copay * 1;
@@ -955,7 +958,7 @@ if ($_POST['form_save'] || $_REQUEST['receipt']) {
             </tr>
             <tr>
                 <td colspan='3' align='center' class='text'>
-                    <b><?php echo xlt('Accept Payment for'); ?>&nbsp;:&nbsp;&nbsp;<?php
+                    <b><?php echo xlt('Patient Name'); //ALB Changed this ?>&nbsp;:&nbsp;&nbsp;<?php
                     echo text($patdata['fname']) . " " .
                         text($patdata['lname']) . " " .
                         text($patdata['mname']) . " (" .
@@ -963,108 +966,19 @@ if ($_POST['form_save'] || $_REQUEST['receipt']) {
                     <?php $NameNew = $patdata['fname'] . " " . $patdata['lname'] . " " . $patdata['mname']; ?>
                 </td>
             </tr>
-            <tr height="15">
-                <td colspan='3'></td>
-            </tr>
-            <tr>
-                <td class='text'>
-                    <?php echo xlt('Payment Method'); ?>:
-                </td>
-                <td colspan='2'><select name="form_method" id="form_method" class="form-control" onChange='CheckVisible("yes")'>
-                        <?php
-                        $query1112 = "SELECT * FROM list_options where list_id=?  ORDER BY seq, title ";
-                        $bres1112 = sqlStatement($query1112, array('payment_method'));
-                        while ($brow1112 = sqlFetchArray($bres1112)) {
-                            if ($brow1112['option_id'] != 'credit_card' || $brow1112['option_id'] == 'debit' || $brow1112['option_id'] == 'bank_draft') {
-                                continue;
-                            }
-                            echo "<option value='" . attr($brow1112['option_id']) . "'>" .
-                                text(xl_list_label($brow1112['title'])) . "</option>";
-                        }
-                        ?>
-                    </select></td>
-            </tr>
-            <?php if (isset($_SESSION['authUserID'])) { ?>
-                <tr height="5">
-                    <td colspan='3'></td>
-                </tr>
-                <tr>
-                    <td class='text'>
-                        <?php echo xlt('Authorized'); ?>:
-                    </td>
-                    <td colspan='2'>
-                        <?php if ($ccdata['authCode'] && empty($payrow['source'])) {
-                            $payrow['source'] = $ccdata['authCode'] . " : " . $ccdata['transId'];
-                        }
-                        ?>
-                        <input class="form-control form-control-sm" id='check_number' name='form_source' style='' value='<?php echo attr($payrow['source']) ?>' />
-                    </td>
-                </tr>
-            <?php } ?>
-                <?php if (isset($_SESSION['authUserID'])) {
-                        $hide = '';
-                        echo '<tr height="5"><td colspan="3"></td></tr><tr">';
-                } else {
-                    $hide = 'hidden';
-                    echo '<tr class="hidden">';
-                }
-                ?>
-                <td class='text' valign="middle">
-                    <?php echo xlt('Patient Coverage'); ?>:
-                </td>
-                <td class='text' colspan="2">
-                    <input type="radio" name="radio_type_of_coverage" id="radio_type_of_coverage1"
-                           value="self" onClick="make_visible_radio();make_self();"/>
-                    <?php echo xlt('Self'); ?>
-                    <input type="radio" name="radio_type_of_coverage" id="radio_type_of_coverag2" value="insurance"
-                           checked="checked"
-                           onClick="make_hide_radio();make_insurance();"/>
-                    <?php echo xlt('Insurance'); ?>
-                </td>
-            </tr>
-            <tr height="5">
-                <td colspan='3'></td>
-            </tr>
-            <tr id="tr_radio1" style="display: none">
-                <!-- For radio Insurance -->
-                <td class='text' valign="top">
-                    <?php echo xlt('Payment against'); ?>:
-                </td>
-                <td class='text' colspan="2">
-                    <input type="radio" name="radio_type_of_payment" id="radio_type_of_payment_self1"
-                           value="cash" onClick="make_visible_row();make_it_hide_enc_pay();cursor_pointer();"/>
-                    <?php echo xlt('Encounter Payment'); ?>
-                </td>
-            </tr>
-            <tr id="tr_radio2">
-                <!-- For radio self -->
-                <td class='text' valign="top"><?php echo xlt('Payment against'); ?>:</td>
-                <td class='text' colspan="2">
-                    <input type="radio" name="radio_type_of_payment" id="radio_type_of_payment1" class="<?php echo $hide ? $hide : ''; ?>"
-                           value="copay" onClick="make_visible_row();cursor_pointer();"/><?php echo !$hide ? xlt('Co Pay') : ''; ?>
-                    <input type="radio" name="radio_type_of_payment" id="radio_type_of_payment2" checked="checked"
-                           value="invoice_balance" onClick="make_visible_row();"/><?php echo xlt('Invoice Balance'); ?>
-                    <input type="radio" name="radio_type_of_payment" id="radio_type_of_payment4" value="pre_payment"
-                           onClick="make_hide_row();"/><?php echo xlt('Pre Pay'); ?>
-                </td>
-            </tr>
-            <tr height="15">
-                <td colspan='3'></td>
-            </tr>
-        </table>
-        <table width="20%" border="0" cellspacing="0" cellpadding="0" id="table_display_prepayment" style="margin-bottom: 10px; display: none">
-            <tr>
-                <td class='detail'><?php echo xlt('Pre Payment'); ?></td>
-                <td><input class="form-control" type='text' id= 'form_prepayment' name='form_prepayment' style=''/></td>
-            </tr>
-        </table>
+
+        <!--ALB Removed a lot of code below (about 93 lines), as we are not making payments online here -->
+
+
+        </table><br>
+
         <table id="table_display" style="background: #eee;" class="table table-sm table-striped table-bordered w-100">
             <thead>
             </thead>
             <tbody>
             <tr bgcolor="#cccccc" id="tr_head">
                 <td class="dehead" width="60">
-                    <?php echo xlt('DOS') ?>
+                    <?php echo xlt('Date of Service') ?>
                 </td>
                 <td class="dehead" width="120">
                     <?php echo xlt('Visit Reason') ?>
@@ -1078,27 +992,30 @@ if ($_POST['form_save'] || $_REQUEST['receipt']) {
                 <td class="dehead" align="center" width="200" id="td_head_description" style='display: none'>
                     <?php echo xlt('Description') ?>
                 </td>
+                <td class="dehead" align="center" width="70" id="td_head_insurance_payment"> <!--ALB Added this -->
+                    <?php echo xlt('Adjustments') ?>
+                </td>
                 <td class="dehead" align="center" width="70" id="td_head_insurance_payment">
                     <?php echo xlt('Insurance Payment') ?>
                 </td>
                 <td class="dehead" align="center" width="70" id="td_head_patient_payment">
                     <?php echo xlt('Patient Payment') ?>
                 </td>
-                <td class="dehead" align="center" width="55" id="td_head_patient_co_pay">
+                <!--ALB Took out next 2 items td class="dehead" align="center" width="55" id="td_head_patient_co_pay">
                     <?php echo xlt('Co Pay Paid') ?>
                 </td>
                 <td class="dehead" align="center" width="55" id="td_head_co_pay">
                     <?php echo xlt('Required Co Pay') ?>
-                </td>
+                </td -->
                 <td class="dehead" align="center" width="70" id="td_head_insurance_balance">
                     <?php echo xlt('Insurance Balance') ?>
                 </td>
                 <td class="dehead" align="center" width="70" id="td_head_patient_balance">
                     <?php echo xlt('Patient Balance') ?>
                 </td>
-                <td class="dehead" align="center" width="50">
+                <!--ALB  td class="dehead" align="center" width="50">
                     <?php echo xlt('Paying') ?>
-                </td>
+                </td -->
             </tr>
             <?php
             $encs = array();
@@ -1191,24 +1108,45 @@ if ($_POST['form_save'] || $_REQUEST['receipt']) {
                 $dadjustment = $drow['adjustments'];
                 // Patient Payment
                 //
+
+                // ALB took out and account_code!='PCP' " below
                 $drow = sqlQuery(
-                    "SELECT  SUM(pay_amount) AS payments, SUM(adj_amount) AS adjustments " .
+                    "SELECT SUM(pay_amount) AS payments, SUM(adj_amount) AS adjustments " .
                     "FROM ar_activity WHERE deleted IS NULL AND pid = ? and encounter = ? and " .
-                    "payer_type = 0 and account_code != 'PCP'",
+                    "payer_type = 0", 
                     array($pid, $enc)
                 );
                 $dpayment_pat = $drow['payments'];
+                $dadjustment_pat = $drow['adjustments']; //ALB Added these vars
+                $dadjustment_total = $dadjustment + $dadjustment_pat;
 
                 // NumberOfInsurance
-                //
-                $ResultNumberOfInsurance = sqlStatement(
-                    "SELECT COUNT( DISTINCT TYPE ) NumberOfInsurance FROM insurance_data where pid = ? and provider>0 ",
-                    array($pid)
-                );
-                $RowNumberOfInsurance = sqlFetchArray($ResultNumberOfInsurance);
-                $NumberOfInsurance = $RowNumberOfInsurance['NumberOfInsurance'] * 1;
+                //ALB This is incorrect. Need to find current insurance, not just any
+                //$ResultNumberOfInsurance = sqlStatement(
+                //    "SELECT COUNT( DISTINCT TYPE ) NumberOfInsurance FROM insurance_data where pid = ? and provider>0 ",
+                //    array($pid)
+                //);
+                //$RowNumberOfInsurance = sqlFetchArray($ResultNumberOfInsurance);
+                //$NumberOfInsurance = $RowNumberOfInsurance['NumberOfInsurance'] * 1;
+                
+                $NumberOfInsurance = 0;
+                $ins1row = sqlQuery("SELECT provider FROM insurance_data where pid = ? and type='primary' and date <= ? order by date desc limit 1" , array($pid, substr($dispdate,0, 10)));
+                if ($ins1row['provider'] && $ins1row['provider'] > 0) $NumberOfInsurance = 1;
+                $ins2row = sqlQuery("SELECT provider FROM insurance_data where pid = ? and type='secondary' and date <= ? order by date desc limit 1" , array($pid, substr($dispdate,0, 10)));
+                if ($ins2row['provider'] && $ins2row['provider'] > 0) $NumberOfInsurance = 2;
+                $ins3row = sqlQuery("SELECT provider FROM insurance_data where pid = ? and type='tertiary' and date <= ? order by date desc limit 1" , array($pid, substr($dispdate,0, 10)));
+                if ($ins3row['provider'] && $ins3row['provider'] > 0) $NumberOfInsurance = 3;
+
                 $duept = 0;
-                if ((($NumberOfInsurance == 0 || $value['last_level_closed'] == 4 || $NumberOfInsurance == $value['last_level_closed']))) { // Patient balance
+
+                //ALB If cosmetic, charge the whole amount
+                $cosm_query = sqlQuery("SELECT c.cosmetic FROM codes as c, " .
+         	  		       "billing as b WHERE b.pid = ? AND " .
+                    		       "b.encounter = ? AND b.activity = 1 AND " .
+         			       "LEFT( b.code_type, 3 ) = 'CPT' AND b.code = c.code " .
+	       		               "LIMIT 1", array($pid, $enc));
+
+                if ($NumberOfInsurance == 0 || $value['last_level_closed'] == 4 || $NumberOfInsurance == $value['last_level_closed'] || $cosm_query['cosmetic'] == 1) { //ALB Added at the end //Patient balance
                     $brow = sqlQuery("SELECT SUM(fee) AS amount FROM billing WHERE " . "pid = ? and encounter = ? AND activity = 1", array($pid, $enc
                     ));
                     $srow = sqlQuery("SELECT SUM(fee) AS amount FROM drug_sales WHERE " . "pid = ? and encounter = ? ", array($pid, $enc
@@ -1221,7 +1159,7 @@ if ($_POST['form_save'] || $_REQUEST['receipt']) {
                     $duept = $brow['amount'] + $srow['amount'] - $drow['payments'] - $drow['adjustments'];
                 }
 
-                echoLine("form_upay[$enc]", $dispdate, $value['charges'], $dpayment_pat, ($dpayment + $dadjustment), $duept, ($enc . ': ' . $reason), $inscopay, $patcopay);
+                echoLine("form_upay[$enc]", $dispdate, $value['charges'], $dpayment_pat, $dpayment, $dadjustment_total, $duept, $reason, $inscopay, $patcopay); //ALB Changed this line to display adjustment and to display reason, not encounter number
             }
 
             // Continue with display of the data entry form.
@@ -1230,15 +1168,15 @@ if ($_POST['form_save'] || $_REQUEST['receipt']) {
                 <td class="dehead" align="center"><?php echo xlt('Total'); ?></td>
                 <td class="dehead" id='td_total_1' align="center"></td>
                 <td class="dehead" id='td_total_2' align="center"><?php echo text(bucks($sum_charges)) ?></td>
+                <td class="dehead" id='td_total_3' align="center"><?php echo text(bucks($sum_adjust)) ?></td> <!--ALB Added this -->
                 <td class="dehead" id='td_total_3' align="center"><?php echo text(bucks($sum_inspaid)) ?></td>
                 <td class="dehead" id='td_total_4' align="center"><?php echo text(bucks($sum_ptpaid)) ?></td>
-                <td class="dehead" id='td_total_5' align="center"><?php echo text(bucks($sum_patcopay)) ?></td>
-                <td class="dehead" id='td_total_6' align="center"><?php echo text(bucks($sum_copay)) ?></td>
+                <!--ALB Took out 2 lines -->
                 <td class="dehead" id='td_total_7' align="center"><?php echo text(bucks($sum_balance)) ?></td>
-                <td class="dehead" id='td_total_8' align="center"><?php echo text(bucks($sum_duept)) ?></td>
-                <td class="dehead" align="center">
+                <td class="dehead" id='td_total_8' style='color:red' align="center"><?php echo text(bucks($sum_duept)) ?></td> <!--ALB Added red color -->
+                <!--ALB td class="dehead" align="center">
                     <input class="form-control" name='form_paytotal' id='form_paytotal' value='' style='color: #3b9204;' readonly />
-                </td>
+                </td -->
             </tr>
         </table>
         <?php
@@ -1285,11 +1223,17 @@ if ($_POST['form_save'] || $_REQUEST['receipt']) {
         <?php
         if (!isset($_SESSION['authUserID'])) {
             if (!isset($ccdata["cardHolderName"])) {
-                if ($GLOBALS['payment_gateway'] == 'Sphere') {
-                    echo SpherePayment::renderSphereHtml('patient');
+                if ($sum_duept > 0) { //ALB Only display payment link if there is patient balance
+                  //ALB Changed this to show link to our online payment portal
+                  $parameters = "?pk=12910&l1=" . $patdata['fname'] . "&l2=" . $patdata['lname'] . "&l3=" . $pid . "&a=" . bucks($sum_duept);
+                  echo '<a href="https://pay.xpress-pay.com/' . $parameters . '" target="_blank">' . xlt("Click here") . "</a>" . " to pay your invoice online 24/7 or call us at 817-303-6647 to make a payment.<br>";
+                  echo "Please note that your payment may not be reflected on your account for up to 2 business days.";
+                } elseif ($sum_duept < 0) {
+                  echo xlt("There is a credit of $" . bucks(-$sum_duept) . " on the account. We will contact you shortly to initiate a refund. You may also call us at 817-303-6647 for faster processing. Thank you.");
                 } else {
-                    echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#openPayModal">' . xlt("Pay Invoice") . '</button>';
+                  echo xlt("No payment is currently due. Thank you.");
                 }
+
             } else {
                 echo '<h4><span class="bg-danger">' . xlt("Locked Payment Pending") . '</span></h4>';
             }

@@ -274,8 +274,8 @@ function getFacilities($first = '')
 //ALB Facility nickname by id
 function getFacilityNickname($facilityid) {
     if (empty($facilityid)) return "";
-    $sql="select nickname from facility where id  = '$facilityid'";
-    $rez = sqlStatement($sql);
+    $sql="select nickname from facility where id  = ?";
+    $rez = sqlStatement($sql, array($facilityid));
     for($iter=0; $row=sqlFetchArray($rez); $iter++)
         $returnval[$iter]=$row;
     $facilitynickname = $returnval[0]['nickname'];
@@ -1674,7 +1674,7 @@ function get_patient_balance($pid, $with_insurance = false, $eid = false)
             "activity = 1", array($pid, $encounter));
             $drow = sqlQuery("SELECT SUM(pay_amount) AS payments, " .
               "SUM(adj_amount) AS adjustments FROM ar_activity WHERE " .
-              "pid = ? AND encounter = ?", array($pid, $encounter));
+              "pid = ? AND encounter = ? AND deleted IS NULL", array($pid, $encounter)); //ALB added deleted
             $srow = sqlQuery("SELECT SUM(fee) AS amount FROM drug_sales WHERE " .
               "pid = ? AND encounter = ?", array($pid, $encounter));
             $balance += $brow['amount'] + $srow['amount']
@@ -1728,15 +1728,14 @@ function get_patient_balance($pid, $with_insurance = false, $eid = false)
 function get_unallocated_patient_balance($pid) {
     $query = "SELECT a.session_id, a.pay_total, a.global_amount " .
       "FROM ar_session AS a " .
-      "WHERE a.patient_id = " .$pid . " AND " .
+      "WHERE a.patient_id = ? AND " .
       "a.adjustment_code = 'pre_payment' AND a.closed = 0";  
-    $res = sqlStatement($query);
+    $res = sqlStatement($query, array($pid));
     while ($row = sqlFetchArray($res)) {
       $total_amt = $row['pay_total'] - $row['global_amount'];
-      $rs= sqlStatement("SELECT sum(pay_amount) AS total_pay_amt FROM ar_activity WHERE session_id='". $row['session_id'] ."' AND pid = '" .$pid . "'");
-      $crow=sqlFetchArray($rs);
-	 $pay_amount=$crow['total_pay_amt'];
-     $unallocated += ($total_amt - $pay_amount);
+      $rs= sqlQuery("SELECT sum(pay_amount) AS total_pay_amt FROM ar_activity WHERE session_id= ? AND pid = ? AND deleted IS NULL", array($row['session_id'],$pid));
+      $pay_amount=$rs['total_pay_amt'];
+      $unallocated += ($total_amt - $pay_amount);
     }
     return sprintf('%01.2f', $unallocated);
 }

@@ -15,6 +15,14 @@
         <div class="col-4 font-weight-bold">{{ "Total Balance Due"|xlt }}</div>
         <div class="col font-weight-bold">{{ totalBalance|money|text }}</div>
     </div>
+
+    {% if unallocated > 0 %}{# ALB Show unallocated amount, if present #}
+    <div class="row">
+        <div class="col-4 font-weight-bold"><font color='#ee6600'>{{ "Unallocated Patient Pre-Payment"|xlt }}</div>
+        <div class="col font-weight-bold">{{ unallocated|money|text }}</font></div>
+    </div>
+    {% endif %}
+
     {% if billingNote %}
     <div class="row"> <!--ALB Made all bold -->
         <div class="col-4 font-weight-bold">{{ "Billing Note"|xlt }}</div>

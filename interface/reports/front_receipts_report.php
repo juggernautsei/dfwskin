@@ -133,7 +133,7 @@ function bucks($amt)
 
 <table>
  <tr>
-  <td width='900px'>
+  <td width='600px'><!--ALB Made more narrow here -->
     <div style='float:left'>
 
     <table class='text'>

@@ -593,7 +593,11 @@ function toencounter(enc, datestr, topframe) {
 
                         <tr>
                             <td align='right'><?php echo xlt('Received By'); ?>:</td>
-                            <td align='left'><?php echo text($payrow['user']) ?></td>
+                            <?php //ALB Changing to user first name and last instead of username
+                              $uquery = sqlQuery("SELECT lname, fname FROM users WHERE username = ?", array($payrow['user']));
+                              $user_name = $uquery['fname'] . " " . substr($uquery['lname'],0,1) . "." ;
+                            ?>
+                            <td align='left'><?php echo text($user_name) ?></td>
                         </tr>
                     </table>
                 </div>
@@ -1127,7 +1131,7 @@ function make_insurance() {
                                         <th class="font-weight-bold text-center" id="td_head_total_charge" width="80"><?php echo xlt('Total Charge'); ?></td>
                                         <th class="font-weight-bold text-center" id="td_head_rep_doc" style='display:none' width="70"><?php echo xlt('Report/ Form'); ?></td>
                                         <th class="font-weight-bold text-center" id="td_head_description" style='display:none' width="200"><?php echo xlt('Description'); ?></td>
-                                        <th class="font-weight-bold text-center" id="td_head_insurance_payment" width="80"><?php echo xlt('Insurance Payment'); ?></td>
+                                        <th class="font-weight-bold text-center" id="td_head_insurance_payment" width="80"><?php echo xlt('Insurance Payments and Adjustments'); ?></td> <!--ALB Changed title -->
                                         <th class="font-weight-bold text-center" id="td_head_patient_payment" width="80"><?php echo xlt('Patient Payment'); ?></td>
                                         <!--ALB Don't need this th class="font-weight-bold text-center" id="td_head_patient_co_pay" width="55"><?php echo xlt('Co Pay Paid'); ?></td> -->
                                         <!--ALB Don't need this th class="font-weight-bold text-center" id="td_head_co_pay" width="55"><?php echo xlt('Required Co Pay'); ?></td> -->
@@ -1148,7 +1152,7 @@ function make_insurance() {
                                 "b.code_type != 'TAX' " . //ALB Need to pull $0 visits AND b.fee != 0 " .
                                 //ALB Took this out  "AND fe.pid = b.pid " 
                                 "AND fe.encounter = b.encounter " .
-                                "where fe.pid = ? AND NOT IsNull(b.code_type) " . //AND left(b.code_type,3) = 'CPT' " . //ALB Only CPT codes
+                                "where fe.pid = ? AND NOT IsNull(b.code_type) AND left(b.code_type,3) = 'CPT' " . //ALB Only CPT codes
                                 "ORDER BY b.encounter";
                                 $bres = sqlStatement($query, array($pid, $pid));
                                 //
@@ -1256,10 +1260,10 @@ function make_insurance() {
                                     );
                                     $dpayment = $drow['payments'];
 
-                                    //ALB Changed query to pull in all adjustments, including what we adjusted for patient
+                                    //ALB Changed query to pull in all adjustments, including what we adjusted for patient and not deleted adjustments
                                     $drow = sqlQuery(
                                         "SELECT SUM(adj_amount) AS adjustments FROM ar_activity WHERE " .
-                                        "pid = ? and encounter = ?",
+                                        "pid = ? and encounter = ? AND deleted IS NULL",
                                         array($pid, $enc)
                                     );
 
@@ -1278,28 +1282,28 @@ function make_insurance() {
 
                                     //------------------------------------------------------------------------------------
                                     //NumberOfInsurance
-                                    $ResultNumberOfInsurance = sqlStatement("SELECT COUNT( DISTINCT TYPE ) NumberOfInsurance FROM insurance_data
-                                    where pid = ? and provider>0 AND date <= ?", array($pid,$value['date'])); //ALB Modified query ", array($pid));
-                                    $RowNumberOfInsurance = sqlFetchArray($ResultNumberOfInsurance);
-                                    $NumberOfInsurance = $RowNumberOfInsurance['NumberOfInsurance'] * 1;
+                                    //$ResultNumberOfInsurance = sqlStatement("SELECT COUNT( DISTINCT TYPE ) NumberOfInsurance FROM insurance_data
+                                    //where pid = ? and provider>0 AND date <= ?", array($pid,$value['date'])); //ALB Modified query ", array($pid));
+                                    //$RowNumberOfInsurance = sqlFetchArray($ResultNumberOfInsurance);
+                                    //$NumberOfInsurance = $RowNumberOfInsurance['NumberOfInsurance'] * 1;
                                        
                                     //ALB Needs to be number of insurances actually current as of service date
                                     $noins = 0;
                                     $pri_ins = getInsuranceNameByDate($pid,$value['date'],'primary');
-                                    if ($pri_ins != '') {
+                                    if ($pri_ins && $pri_ins != '') {
                                         $noins = 1;
                                         $sec_ins = getInsuranceNameByDate($pid,$value['date'],'secondary');
-                                        if ($sec_ins != '') {
+                                        if ($sec_ins && $sec_ins != '') {
                                            $noins = 2;
                                            $ter_ins = getInsuranceNameByDate($pid,$value['date'],'tertiary');
-                                           if ($ter_ins !='') $noins = 3;
+                                           if ($ter_ins && $ter_ins !='') $noins = 3;
                                         }
                                     }
-                                    $NumberofInsurance = $noins;
+                                    $NumberOfInsurance = $noins;
 
                                     //------------------------------------------------------------------------------------
                                     $duept = 0;
-                                    if ((($NumberOfInsurance == 0 || $value['last_level_closed'] == 4 || $NumberOfInsurance == $value['last_level_closed']))) {//Patient balance
+                                    if ($NumberOfInsurance == 0 || $value['last_level_closed'] == 4 || $NumberOfInsurance == $value['last_level_closed']) {//Patient balance
                                         $brow = sqlQuery("SELECT SUM(fee) AS amount FROM billing WHERE " .
                                             "pid = ? and encounter = ? AND activity = 1", array($pid, $enc));
                                         $srow = sqlQuery("SELECT SUM(fee) AS amount FROM drug_sales WHERE " .
@@ -1308,8 +1312,8 @@ function make_insurance() {
                                             "SUM(adj_amount) AS adjustments FROM ar_activity WHERE " .
                                             "deleted IS NULL AND pid = ? and encounter = ? ", array($pid, $enc));
                                         $duept = $brow['amount'] + $srow['amount'] - $drow['payments'] - $drow['adjustments'];
-                                    }
 
+                                    }
                                     //ALB If no balance due, do not display the line, unless it's for today and charges have been entered
                                     if (substr($dispdate, 0, 10) != $today) {
                                         if (round($value['charges'] - $dpayment_pat - $dpayment - $dadjustment,2) == 0) continue;

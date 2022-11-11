@@ -5,7 +5,9 @@
 {% for t in ins %}
     <li class="nav-item" role="presentation">
         <a href="#{{ t.type|attr }}-{{ t.id|attr }}" id="{{ t.type|attr }}-{{ t.id|attr }}-tab" data-toggle="tab" role="tab" aria-controls="{{ t.type|attr }}-{{ t.id|attr }}" aria-selected="{{ loop.first ? "true" : "false" }}" class="nav-link {{ loop.first ? "active" }}">
+            {% if t.isOld == false %}<b>{% endif %} {# ALB Make current insurances bold #}
             {{ t.type|capitalize|text }} {{ (t.isOld) ? "(Old)"|xlt : " " }} {# ALB Added parentheses around Old #}
+            {% if t.isOld == false %}</b>{% endif %} {# ALB Make current insurances bold #}
         </a>
     </li>
 {% endfor %}
@@ -19,11 +21,12 @@
         <div class="text-primary pb-2 pt-1">
             {{ (c.isOld) ? "Old"|xlt ~ " " ~ c.type|capitalize|text : c.type|capitalize|text }} {{ "Insurance"|xlt }}
             {% if c.dispFromDate == true %}{{ "from"|xlt}} {{ c.date|shortDate|text }} {% endif %}
-            {{ "until"|xlt }} {{ "Present"|xlt }}
+            {{ "until"|xlt }} {{ c.until_date|shortDate|text }} {# ALB Took out Present, now displays until next insurance's effective date #}
         </div>
         <div class="d-flex justify-content-between">
             <div class="insurer">
-                {% if c.insco is defined %}
+                {# if c.insco is defined #}
+                {% if c.insco.name != 'Self-Pay' %} {# ALB #}
                     <em>{{ "Insurer"|xlt }}</em>
                     <address>
                         <strong>{{ c.insco.name|text }}</strong><br>
@@ -32,9 +35,10 @@
                         {{ c.insco.address.city|text }} {{ c.insco.address.state|text }}, {{ c.insco.address.postal|text }}
                     </address>
                 {% else %}
-                    <span class="font-weight-bold text-danger">{{ "Unassigned"|xlt }}</span>
+                    <span class="font-weight-bold text-danger">{{ "Self-Pay"|xlt }}</span><!--ALB Changed title here -->
                 {% endif %}
             </div>
+            {% if c.insco.name != 'Self-Pay' %} {# ALB #}
             <div class="subscriber">
                 {% set showState = (c.subscriber_state != "") ? true : false %}
                 {% set showCountry = (c.subscriber_country != "") ? true : false %}
@@ -71,7 +75,9 @@
                     {{ showCountry == true ? " " ~ c.subscriber_employer_country|text : ""}}
                 </address>
             </div>
+            {% endif %} {# ALB #}
         </div>
+            {% if c.insco.name != 'Self-Pay' %} {# ALB #}
         <div class="d-flex justify-content-between policy-details pt-2">
             <div class="list-group list-group-flush flex-fill mr-4">
                 <div class="list-group-item d-flex justify-content-between p-1"><strong>{{ "Plan Name"|xlt }}:</strong> <span class="text-right">{{ c.plan_name|text }}</span></div>
@@ -86,7 +92,10 @@
                 {% endif %}
             </div>
         </div>
+            {% endif %}{# ALB #}
+
     </div>
+
 {% endfor %}
     <div class="tab-pane" id="eligibility" role="tabpanel" aria-labelledby="eligibility-tab">
         {% if enable_oa %}

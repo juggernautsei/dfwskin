@@ -15,6 +15,7 @@
 function effectiveUser($user)
 {
     return (is_null($user) ? $_SESSION['authUserID'] : $user);
+
 }
 
 /**

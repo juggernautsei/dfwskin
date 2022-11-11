@@ -102,7 +102,7 @@ function bucks($amount)
             let delcount = 0;
             let allempty = true;
 
-            for (let i = 0; i < f.elements.length; ++i) {
+            for (var i = 0; i < f.elements.length; ++i) {
                 let ename = f.elements[i].name;
                 // Count deletes.
                 if (ename.substring(0, 9) == 'form_del[') {
@@ -113,12 +113,12 @@ function bucks($amount)
                 }
                 let pfxlen = ename.indexOf('[pay]');
                 if (pfxlen < 0) {
-                    continue
+                    continue;
                 };
                 let pfx = ename.substring(0, pfxlen);
                 let code = pfx.substring(pfx.indexOf('[') + 1, pfxlen - 1);
-                let cPay = parseFloat(f[pfx + '[pay]'].value).toFixed(2);
-                let cAdjust = parseFloat(f[pfx + '[adj]'].value).toFixed(2);
+                let cPay = parseFloat(f[pfx + '[pay]'].value); //ALB Fixed this
+                let cAdjust = parseFloat(f[pfx + '[adj]'].value); //ALB Fixed this
 
                 if ((cPay !== 0) || cAdjust !== 0) {
                     allempty = false;

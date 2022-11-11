@@ -1001,8 +1001,11 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         $patientbalance = get_patient_balance($pid, false);
                         $insurancebalance = get_patient_balance($pid, true) - $patientbalance;
                         $totalbalance = $patientbalance + $insurancebalance;
+                        $unallocated_amt = get_unallocated_patient_balance($pid); //ALB Added this
+
                         $id = "billing_ps_expand";
                         $dispatchResult = $ed->dispatch(CardRenderEvent::EVENT_HANDLE, new CardRenderEvent('billing'));
+                        //ALB Added unallocated amount below
                         $viewArgs = [
                             'title' => xl('Billing'),
                             'id' => $id,
@@ -1011,6 +1014,7 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                             'patientBalance' => $patientbalance,
                             'insuranceBalance' => $insurancebalance,
                             'totalBalance' => $totalbalance,
+                            'unallocated' => $unallocated_amt,
                             'forceAlwaysOpen' => $forceBillingExpandAlways,
                             'prependedInjection' => $dispatchResult->getPrependedInjection(),
                             'appendedInjection' => $dispatchResult->getAppendedInjection(),
@@ -1064,6 +1068,8 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                         $params = array_merge($params, $insurance_array);
                         $res = sqlStatement($sql, $params);
                         $prior_ins_type = '';
+                        $prev_eff_date = 'Present'; //ALB Needed to keep track of effective dates
+                     
 
                         while ($row = sqlFetchArray($res)) {
                             if ($row['provider']) {
@@ -1087,9 +1093,41 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
                                 $row['dispFromDate'] = $row['date'] ? true : false;
                                 $mname = ($row['subscriber_mname'] != "") ? $row['subscriber_mname'] : "";
                                 $row['subscriber_full_name'] = str_replace("%mname%", $mname, "{$row['subscriber_fname']} %mname% {$row['subscriber_lname']}");
+                                if ($row['isOld']) { //ALB Added all this
+                                    $row['until_date'] = date_create($prev_eff_date)->modify('-1 days')->format('Y-m-d'); 
+                                } else {
+                                    $row['until_date'] = 'Present';
+                                }
                                 $insArr[] = $row;
+                                $prev_eff_date = $row['date']; //ALB Update previous effective date
                                 $prior_ins_type = $row['type'];
-                            }
+                            } else { //ALB All below is needed for self-pay patients
+                                $row['isOld'] = (strcmp($row['type'], $prior_ins_type) == 0) ? true : false;
+                                $row['dispFromDate'] = $row['date'] ? true : false;
+                                $row['insco'] = [
+                                    'name' => 'Self-Pay',
+                                    'address' => [
+                                        'line1' => '',
+                                        'line2' => '',
+                                        'city' => '',
+                                        'state' => '',
+                                        'postal' => '',
+                                        'country' => ''
+                                    ],
+                                ];
+                                $row['policy_type'] = false;
+                                $mname = ''; //($row['subscriber_mname'] != "") ? $row['subscriber_mname'] : "";
+                                $row['subscriber_full_name'] = ' '; // str_replace("%mname%", $mname, "{$row['subscriber_fname']} %mname% {$row['subscriber_lname']}");
+                                if ($row['isOld']) { //ALB
+                                    $row['until_date'] = date_create($prev_eff_date)->modify('-1 days')->format('Y-m-d'); 
+                                } else {
+                                    $row['until_date'] = 'Present';
+                                }
+                                $prev_eff_date = $row['date']; //ALB Added all this
+                                $prior_ins_type = $row['type'];
+                                if ($row['type'] != 'primary') continue; //ALB No Self-pay for secondary or tertiary insurance, so do not render card
+                                $insArr[] = $row;
+                            }    
                         }
 
                         if ($GLOBALS["enable_oa"]) {

@@ -81,6 +81,7 @@ if ($appts) {
     $count = 0;
     foreach ($appts as $row) {
         $status_title = getListItemTitle('apptstat', $row['pc_apptstatus']);
+        if ($status_title == 'None') $status_title = 'Scheduled'; //ALB Added this
         $count++;
         $dayname = xl(date('l', strtotime($row['pc_eventDate'])));
         $dispampm = 'am';
@@ -99,10 +100,19 @@ if ($appts) {
             $etitle = '';
         }
 
+        //ALB Get facility for the appointment
+        $facility = $row['pc_facility'];
+        $facility_nickname = getFacilityNickname($facility);
+        $fac_address = sqlQuery("SELECT street, city, state, postal_code from facility where id  = ?", array($row['pc_facility']));
+
+        //ALB Added facility nickname and address to the portal appointment card
         $formattedRecord = [
             'appointmentDate' => $dayname . ', ' . $row['pc_eventDate'] . ' ' . $disphour . ':' . $dispmin . ' ' . $dispampm,
-            'appointmentType' => xl('Type') . ': ' . $row['pc_catname'],
+            'appointmentType' => xl('Appointment Type') . ': ' . $row['pc_catname'],
             'provider' => xl('Provider') . ': ' . $row['ufname'] . ' ' . $row['ulname'],
+            'facility' => xl('Location') . ': ' . $facility_nickname,
+            'fac_address_line1' => xl('Address') . ': ' . $fac_address['street'],
+            'fac_address_line2' => $fac_address['city'] . ', ' . $fac_address['state'] . ' ' . substr($fac_address['postal_code'], 0, 5) ,
             'status' => xl('Status') . ': ' . $status_title,
             'mode' => (int)$row['pc_recurrtype'] > 0 ? 'recurring' : $row['pc_recurrtype'],
             'icon_type' => (int)$row['pc_recurrtype'] > 0,
@@ -146,21 +156,10 @@ function buildNav($newcnt, $pid, $result)
         ],
         [
             'url' => '#',
-            'label' => xl('Reports/Chart Notes'), //ALB Changed label
+            'label' => xl('Reports/Chart Notes'), //ALB Changed label and removed children below
             'icon' => 'fa-book-medical',
             'dropdownID' => 'reports',
             'children' => [
-                [
-                    'url' => $GLOBALS['web_root'] . '' . '/ccdaservice/ccda_gateway.php?action=view&csrf_token_form=' . urlencode(CsrfUtils::collectCsrfToken()),
-                    'label' => xl('View CCD'),
-                    'icon' => 'fa-eye',
-                    'target_blank' => 'true',
-                ],
-                [
-                    'url' => $GLOBALS['web_root'] . '' . '/ccdaservice/ccda_gateway.php?action=dl&csrf_token_form=' . urlencode(CsrfUtils::collectCsrfToken()),
-                    'label' => xl('Download CCD'),
-                    'icon' => 'fa-download',
-                ]
             ]
         ],
         [
@@ -219,7 +218,7 @@ function buildNav($newcnt, $pid, $result)
         if ($GLOBALS['allow_portal_appointments'] && $navItems[$i]['label'] === ($result['fname'] . ' ' . $result['lname'])) {
             $navItems[$i]['children'][] = [
                 'url' => '#appointmentcard',
-                'label' => xl('My Appointments'),
+                'label' => xl('Appointments'),
                 'icon' => 'fa-calendar-check',
                 'dataToggle' => 'collapse'
             ];
@@ -274,9 +273,10 @@ function buildNav($newcnt, $pid, $result)
 $navMenu = buildNav($newcnt, $pid, $result);
 
 $twig = (new TwigContainer('', $GLOBALS['kernel']))->getTwig();
+//ALB Changed whereto to profilecard from documentcard
 echo $twig->render('portal/home.html.twig', [
     'user' => $user,
-    'whereto' => $_SESSION['whereto'] ?? null ?: ($whereto ?? '#documentscard'),
+    'whereto' => $_SESSION['whereto'] ?? null ?: ($whereto ?? '#profilecard'),
     'result' => $result,
     'msgs' => $msgs,
     'msgcnt' => $msgcnt,

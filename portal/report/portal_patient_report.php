@@ -230,6 +230,13 @@ var mypcc = '<?php echo $GLOBALS['phone_country_code']; ?>';
 <body class="body_top">
 <div id="patient_reports"> <!-- large outer DIV -->
 
+<!--ALB Added these lines -->
+<span class='text'><?php echo xlt('Directions: Select report components to be displayed, then scroll to the bottom and click Generate Report to see the report or Download PDF to download or open the report as a PDF document.'); ?></span>
+<br />
+<span class='text'><?php echo xlt('Please note: Pop ups need to be enabled in your browser to see reports.'); ?></span>
+<hr/>
+
+
 <?php if ($GLOBALS['activate_ccr_ccd_report']) { // show CCR/CCD reporting options ?>
 <div id="ccr_report">
 

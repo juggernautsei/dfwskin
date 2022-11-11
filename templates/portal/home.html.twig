@@ -141,6 +141,10 @@
             $("#medicationlist").load("./get_medications.php", {}, function () {
             });
 
+            $("#prescriptionlist").load("./get_prescriptions.php", {}, function () {
+            });
+            /*ALB Added this */
+
             $("#labresults").load("./get_lab_results.php", {}, function () {
             });
 
@@ -407,19 +411,23 @@
             {{ 'Please wait...' | xlt }}</div>
 
         <div class="collapse overflow-auto" data-parent="#cardgroup" id="lists">
+            <div class="card"> <!--ALB Changed order and titles here -->
+                <header class="card-header bg-primary text-light">{{ 'Medical Problems' | xlt }}</header>
+                <div id="problemslist" class="card-body bg-light"></div>
+            </div>
+            <div class="card">
+                <header class="card-header bg-primary text-light">{{ 'Allergies' | xlt }}</header>
+                <div id="allergylist" class="card-body bg-light"></div>
+            </div>
             <div class="card">
                 <header class="card-header bg-primary text-light">{{ 'Medications' | xlt }}</header>
                 <div id="medicationlist" class="card-body bg-light"></div>
             </div>
-            <div class="card">
-                <header class="card-header bg-primary text-light">{{ 'Medications Allergy List' | xlt }}</header>
-                <div id="allergylist" class="card-body bg-light"></div>
+            <div class="card"> <!--ALB Added this-->
+                <header class="card-header bg-primary text-light">{{ 'Prescriptions ' | xlt }}</header>
+                <div id="prescriptionlist" class="card-body bg-light"></div>
             </div>
-            <div class="card">
-                <header class="card-header bg-primary text-light">{{ 'Issues List' | xlt }}</header>
-                <div id="problemslist" class="card-body bg-light"></div>
-            </div>
-            <div class="card">
+            <!-- ALB Don' need these 2  div class="card">
                 <header class="card-header bg-primary text-light">{{ 'Amendment List' | xlt }}</header>
                 <div id="amendmentslist" class="card-body bg-light"></div>
             </div>
@@ -427,6 +435,7 @@
                 <header class="card-header bg-primary text-light">{{ 'Lab Results' | xlt }}</header>
                 <div id="labresults" class="card-body bg-light"></div>
             </div>
+            -->
         </div>
 
         <div class="card collapse overflow-auto" data-parent="#cardgroup" id="reportcard">
@@ -457,7 +466,8 @@
         {% if allow_portal_appointments %}
             <div class="collapse mt-2 overflow-auto" data-parent="#cardgroup" id="appointmentcard">
                 <div class="container-fluid">
-                    <h3 class="text-center">{{ 'Appointments' | xlt }}</h3>
+                     <header class="card-header bg-primary text-light"><h5>{{ 'Appointments for ' | xlt }} {{ patientName | text }}</h5></header> <!--ALB Changed this -->
+
                     <div class="row">
                         {% if appointments|length > 0 %}
                             {% for appt in appointments %}
@@ -470,13 +480,13 @@
                                     {{ 'More appointments may exist' | xlt }}</p>
                             {% endif %}
                         {% else %}
-                            <h3 class='text-center'>{{ 'No Appointments' | xlt }}</h3>
+                            <h3 class='text-center'>{{ 'No Appointments Scheduled' | xlt }}</h3> <!--ALB -->
                         {% endif %}
 
                     </div>
-                    <div class="mb-3">
+                    <!--ALB Don't allow to edit or add appts <div class="mb-3">
                         <a class='btn btn-primary btn-block' href='#' onclick="editAppointment('add',{{ patientID | attr_js }})">{{ 'Schedule A New Appointment' | xlt }}</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- /.row -->

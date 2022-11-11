@@ -549,12 +549,13 @@ function getAuthPortalUsers()
     <ng ng-app="emrMessageApp">
         <div class="container-fluid" id='main' style="display: none">
             <div class='my-3'>
-                <h2><i class='fa fa-envelope w-auto h-auto mr-2'></i><?php echo xlt('Secure Messaging'); ?></h2>
+                <header class="card-header bg-primary text-light"><h5><?php echo xlt('Secure Messaging'); ?></h5></header>
+                <!--ALB <h2><i class='fa fa-envelope w-auto h-auto mr-2'></i><?php echo xlt('Secure Messaging'); ?></h2> -->
             <!--ALB Added these -->
-            <h4>  <?php echo xlt('Please note: A reply may take up to 1-2 business days. Please do not send any urgent communications through this system. If you need to contact us for an urgent matter, please call the office.'); ?>
-            </h4>
-            <h4>  <?php echo xlt('Please do not send payment information, such as credit card numbers, through this system.'); ?>
-            </h4>
+            <?php echo xlt('Please note: A reply may take up to 1-2 business days. Please do not send any urgent communications through this system. If you need to contact us for an urgent matter, please call the office.'); ?>
+            
+            <?php echo xlt('Please do not send payment information, such as credit card numbers, through this system.'); ?>
+            
 
             </div>
             <div class="row" ng-controller="inboxCtrl">

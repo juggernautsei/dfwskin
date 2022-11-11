@@ -78,7 +78,7 @@ $N = 7;
     $result2 = getEmployerData($pid);
     ?>
     <div class="card">
-            <header class="card-header border border-bottom-0"><?php echo xlt('Profile Demographics'); ?>
+            <header class="card-header bg-primary text-light"><?php echo xlt('Patient Demographics'); ?> <!--ALB Changed label and heading class -->
             <?php if ($pending) {
                 echo '<button type="button" id="editDems" class="btn btn-danger btn-sm float-right text-white">' . xlt('Pending Review') . '</button>';
             } else {
@@ -98,7 +98,7 @@ $N = 7;
     </div>
     <div class='insurance table-sm table-responsive'>
         <div class="card">
-            <header class="card-header border border-bottom-0"><?php echo xlt('Primary Insurance');?></header>
+            <header class="card-header bg-primary text-light"><?php echo xlt('Primary Insurance');?></header> <!--ALB Changed class-->
             <div class="card-body border">
 <?php
             $ins_array1 = getCurrentRecInsuranceData($pid, "primary"); //ALB If no insurance, just display that (for Primary, display "Self-Pay")
@@ -111,7 +111,7 @@ $N = 7;
             </div>
         </div>
         <div class="card">
-            <header class="card-header border border-bottom-0"><?php echo xlt('Secondary Insurance');?></header>
+            <header class="card-header bg-primary text-light"><?php echo xlt('Secondary Insurance');?></header> <!--ALB Changed class-->
             <div class="card-body border">
 <?php
            $ins_array2 = getCurrentRecInsuranceData($pid, "secondary"); //ALB If no insurance, just display that (for Primary, display "Self-Pay")
@@ -123,7 +123,7 @@ $N = 7;
 ?></div>
         </div>
         <div class="card">
-            <header class="card-header border border-bottom-0"><?php echo xlt('Tertiary Insurance');?></header>
+            <header class="card-header bg-primary text-light"><?php echo xlt('Tertiary Insurance');?></header> <!--ALB Changed class-->
             <div class="card-body border">
 <?php
           $ins_array3 = getCurrentRecInsuranceData($pid, "tertiary"); //ALB If no insurance, just display that (for Primary, display "Self-Pay")

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2022-10-20 11:23:53
+<?php /* Smarty version 2.6.33, created on 2022-11-09 12:15:12
          compiled from default/views/day/ajax_template.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'default/views/day/ajax_template.html', 11, false),array('function', 'xla', 'default/views/day/ajax_template.html', 166, false),array('function', 'xlt', 'default/views/day/ajax_template.html', 166, false),array('function', 'pc_sort_events', 'default/views/day/ajax_template.html', 383, false),array('modifier', 'date_format', 'default/views/day/ajax_template.html', 378, false),array('modifier', 'string_format', 'default/views/day/ajax_template.html', 379, false),)), $this); ?>
@@ -337,7 +337,7 @@ if (count($facilities) > 1) {
     if (!$GLOBALS['restrict_user_facility']) echo "    <option class='bg-info' value='0' $selected>" . xlt('All Facilities') . "</option>\n";
     foreach ($facilities as $fa) {
         $selected = ( $_SESSION['pc_facility'] == $fa['id']) ? "selected='selected'" : "" ;
-        echo "    <option class='bg-info' value='" . attr($fa['id']) . "' $selected>" . text($fa['name']) . "</option>\n";
+        echo "    <option class='bg-info' value='" . attr($fa['id']) . "' $selected>" . text(getFacilityNickname($fa['id'])) . "</option>\n"; //ALB Changed to facility nickname here
     }
     echo "   </select>\n";
 }
