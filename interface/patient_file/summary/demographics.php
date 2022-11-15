@@ -360,6 +360,23 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
             }
         }
 
+        //ALB 2 New functions
+        function save_new_settings_expanded(div) {
+             $.post("../../../library/ajax/user_settings.php", {
+                    target: div,
+                    mode: 1,
+                    csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
+             });
+        }           
+
+        function save_new_settings_collapsed(div) {
+             $.post("../../../library/ajax/user_settings.php", {
+                    target: div,
+                    mode: 0,
+                    csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
+             });
+        }   
+
         // edit prescriptions dialog.
         // called from stats.php.
         //

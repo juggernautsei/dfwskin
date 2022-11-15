@@ -368,6 +368,7 @@ if (!empty($_POST['form_save'])) {
 
                         $Remainder = $Fee - $Copay - $MoneyGot - $MoneyAdjusted;
                         $Copay = 0;
+                        if (round($Remainder, 2) != 0 && $amount != 0) { //ALB
                         //ALB This calculates how much of the payment goes toward which code. That is not needed, as the payment is applied agains the entire encounter amount, so can put in towards the first code.
                         //ALB Also, these codes will go into the ar_activity table with code of 'CO-PAY' instead of a specific code. 
                         //ALB That way, if coding changes later (is modified at a later time), that payment will not be for a code that doesn't exist anymore
@@ -428,7 +429,7 @@ if (!empty($_POST['form_save'])) {
                 }//invoice_balance
             }//if ($amount = 0 + $payment)
         }//foreach
-    //}//if ($_POST['form_upay'])
+    }//if ($_POST['form_upay'])
 }//if ($_POST['form_save'])
 
 if (!empty($_POST['form_save']) || !empty($_REQUEST['receipt'])) {
@@ -603,7 +604,7 @@ function toencounter(enc, datestr, topframe) {
                 </div>
 
         <!-- ALB Adding note at the bottom of the receipt -->
-	<br><br><br><br><hr><p>
+	<br><br><hr><p>
 	<?php echo xlt('*Note: Amount for This Visit is the estimated patient responsibility for today. If the service rendered to you is covered by insurance, it is your insurance carrier that determines your benefits. In the event that your insurance company pays less than the estimated amount, you are responsible for the unpaid balance.'); ?>
 
 
@@ -999,11 +1000,13 @@ function make_hide_radio() {
 }
 
 function make_visible_row() {
+    document.getElementById('open_invoices').style.display = ""; //ALB Added this
     document.getElementById('table_display').style.display = "";
     document.getElementById('table_display_prepayment').style.display = "none";
 }
 
 function make_hide_row() {
+    document.getElementById('open_invoices').style.display = "none"; //ALB Added this
     document.getElementById('table_display').style.display = "none";
     document.getElementById('table_display_prepayment').style.display = "";
 }
@@ -1062,6 +1065,13 @@ function make_insurance() {
                     <input name='form_pid' type='hidden' value='<?php echo attr($pid) ?>' />
                     <fieldset>
                         <legend><?php echo xlt('Payment'); ?></legend>
+                        <?php //ALB Showing unallocated pre-payments here
+                           if (get_unallocated_patient_balance($pid) > 0) { ?>
+                             <div class="col-12 oe-custom-line">
+                                <label class="control-label" for="unallocated"><font color='#ee6600'><?php echo xlt('Patient has an unallocated pre-payment amount of ') . get_unallocated_patient_balance($pid); ?></font></label></br>
+                                <a href="../billing/edit_payment.php?payment_id=<?php echo get_unallocated_payment_id($pid); ?>" target="_self">Apply unallocated pre-payments here</a>
+                             </div></br>
+                        <?php } //ALB to here ?>
                         <div class="col-12 oe-custom-line">
                             <label class="control-label" for="form_method"><?php echo xlt('Payment Method'); ?>:</label>
                             <select class="form-control" id="form_method" name="form_method" onchange='CheckVisible("yes")'>
@@ -1113,15 +1123,15 @@ function make_insurance() {
                                 </label>
                             </div>
                         </div>
-                        <div class="col-12 oe-custom-line">
+                        <div class="col-3 oe-custom-line"><!--ALB Changed width -->
                             <div id="table_display_prepayment" style="display:none">
-                                <label class="control-label" for="form_prepayment"><?php echo xlt('Pre Payment'); ?>:</label>
+                                <label class="control-label" for="form_prepayment"><?php echo xlt('Pre Payment Amount'); //ALB Changed label?>:</label>
                                 <input name='form_prepayment' id='form_prepayment'class='form-control' type='text' value ='' />
                             </div>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend><?php echo xlt('Collect For'); ?></legend>
+                        <legend id="open_invoices"><?php echo xlt('Open Invoices'); ?></legend><!--ALB Changed label and added an id to hide -->
                         <div class="table-responsive">
                             <table class="table" id="table_display">
                                 <thead>

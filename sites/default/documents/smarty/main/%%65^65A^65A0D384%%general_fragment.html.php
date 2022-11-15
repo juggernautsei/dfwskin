@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.33, created on 2022-11-10 21:21:32
+<?php /* Smarty version 2.6.33, created on 2022-11-14 13:33:56
          compiled from /var/www/html/ehrv7/templates/prescription/general_fragment.html */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'xlt', '/var/www/html/ehrv7/templates/prescription/general_fragment.html', 13, false),array('modifier', 'text', '/var/www/html/ehrv7/templates/prescription/general_fragment.html', 30, false),)), $this); ?>
@@ -18,8 +18,8 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'xlt', '/var
 </th>
                 <th><?php echo smarty_function_xlt(array('t' => 'Refills'), $this);?>
 </th>
-                <th><?php echo smarty_function_xlt(array('t' => 'Filled'), $this);?>
-</th>
+                <!--ALB <th><?php echo smarty_function_xlt(array('t' => 'Filled'), $this);?>
+</th> -->
             </tr>
         </thead>
         <tbody>
@@ -30,17 +30,17 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'xlt', '/var
             <tr>
                 <td><?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->drug)) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
 &nbsp;</td>
-                <td><?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_size())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
+                <td><!--ALB <?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_size())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
 <?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_unit_display())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
-&nbsp;
+&nbsp; -->
                     <?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_dosage_display())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
 </td>
                 <td><?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_quantity())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
 </td>
                 <td><?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_refills())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
 </td>
-                <td><?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_date_added())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
-</td>
+                <!--ALB <td><?php echo ((is_array($_tmp=$this->_tpl_vars['prescription']->get_date_added())) ? $this->_run_mod_handler('text', true, $_tmp) : text($_tmp)); ?>
+</td -->
             </tr>
             <?php endif; ?>
             <?php endforeach; endif; unset($_from); ?>
