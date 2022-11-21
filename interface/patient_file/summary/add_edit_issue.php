@@ -852,12 +852,12 @@ function getCodeText($code)
                             <input type='text' class="form-control" name='form_title' id='form_title' value='<?php echo attr($irow['title'] ?? '') ?>' />
                             <input type='hidden' name='form_title_id' value='<?php echo attr($irow['list_option_id'] ?? '') ?>'>
                         </div>
-                        <div class="form-group col-12" id='row_active_codes'>
+                        <!--ALB Don't need <div class="form-group col-12" id='row_active_codes'>
                             <label for="form_active_codes" class="col-form-label"><?php echo xlt('Active Issue Codes'); ?>:</label>
                             <select name='form_active_codes' id='form_active_codes' class= "form-control" size='4'
                                 onchange="onActiveCodeSelected()"></select>
-                        </div>
-                        <div class="form-group col-12" id='row_selected_codes'>
+                        </div> ALB -->
+                        <!--ALB Don't need <div class="form-group col-12" id='row_selected_codes'>
                             <label for="form_selected_codes" class="col-form-label"><?php echo xlt('Coding'); ?>:</label>
                             <select name='form_selected_codes' id='form_selected_codes' class= "form-control" multiple size='4'
                                 onchange="onCodeSelectionChange()">
@@ -877,33 +877,33 @@ function getCodeText($code)
                             <input type='hidden' class="form-control" name='form_diagnosis' id='form_diagnosis'
                                    value='<?php echo attr($irow['diagnosis'] ?? '') ?>' onclick='onAddCode()'
                                    title='<?php echo xla('Click to select or change coding'); ?>' readonly />
-                        </div>
+                        </div> ALB -->
                         <div class="form-group col-12">
-                            <label class="col-form-label" for="form_begin"><?php echo xlt('Begin Date and Time'); ?>:</label>
+                            <label class="col-form-label" for="form_begin"><?php echo xlt('Begin Date'); ?>:</label>
                             <input type='text' class='datepicker form-control' name='form_begin' id='form_begin' value='<?php echo attr(trim(oeFormatDateTime($irow['begdate'] ?? ''))) ?>' title='<?php echo xla('yyyy-mm-dd HH:MM date of onset, surgery or start of medication'); ?>' />
                         </div>
                         <div class="form-group col-12" id='row_enddate'>
-                            <label class="col-form-label" for="form_begin"><?php echo xlt('End Date and Time'); ?>:</label>
+                            <label class="col-form-label" for="form_begin"><?php echo xlt('End Date'); ?>:</label>
                             <input type='text' class='datepicker form-control' name='form_end' id='form_end' value='<?php echo attr(trim(oeFormatDateTime($irow['enddate'] ?? ''))) ?>' title='<?php echo xla('yyyy-mm-dd HH:MM date of recovery or end of medication'); ?>' />
                             &nbsp;(<?php echo xlt('leave blank if still active'); ?>)
                         </div>
-                        <div class="form-group col-12" id='row_active'>
+                        <!--ALB Don't need <div class="form-group col-12" id='row_active'>
                             <label class="col-form-label" for="form_active"><?php echo xlt('Active{{Issue}}'); ?>: </label>
                             <div class="checkbox">
                                 <label><input type='checkbox' name='form_active' id=='form_active' value='1' <?php echo (!empty($irow['enddate'])) ? "" : "checked"; ?> onclick='activeClicked(this);' title='<?php echo xla('Indicates if this issue is currently active'); ?>'></label>
                             </div>
-                        </div>
+                        </div> ALB -->
                         <div class="form-group" id='row_returndate'>
                             <input type='hidden' name='form_return' id='form_return' />
                             <input type='hidden' name='row_reinjury_id' id='row_reinjury_id' />
                             <img id='img_return' />
                         </div>
-                        <div class="form-group col-12" id='row_subtype'>
+                        <!--ALB Don't need <div class="form-group col-12" id='row_subtype'>
                             <label class="col-form-label" for="form_subtype"><?php echo xlt('Classification Type'); ?>:</label>
                             <?php
                             echo generate_select_list('form_subtype', 'issue_subtypes', ($irow['subtype'] ?? null), '', 'NA', '', '');
                             ?>
-                        </div>
+                        </div> -->
                         <div class="form-group col-12" id='row_occurrence'>
                             <label class="col-form-label" for="form_occur"><?php echo xlt('Occurrence'); ?>:</label>
                             <?php
@@ -912,7 +912,7 @@ function getCodeText($code)
                             generate_form_field(array('data_type' => 1, 'field_id' => 'occur', 'list_id' => 'occurrence', 'empty_title' => ' '), ($irow['occurrence'] ?? null));
                             ?>
                         </div>
-                        <div class="form-group col-12" id='row_classification'>
+                        <!--ALB Don't need <div class="form-group col-12" id='row_classification'>
                             <label class="col-form-label" for="form_classification"><?php echo xlt('Classification'); ?>:</label>
                             <select name='form_classification' id='form_classification' class='form-control'>
                                 <?php
@@ -925,7 +925,7 @@ function getCodeText($code)
                                 }
                                 ?>
                             </select>
-                        </div>
+                        </div> ALB-->
                         <!-- Reaction For Medication Allergy -->
                         <div class="form-group col-12" id='row_severity'>
                             <label class="col-form-label" for="form_severity_id"><?php echo xlt('Severity'); ?>:</label>
@@ -944,22 +944,23 @@ function getCodeText($code)
                         </div>
                         <!-- End of reaction -->
                         <!-- Verification Status for Medication Allergy -->
+                        <!--ALB Don't need
                         <div class="form-group col-12" id='row_verification'>
                             <label class="col-form-label" for="form_verification"><?php echo xlt('Verification Status'); ?>:</label>
                             <?php
                             $codeListName = ($thistype == 'medical_problem') ? 'condition-verification' : 'allergyintolerance-verification';
                             echo generate_select_list('form_verification', $codeListName, ($irow['verification'] ?? null), '', '', '', '');
                             ?>
-                        </div>
+                        </div> ALB -->
                         <!-- End of Verification Status -->
-                        <div class="form-group col-12" id='row_referredby'>
+                        <!--ALB Don't need <div class="form-group col-12" id='row_referredby'>
                             <label class="col-form-label" for="form_referredby"><?php echo xlt('Referred by'); ?>:</label>
                             <input type='text' name='form_referredby' id='form_referredby' class='form-control' value='<?php echo attr($irow['referredby'] ?? '') ?>' title='<?php echo xla('Referring physician and practice'); ?>' />
-                        </div>
-                        <div class="form-group col-12" id='row_comments'>
+                        </div> ALB -->
+                        <!--ALB Don't need <div class="form-group col-12" id='row_comments'>
                             <label class="col-form-label" for="form_comments"><?php echo xlt('Comments'); ?>:</label>
                             <textarea class="form-control" name='form_comments' id='form_comments' rows="4" id='form_comments'><?php echo text($irow['comments'] ?? '') ?></textarea>
-                        </div>
+                        </div> -->
                         <div class="form-group col-12" <?php
                         if ($GLOBALS['ippf_specific']) {
                             echo " style='display:none;'";

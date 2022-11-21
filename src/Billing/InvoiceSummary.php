@@ -128,7 +128,7 @@ class InvoiceSummary
             $ins_data[$row['type']] = $row['name'];
         }
         // Get payments and adjustments. (includes copays)
-        //ALB Added claim_number from ar_activity
+        //ALB Added claim number from ar_activity
 
         $res = sqlStatement("SELECT " .
             "a.code_type, a.code, a.modifier, a.memo, a.payer_type, a.adj_amount, a.pay_amount, a.reason_code, " .

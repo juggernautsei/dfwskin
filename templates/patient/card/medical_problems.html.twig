@@ -25,11 +25,11 @@
         <div class="list-group-item p-1 {{ classes|attr }}">
             <div class="d-flex w-100 justify-content-between">
                 <div class="flex-fill">
-                  {% if l.text_color != '' %} {# ALB Changing color of the medical problem here #}
+                  {% if (l.text_color is defined) and (l.text_color != '') %} {# ALB Changing color of the medical problem here #}
                     <span style="color:{{ l.text_color|text }};font-weight:bold">
                   {% endif %}
                     {{ l.title|text }}
-                  {% if l.text_color != '' %} {# ALB Changing color of the medical problem #}
+                  {% if (l.text_color is defined) and (l.text_color != '') %} {# ALB Changing color of the medical problem #}
                      </span>
                   {% endif %}
                     {% if id == "allergy_ps_expand" %}

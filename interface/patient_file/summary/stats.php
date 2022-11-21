@@ -80,17 +80,19 @@ function getListData($pid, $type)
                 }
                 $row['severity'] = $severity;
             }
+            $row['text_color'] = "red"; //ALB I want to show all allergies in red, not just the most severe ones
         }
-
-        $text_color = ''; //ALB - Problems with notes describing color in the Outcome list are turned that color and bold
+        
         if ($type == "medical_problem") { 
+                //ALB Added this - Problems with notes describing color in the Outcome list are turned that color and bold
+                $text_color = ''; 
                 $tempres = sqlQuery("SELECT * FROM list_options " .
                     	   "WHERE list_id = 'outcome' AND option_id = ? LIMIT 1", array($row['outcome']));
             	if ($tempres['notes'] != '') {
                    $text_color = $tempres['notes'];
 	        }
+                $row['text_color'] = $text_color;
         } 
-        $row['text_color'] = $text_color;
 
         $list[] = $row;
     }
