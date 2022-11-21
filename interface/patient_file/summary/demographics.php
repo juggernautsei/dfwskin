@@ -341,7 +341,6 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
         function toggleIndicator(target, div) {
             // <i id="show_hide" class="fa fa-lg small fa-eye-slash" title="Click to Hide"></i>
             $mode = $(target).find(".indicator").text();
-alert(div.id + " and " + target);
             if ($mode == <?php echo xlj('collapse'); ?>) {
                 $(target).find(".indicator").text(<?php echo xlj('expand'); ?>);
                 $("#" + div).hide();
@@ -350,6 +349,7 @@ alert(div.id + " and " + target);
                     mode: 0,
                     csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
                 });
+                alert(div.id + " and " + target);
             } else {
                 $(target).find(".indicator").text(<?php echo xlj('collapse'); ?>);
                 $("#" + div).show();
