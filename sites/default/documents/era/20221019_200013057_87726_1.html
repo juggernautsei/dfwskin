@@ -1,0 +1,441 @@
+<html>
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" />
+
+<link rel="stylesheet" href="/public/themes/style_ash_blue.css?v=71" />
+
+<script src="/public/assets/jquery/dist/jquery.min.js?v=71"></script>
+<script src="/public/assets/bootstrap/dist/js/bootstrap.bundle.min.js?v=71"></script>
+<script src="/library/js/utility.js?v=71"></script>
+<script src="/library/textformat.js?v=71"></script>
+<script src="/library/dialog.js?v=71"></script>
+
+<style>
+    body {
+        font-family: sans-serif;
+        font-size: 0.6875rem;
+        font-weight: normal;
+    }
+    .dehead {
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+    .olddetail {
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    .newdetail {
+        color: var(--success);
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    .errdetail {
+        color: var(--danger);
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    .infdetail {
+        color: var(--primary);
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+</style>
+<title>EOB Posting - Electronic Remittances</title>
+</head>
+<body class='m-0'>
+<form action="sl_eob_process.php" method="get">
+<input type="hidden" name="csrf_token_form" value="723d4245b473d15864da4013cd69ca1c68107eae" />
+
+    <table class='table table-borderless w-100' cellpadding='2' cellspacing='0'>
+
+     <tr class="table-light">
+      <td class="dehead">
+    Patient      </td>
+      <td class="dehead">
+    Invoice      </td>
+      <td class="dehead">
+    Code      </td>
+      <td class="dehead">
+    Date      </td>
+      <td class="dehead">
+    Description      </td>
+      <td class="dehead" align="right">
+    Amount&nbsp;
+      </td>
+      <td class="dehead" align="right">
+    Balance&nbsp;
+      </td>
+     </tr>
+
+     <tr bgcolor='var(--white)'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Payer: UNITED HEALTHCARE INSURANCE COMPANY</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 1: Processed as Primary</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim contact information: 8778423210<br />
+AMT segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'>Robert Chicko</td>
+  <td class='olddetail'>1867.415270</td>
+  <td class='olddetail'>99212</td>
+  <td class='olddetail'>10/10/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>87.00</td>
+  <td class='olddetail' align='right'>87.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 50.81</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/21/2022</td>
+  <td class='newdetail'>Ins1/1TZ34857546 payment</td>
+  <td class='newdetail' align='right'>-50.81</td>
+  <td class='newdetail' align='right'>36.19</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-36.19</td>
+  <td class='newdetail' align='right'>0.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>This claim is now re-queued for secondary paper billing</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 1: Processed as Primary</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim contact information: 8778423210<br />
+AMT segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'>Lowell Emerick</td>
+  <td class='olddetail'>5727.415378</td>
+  <td class='olddetail'>99212</td>
+  <td class='olddetail'>10/10/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>87.00</td>
+  <td class='olddetail' align='right'>87.00</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 50.81</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/21/2022</td>
+  <td class='newdetail'>Ins1/1TZ34857546 payment</td>
+  <td class='newdetail' align='right'>-0.81</td>
+  <td class='newdetail' align='right'>86.19</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>3 50.00</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-36.19</td>
+  <td class='newdetail' align='right'>50.00</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>CO-PAY</td>
+  <td class='olddetail'>10/10/2022</td>
+  <td class='olddetail'>082391</td>
+  <td class='olddetail' align='right'>-50.00</td>
+  <td class='olddetail' align='right'>0.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 1: Processed as Primary</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim contact information: 8778423210<br />
+AMT segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'>Gregory Gooch</td>
+  <td class='olddetail'>12381.415000</td>
+  <td class='olddetail'>99204</td>
+  <td class='olddetail'>10/07/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>277.00</td>
+  <td class='olddetail' align='right'>277.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 183.80</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-93.70</td>
+  <td class='newdetail' align='right'>183.30</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>1 183.80</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>CO-PAY</td>
+  <td class='olddetail'>10/07/2022</td>
+  <td class='olddetail'>08218D</td>
+  <td class='olddetail' align='right'>-60.00</td>
+  <td class='olddetail' align='right'>123.30</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 1: Processed as Primary</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim contact information: 8778423210<br />
+AMT segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'>Jennifer St Clair</td>
+  <td class='olddetail'>12408.415186</td>
+  <td class='olddetail'>99204</td>
+  <td class='olddetail'>10/07/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>277.00</td>
+  <td class='olddetail' align='right'>277.00</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 183.80</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/21/2022</td>
+  <td class='newdetail'>Ins1/1TZ34857546 payment</td>
+  <td class='newdetail' align='right'>-133.80</td>
+  <td class='newdetail' align='right'>143.20</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-93.70</td>
+  <td class='newdetail' align='right'>49.50</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>3 50.00</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>CO-PAY</td>
+  <td class='olddetail'>10/07/2022</td>
+  <td class='olddetail'></td>
+  <td class='olddetail' align='right'>-50.00</td>
+  <td class='olddetail' align='right'>-0.50</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 2: Processed as Secondary</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim contact information: 8778423210<br />
+AMT segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'>James Cole</td>
+  <td class='olddetail'>3125.413584</td>
+  <td class='olddetail'>17311:79</td>
+  <td class='olddetail'>09/28/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>1,005.00</td>
+  <td class='olddetail' align='right'>1,005.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>10/13/2022</td>
+  <td class='olddetail'>ePay - 811393760Adjust code 45</td>
+  <td class='olddetail' align='right'>-325.00</td>
+  <td class='olddetail' align='right'>680.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>10/13/2022</td>
+  <td class='olddetail'>ePay - 811393760Adjust code 253</td>
+  <td class='olddetail' align='right'>-10.00</td>
+  <td class='olddetail' align='right'>670.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>10/13/2022</td>
+  <td class='olddetail'>ePay - 811393760Medicare coins: 135.84</td>
+  <td class='olddetail' align='right'>0.00</td>
+  <td class='olddetail' align='right'>670.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>10/13/2022</td>
+  <td class='olddetail'>ePay - 811393760</td>
+  <td class='olddetail' align='right'>-532.00</td>
+  <td class='olddetail' align='right'>138.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 679.22</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>23 869.16</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 135.84</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 1: Processed as Primary</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim contact information: 8778423210<br />
+AMT segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'>Craig Stone</td>
+  <td class='olddetail'>11941.415767</td>
+  <td class='olddetail'>99213</td>
+  <td class='olddetail'>10/13/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>142.00</td>
+  <td class='olddetail' align='right'>142.00</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 83.77</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/21/2022</td>
+  <td class='newdetail'>Ins1/1TZ34857546 payment</td>
+  <td class='newdetail' align='right'>-67.02</td>
+  <td class='newdetail' align='right'>74.98</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 16.75</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-58.73</td>
+  <td class='newdetail' align='right'>16.25</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>CO-PAY</td>
+  <td class='olddetail'>10/13/2022</td>
+  <td class='olddetail'>013171</td>
+  <td class='olddetail' align='right'>-16.00</td>
+  <td class='olddetail' align='right'>0.25</td>
+ </tr>
+    </table>
+    <script>
+function checkAll(checked) {
+    var f = document.forms[0];
+    for (var i = 0; i < f.elements.length; ++i) {
+        var etype = f.elements[i].type;
+        if (etype === 'checkbox')
+            f.elements[i].checked = checked;
+    }
+}
+</script>
+<input type="hidden" name="paydate" value="" />
+<input type="hidden" name="post_to_date" value="" />
+<input type="hidden" name="deposit_date" value="" />
+<input type="hidden" name="debug" value="0" />
+<input type="hidden" name="InsId" value="" />
+<input type="hidden" name="eraname" value="20221019_200013057_87726" />
+</form>
+</body>
+</html>

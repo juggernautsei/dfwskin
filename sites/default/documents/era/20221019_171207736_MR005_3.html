@@ -1,0 +1,464 @@
+<html>
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="shortcut icon" href="/public/images/favicon.ico" />
+
+<link rel="stylesheet" href="/public/themes/style_ash_blue.css?v=71" />
+
+<script src="/public/assets/jquery/dist/jquery.min.js?v=71"></script>
+<script src="/public/assets/bootstrap/dist/js/bootstrap.bundle.min.js?v=71"></script>
+<script src="/library/js/utility.js?v=71"></script>
+<script src="/library/textformat.js?v=71"></script>
+<script src="/library/dialog.js?v=71"></script>
+
+<style>
+    body {
+        font-family: sans-serif;
+        font-size: 0.6875rem;
+        font-weight: normal;
+    }
+    .dehead {
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+    .olddetail {
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    .newdetail {
+        color: var(--success);
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    .errdetail {
+        color: var(--danger);
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    .infdetail {
+        color: var(--primary);
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+</style>
+<title>EOB Posting - Electronic Remittances</title>
+</head>
+<body class='m-0'>
+<form action="sl_eob_process.php" method="get">
+<input type="hidden" name="csrf_token_form" value="9ab0edf4e254663921074bd69aad2d24980d6fa1" />
+
+    <table class='table table-borderless w-100' cellpadding='2' cellspacing='0'>
+
+     <tr class="table-light">
+      <td class="dehead">
+    Patient      </td>
+      <td class="dehead">
+    Invoice      </td>
+      <td class="dehead">
+    Code      </td>
+      <td class="dehead">
+    Date      </td>
+      <td class="dehead">
+    Description      </td>
+      <td class="dehead" align="right">
+    Amount&nbsp;
+      </td>
+      <td class="dehead" align="right">
+    Balance&nbsp;
+      </td>
+     </tr>
+
+     <tr bgcolor='var(--white)'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Payer: NOVITAS SOLUTIONS INC.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 19: Processed as Primary, Forwarded to Additional Payer(s)</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>MOA segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'>Wayne Bowers</td>
+  <td class='olddetail'>12123.414367</td>
+  <td class='olddetail'>99212</td>
+  <td class='olddetail'>10/03/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>87.00</td>
+  <td class='olddetail' align='right'>87.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 56.56</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/19/2022</td>
+  <td class='newdetail'>Ins1/811467789 payment</td>
+  <td class='newdetail' align='right'>-44.34</td>
+  <td class='newdetail' align='right'>42.66</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-30.44</td>
+  <td class='newdetail' align='right'>12.22</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>253</td>
+  <td class='newdetail' align='right'>-0.91</td>
+  <td class='newdetail' align='right'>11.31</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 11.31</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>This claim is processed by Insurance 1 and automatically forwarded to Insurance 2 for processing. </td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 19: Processed as Primary, Forwarded to Additional Payer(s)</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>MOA segment at claim level ignored.<br />
+Payer is restating our procedure 13152 as 13152.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'>Robert Dove</td>
+  <td class='olddetail'>12254.414329</td>
+  <td class='olddetail'>17311</td>
+  <td class='olddetail'>10/03/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>1,005.00</td>
+  <td class='olddetail' align='right'>1,005.00</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 679.22</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/19/2022</td>
+  <td class='newdetail'>Ins1/811467789 payment</td>
+  <td class='newdetail' align='right'>-532.51</td>
+  <td class='newdetail' align='right'>472.49</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-325.78</td>
+  <td class='newdetail' align='right'>146.71</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>253</td>
+  <td class='newdetail' align='right'>-10.87</td>
+  <td class='newdetail' align='right'>135.84</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 135.84</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'></td>
+  <td class='olddetail'></td>
+  <td class='olddetail'>13152</td>
+  <td class='olddetail'>10/03/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>780.00</td>
+  <td class='olddetail' align='right'>915.84</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 252.28</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/19/2022</td>
+  <td class='newdetail'>Ins1/811467789 payment</td>
+  <td class='newdetail' align='right'>-197.78</td>
+  <td class='newdetail' align='right'>718.06</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-275.45</td>
+  <td class='newdetail' align='right'>442.61</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>253</td>
+  <td class='newdetail' align='right'>-4.04</td>
+  <td class='newdetail' align='right'>438.57</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>59</td>
+  <td class='newdetail' align='right'>-252.27</td>
+  <td class='newdetail' align='right'>186.30</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 50.46</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>This claim is processed by Insurance 1 and automatically forwarded to Insurance 2 for processing. </td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 19: Processed as Primary, Forwarded to Additional Payer(s)</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>MOA segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'>Johnny McKnight</td>
+  <td class='olddetail'>11662.414386</td>
+  <td class='olddetail'>99212</td>
+  <td class='olddetail'>10/03/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>87.00</td>
+  <td class='olddetail' align='right'>87.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 56.56</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/19/2022</td>
+  <td class='newdetail'>Ins1/811467789 payment</td>
+  <td class='newdetail' align='right'>-44.34</td>
+  <td class='newdetail' align='right'>42.66</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-30.44</td>
+  <td class='newdetail' align='right'>12.22</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>253</td>
+  <td class='newdetail' align='right'>-0.91</td>
+  <td class='newdetail' align='right'>11.31</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 11.31</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>This claim is processed by Insurance 1 and automatically forwarded to Insurance 2 for processing. </td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 19: Processed as Primary, Forwarded to Additional Payer(s)</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>MOA segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='olddetail'>James Mills</td>
+  <td class='olddetail'>11200.414385</td>
+  <td class='olddetail'>99212</td>
+  <td class='olddetail'>10/03/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>87.00</td>
+  <td class='olddetail' align='right'>87.00</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 56.56</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/19/2022</td>
+  <td class='newdetail'>Ins1/811467789 payment</td>
+  <td class='newdetail' align='right'>-44.34</td>
+  <td class='newdetail' align='right'>42.66</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-30.44</td>
+  <td class='newdetail' align='right'>12.22</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>253</td>
+  <td class='newdetail' align='right'>-0.91</td>
+  <td class='newdetail' align='right'>11.31</td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 11.31</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ffdddd'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>This claim is processed by Insurance 1 and automatically forwarded to Insurance 2 for processing. </td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Claim status 19: Processed as Primary, Forwarded to Additional Payer(s)</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>MOA segment at claim level ignored.</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='olddetail'>Diane Newton</td>
+  <td class='olddetail'>11855.414427</td>
+  <td class='olddetail'>99212</td>
+  <td class='olddetail'>10/03/2022</td>
+  <td class='olddetail'>Service Item</td>
+  <td class='olddetail' align='right'>87.00</td>
+  <td class='olddetail' align='right'>87.00</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>Allowed amount is 56.56</td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/19/2022</td>
+  <td class='newdetail'>Ins1/811467789 payment</td>
+  <td class='newdetail' align='right'>-44.34</td>
+  <td class='newdetail' align='right'>42.66</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>45</td>
+  <td class='newdetail' align='right'>-30.44</td>
+  <td class='newdetail' align='right'>12.22</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'></td>
+  <td class='newdetail'>10/18/2022</td>
+  <td class='newdetail'>253</td>
+  <td class='newdetail' align='right'>-0.91</td>
+  <td class='newdetail' align='right'>11.31</td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='newdetail' colspan='4'></td>
+  <td class='newdetail'>2 11.31</td>
+  <td class='newdetail' colspan='2'></td>
+ </tr>
+ <tr bgcolor='#ddddff'>
+  <td class='infdetail' colspan='4'></td>
+  <td class='infdetail'>This claim is processed by Insurance 1 and automatically forwarded to Insurance 2 for processing. </td>
+  <td class='infdetail' colspan='2'></td>
+ </tr>
+    </table>
+    <script>
+function checkAll(checked) {
+    var f = document.forms[0];
+    for (var i = 0; i < f.elements.length; ++i) {
+        var etype = f.elements[i].type;
+        if (etype === 'checkbox')
+            f.elements[i].checked = checked;
+    }
+}
+</script>
+<input type="hidden" name="paydate" value="" />
+<input type="hidden" name="post_to_date" value="" />
+<input type="hidden" name="deposit_date" value="" />
+<input type="hidden" name="debug" value="0" />
+<input type="hidden" name="InsId" value="" />
+<input type="hidden" name="eraname" value="20221019_171207736_MR005" />
+</form>
+</body>
+</html>

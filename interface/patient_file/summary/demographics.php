@@ -362,22 +362,15 @@ $oemr_ui = new OemrUI($arrOeUiSettings);
             }
         }
 
-        //ALB 2 New functions
-        function save_new_settings_expanded(div) {
-             $.post("../../../library/ajax/user_settings.php", {
-                    target: div,
-                    mode: 1,
-                    csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
-             });
-        }           
-
-        function save_new_settings_collapsed(div) {
-             $.post("../../../library/ajax/user_settings.php", {
-                    target: div,
-                    mode: 0,
-                    csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
-             });
-        }   
+        //ALB New function
+        function toggleExpandCollapse(div) {
+            //ALB Mode 2 will be for flipping the current user setting (also see library/ajax/usersettings.php and user.inc for changes)
+            $.post("../../../library/ajax/user_settings.php", {
+                  target: div.id,
+                  mode: 2,
+                  csrf_token_form: <?php echo js_escape(CsrfUtils::collectCsrfToken()); ?>
+            });
+        }
 
         // edit prescriptions dialog.
         // called from stats.php.

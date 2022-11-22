@@ -81,6 +81,9 @@ function setUserSetting($label, $value, $user = null, $createDefault = true, $ov
     if (is_null($cur_value)) {
         sqlStatement("INSERT INTO user_settings(setting_user, setting_label, setting_value) " .
         "VALUES (?,?,?)", array($user, $label, $value));
+    } elseif ($value == 2 && $overwrite) { //ALB Added this to flip the setting to opposite
+        sqlStatement("UPDATE user_settings SET setting_value= 1 - setting_value " .
+        "WHERE setting_user=? AND setting_label=?", array($user, $label));
     } elseif (($cur_value !== $value) && $overwrite) {
         sqlStatement("UPDATE user_settings SET setting_value=? " .
         "WHERE setting_user=? AND setting_label=?", array($value, $user, $label));

@@ -12,6 +12,9 @@ node_modules
 !/public/assets/modified
 /.docs/.out/*
 
+# Production foldes
+site/default/documents/**
+
 # Custom modules
 interface/modules/custom_modules/**
 !interface/modules/custom_modules/README.md
